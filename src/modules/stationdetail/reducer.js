@@ -10,6 +10,7 @@ type stationDetailState = {
 }
 
 type likedCommentsState = {
+  idGen: number,
   likedComments: Object
 }
 
@@ -19,6 +20,7 @@ const initialState:
     tagline: 'this is the Station Detail'
   },
   likedCommentsState = {
+    idGen: 0,
     likedComments: {}
   }
 
@@ -49,13 +51,28 @@ export default handleActions(
 
       const { payload: { record_id } } = action
 
+      /*
       return {
         ...state,
         likedComments: {
           ...state.likedComments,
-            record_id: [record_id]
+          record_id
         }
       }
+      */
+
+      //borrowed from appfour > ADD_NEW_COUNTER to add new object with value
+      const { idGen } = state
+      const newId = idGen + 1
+
+      return {
+        idGen: newId,
+        likedComments: {
+          ...state.likedComments,
+          [newId]: record_id
+        }
+      }
+
     }
   },
   initialState

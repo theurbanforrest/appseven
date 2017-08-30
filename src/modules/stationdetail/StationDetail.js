@@ -17,13 +17,15 @@ import { stationdetails }  from './data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-  //need this for Components instead of  pure functions
-  import * as Actions from './actions'
+    //need this for Components instead of pure functions
+    import * as Actions from './actions'
 
 class StationDetail extends Component {
-  constructor(props) {
-    super(props);
-  }
+
+    //need this for Components instead of pure functions
+    constructor(props) {
+      super(props);
+    }
 
 
   clickedThisItem(record_id) {
@@ -31,13 +33,15 @@ class StationDetail extends Component {
     console.log('this is clickedThisItem');
     console.log(record_id);
 
-    //need this for Components instead of pure functions
-    this.props.actions.likeComment(record_id);
+      //need this for Components instead of pure functions
+      this.props.actions.likeComment(record_id);
   }
 
   render() {
     const { id, shortName, longName, area, lines, colors } = this.props.navigation.state.params;
-    const { state, actions } = this.props;
+
+      //need this for Components instead of pure functions
+      const { state, actions } = this.props;
 
     //const { likeComment } = props;
 
@@ -71,19 +75,19 @@ class StationDetail extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(Object.assign({},
-    Actions
-    ), dispatch);
-}
-
-export default connect(state => ({
-    state: state.counter
-  }),
-  (dispatch) => ({
-    actions: bindActionCreators(Actions, dispatch)
-  })
-)(StationDetail);
+  //need this for Components instead of pure functions
+  function mapDispatchToProps(dispatch) {
+    return bindActionCreators(Object.assign({},
+      Actions
+      ), dispatch);
+  }
+  export default connect(state => ({
+      state: state.counter
+    }),
+    (dispatch) => ({
+      actions: bindActionCreators(Actions, dispatch)
+    })
+  )(StationDetail);
 
 
 
