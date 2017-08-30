@@ -1,0 +1,21 @@
+dependencies: \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Modules/RCTDevSettings.mm \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Modules/RCTDevSettings.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Base/RCTBridge.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Base/RCTBridgeDelegate.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Base/RCTJavaScriptLoader.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Base/RCTDefines.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Base/RCTBridgeModule.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Base/RCTFrameUpdate.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Base/RCTInvalidating.h \
+  /Users/theurbanforrest/Desktop/appseven/ios/build/Build/Products/Debug-iphonesimulator/include/jschelpers/JavaScriptCore.h \
+  /Users/theurbanforrest/Desktop/appseven/ios/build/Build/Products/Debug-iphonesimulator/include/jschelpers/JSCWrapper.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Base/RCTBridge+Private.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Base/RCTEventDispatcher.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Modules/RCTJSCSamplingProfiler.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Base/RCTJSEnvironment.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Base/RCTLog.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Base/RCTAssert.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Base/RCTUtils.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/Profiler/RCTProfile.h \
+  /Users/theurbanforrest/Desktop/appseven/node_modules/react-native/React/DevSupport/RCTPackagerConnection.h
