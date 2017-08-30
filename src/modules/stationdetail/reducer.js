@@ -4,25 +4,29 @@ import { handleActions } from 'redux-actions'
 import { REPORT_SELF, LIKE_COMMENT } from './constants'
 
 
-type stationDetailState = {
-  list: Object,
-  tagline: string,
-}
 
 type likedCommentsState = {
   idGen: number,
   likedComments: Object
 }
 
+    //TODO: remove this and all associated actions, constants, etc - not needed
+    type stationDetailState = {
+      list: Object,
+      tagline: string,
+    }
+
 const initialState:
-  stationDetailState = {
-    list: {},
-    tagline: 'this is the Station Detail'
-  },
   likedCommentsState = {
     idGen: 0,
     likedComments: {}
-  }
+  },
+
+    //TODO: remove this too
+    stationDetailState = {
+      list: {},
+      tagline: 'this is the Station Detail'
+    }
 
 
 //you can do better here, I was just showing that you need to make a new copy
@@ -48,32 +52,25 @@ export default handleActions(
 
     //add others here
     [LIKE_COMMENT]: (state: likedCommentsState, action) => {
-
       const { payload: { record_id } } = action
-
-      /*
-      return {
-        ...state,
-        likedComments: {
-          ...state.likedComments,
-          record_id
-        }
-      }
-      */
-
-      //borrowed from appfour > ADD_NEW_COUNTER to add new object with value
-      const { idGen } = state
+      const { idGen, likedComments } = state
       const newId = idGen + 1
 
+      for(i=0;i<Object.keys(likedComments);i++){
+        console.log(likedComments.i);
+      }
+      //add record_id to likedComments in state
       return {
+        ...state,
         idGen: newId,
         likedComments: {
           ...state.likedComments,
           [newId]: record_id
         }
       }
-
     }
   },
-  initialState
+initialState
 )
+
+      //borrowed from appfour > ADD_NEW_COUNTER to add new object with value
