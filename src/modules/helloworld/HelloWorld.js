@@ -4,8 +4,12 @@ import { View,
   TouchableHighlight,
   TextInput
 } from 'react-native'
-import { Button } from 'react-native-elements'
+import { 
+  Button,
+  FormLabel,
+  FormInput, } from 'react-native-elements'
 import { connect } from 'react-redux'
+
 
 //import { Counters, Counter } from './../../components'
 import * as actions from './actions'
@@ -21,11 +25,8 @@ const HelloWorld = props => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        style={styles.textinput}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
-      />
+      <FormLabel>Hello World</FormLabel>
+      <FormInput/>
 
       <Button
         medium
