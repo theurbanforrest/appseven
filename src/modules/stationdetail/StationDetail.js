@@ -79,12 +79,46 @@ class StationDetail extends Component {
       Actions
       ), dispatch);
   }
-  export default connect(state => ({
+
+
+  //added from https://github.com/reactjs/redux/issues/1159
+  /*function mapStateToProps(state){
+    return {
+      likedComments: state.likedComments
+    }
+  }*/
+
+
+  export default connect(
+    state => ({
       state: state.likedComments
     }),
     (dispatch) => ({
       actions: bindActionCreators(Actions, dispatch)
-    })
+    }),
+    //mapStateToProps
   )(StationDetail);
 
 
+/* from https://github.com/reactjs/redux/issues/1159
+
+  // Which part of the Redux global state does our component want to receive as props?
+function mapStateToProps(state) {
+  return {
+    date: state.date
+  }
+}
+
+// Which action creators does it want to receive by props?
+function mapDispatchToProps(dispatch) {
+  return {
+    handlePrev: (date) => dispatch(prevWeek(date)),
+    handleNext: (date) => dispatch(nextWeek(date)),
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(WeekBar)
+*/
