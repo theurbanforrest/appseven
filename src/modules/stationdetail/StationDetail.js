@@ -12,6 +12,7 @@ import {
   Icon,
   FormLabel,
   FormInput,
+  Button
 } from 'react-native-elements';
 import { stationdetails }  from './data'
 import { bindActionCreators } from 'redux'
@@ -28,17 +29,11 @@ class StationDetail extends Component {
       super(props);
     }
 
-
-  clickedThisItem(record_id) {
-      //need this for Components instead of pure functions
-      this.props.actions.likeComment(record_id);
-  }
-
   render() {
     const { id, shortName, longName, area, lines, colors } = this.props.navigation.state.params;
 
       //need this for Components instead of pure functions
-      const { state, actions } = this.props;
+      //const { state, actions } = this.props;
 
     //const { likeComment } = props;
 
@@ -65,40 +60,36 @@ class StationDetail extends Component {
             roundAvatar={true}
 
             underlayColor={'blue'}
-            onPress={() => this.clickedThisItem(checkin.record_id)}
+            onPress={() => this.props.actions.likeComment(checkin.record_id)}
             />
           ))}
         </List>
+
+        <Button 
+          text='hi there'
+          onPress={() => console.log(this.props.idGen)}
+        />
+
+        <Text>
+          {this.props.idGen}
+        </Text>
       </ScrollView>
   }
 }
 
-  //need this for Components instead of pure functions
-  function mapDispatchToProps(dispatch) {
-    return bindActionCreators(Object.assign({},
-      Actions
-      ), dispatch);
-  }
-
-
-  //added from https://github.com/reactjs/redux/issues/1159
-  /*function mapStateToProps(state){
-    return {
-      likedComments: state.likedComments
-    }
-  }*/
-
-
   export default connect(
-    state => ({
-      state: state.likedComments
-    }),
+    //this is mapStateToProps verbosely
+    (state) => {
+      return {
+        idGen: state.stationdetail.idGen,
+        likedComments: state.stationdetail.likedComments
+      }
+    },
+    //this is mapDispatchToProps verbosely
     (dispatch) => ({
       actions: bindActionCreators(Actions, dispatch)
     }),
-    //mapStateToProps
   )(StationDetail);
-
 
 /* from https://github.com/reactjs/redux/issues/1159
 

@@ -19,7 +19,8 @@ type likedCommentsState = {
 const initialState:
   likedCommentsState = {
     idGen: 0,
-    likedComments: {}
+    likedComments: {
+    }
   },
 
     //TODO: remove this too
