@@ -16,8 +16,6 @@ import * as actions from './actions'
 import { styles } from './styles'
 
 
-
-
 const HelloWorld = props => {
 
   const { printSelf } = props;
@@ -34,6 +32,7 @@ const HelloWorld = props => {
         icon={{name: 'rocket', type: 'font-awesome'}}
         title='LARGE WITH RIGHT ICON'
         onPress={() => {printSelf('this is printSelf')} }
+        rightTitle
       />
     </View>
   )

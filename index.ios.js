@@ -6,11 +6,6 @@ import Main from './src'
 AppRegistry.registerComponent('appseven', () => Main)
 
 
-
-
-
-
-
 /**
  * Sample React Native App
  * https://github.com/facebook/react-native

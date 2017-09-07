@@ -4,7 +4,7 @@ import {
   View,
   ScrollView
 } from 'react-native'
-import { List, ListItem } from 'react-native-elements'
+import { List, ListItem, Card } from 'react-native-elements'
 import { stations } from './data'
 
 import * as actions from './actions'

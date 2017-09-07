@@ -1,8 +1,10 @@
 import React, { PropTypes, Component } from 'react';
 import {
+  View,
   ScrollView,
   Text,
   StyleSheet,
+  TouchableHighlight
 
 } from 'react-native';
 import { 
@@ -18,15 +20,42 @@ import { stationdetails }  from './data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { styles } from './styles'
+import HeartButton from '../../components/HeartButton'
+import CommentCard from '../../components/CommentCard'
 
     //need this for Components instead of pure functions
     import * as Actions from './actions'
 
 class StationDetail extends Component {
 
-    //need this for Components instead of pure functions
-    constructor(props) {
-      super(props);
+  //need this for Components instead of pure functions
+  constructor(props) {
+    super(props);
+  }
+
+  hasRecord(obj,val){
+
+    //if record already exists, set true
+    if(Object.values(obj).indexOf(val) > -1) {
+
+        return true;
+      }
+      //else false
+      else return false;
+
+  }
+
+  likeOrUnlike(likedComments,record_id){
+
+      //if record already exists, unlike it
+      if( this.hasRecord(likedComments,record_id) ) {
+
+        this.props.actions.unlikeComment(record_id);
+      }
+      //else like it
+      else this.props.actions.likeComment(record_id);
+
+      return true;
     }
 
   render() {
@@ -40,7 +69,15 @@ class StationDetail extends Component {
     //const id = 1;
     //const longName = 'some long name';
 
-    return <ScrollView>
+    function checkMe(things){
+      return (Object.values(things).indexOf('CT0008') > -1) ? 'blue' : 'red'
+    }
+
+    function checkMeBool(things){
+      return (Object.values(things).indexOf('CT0008') > -1) ? true : false
+    }
+
+    return ( <ScrollView>
         <Card
           title={longName}
           imageSrc={'https://randomuser.me/api/portraits/men/2.jpg'}
@@ -50,31 +87,22 @@ class StationDetail extends Component {
         <List
           containerStyle={styles.fcList}
         >
-          {stationdetails[id-1].items.map((checkin) => (
-            <ListItem
-            key={checkin.posted_by}
-            title={checkin.posted_by}
-            subtitle={checkin.comments}
-
-            avatar={'https://randomuser.me/api/portraits/women/12.jpg'}
-            roundAvatar={true}
-
-            underlayColor={'blue'}
-            onPress={() => this.props.actions.likeComment(checkin.record_id)}
+          {stationdetails[id-1].items.map( (checkin) => (
+            <CommentCard
+              title={checkin.posted_by}
+              imageSrc={'https://randomuser.me/api/portraits/women/18.jpg'}
+              comment={checkin.comments}
+              height={80}
+              isLiked={this.hasRecord(this.props.likedComments,checkin.record_id)}
+              likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
+              onLikePress={() => this.likeOrUnlike(this.props.likedComments,checkin.record_id) }
             />
-          ))}
+            
+          )
+        )}
         </List>
-
-        <Button 
-          text='hi there'
-          onPress={() => console.log(this.props.idGen)}
-        />
-
-        <Text>
-          {this.props.idGen}
-        </Text>
       </ScrollView>
-  }
+  )}
 }
 
   export default connect(
@@ -91,25 +119,111 @@ class StationDetail extends Component {
     }),
   )(StationDetail);
 
+
+
+
+
+
 /* from https://github.com/reactjs/redux/issues/1159
 
   // Which part of the Redux global state does our component want to receive as props?
-function mapStateToProps(state) {
-  return {
-    date: state.date
+  function mapStateToProps(state) {
+    return {
+      date: state.date
+    }
   }
-}
 
-// Which action creators does it want to receive by props?
-function mapDispatchToProps(dispatch) {
-  return {
-    handlePrev: (date) => dispatch(prevWeek(date)),
-    handleNext: (date) => dispatch(nextWeek(date)),
+  // Which action creators does it want to receive by props?
+  function mapDispatchToProps(dispatch) {
+    return {
+      handlePrev: (date) => dispatch(prevWeek(date)),
+      handleNext: (date) => dispatch(nextWeek(date)),
+    }
   }
-}
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WeekBar)
+  export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(WeekBar)
+*/
+
+/* these things work when used in render() 
+
+  <Button 
+    medium
+    color='#CCC'
+    icon={{name: 'gears', type: 'font-awesome'}}
+    title='Print idGen to console'
+    onPress={() => console.log(this.props.idGen)}
+  />
+
+  <Button 
+    medium
+    backgroundColor= {checkMe(this.props.likedComments)}  //checkMe() works in redux too!  yay!
+      //this works: {(Object.values(this.props.likedComments).indexOf('CT0008') > -1) ? 'blue' : 'red'}
+      //this also works: { (this.props.idGen==1) ? 'blue' : 'red'}
+    icon={{name: 'gears', type: 'font-awesome'}}
+    title='check it out'
+    onPress={() => console.log(this.props.idGen)}
+  />
+
+<Text>
+  {this.props.idGen}
+</Text>
+*/
+
+/* these things work in render()'s ListItem
+
+  onPress={() => (Object.values(this.props.likedComments).indexOf(checkin.record_id) > -1) ? 
+      this.props.actions.likeComment(checkin.record_id)
+      : this.props.actions.unlikeComment(checkin.record_id)
+  }
+
+  onPress={() => this.props.actions.likeComment(checkin.record_id)}
+*/
+
+/* these things work in render()'s HeartButton
+
+  //onPress={() => console.log('I was pressed!') }
+*/
+
+/* listItem that works
+  <ListItem
+              key={checkin.posted_by}
+              title={checkin.posted_by}
+              //subtitle={checkin.comments}
+              leftIcon= {this.hasRecord(this.props.likedComments,checkin.record_id) ? {name: 'heart', type: 'font-awesome', color:'purple'} : {name: 'heart-o', type: 'font-awesome'} }
+              //rightIcon= { {name: 'rocket', type: 'font-awesome' } }
+              avatar={'https://randomuser.me/api/portraits/women/31.jpg'}
+              roundAvatar={true}
+
+              //containerStyle={this.hasRecord(this.props.likedComments,checkin.record_id) ? styles.fcLiked : styles.fcNotLiked }
+              leftIconOnPress={() => this.likeOrUnlike(this.props.likedComments,checkin.record_id)}
+              hideChevron
+              rightTitle= { this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes }
+              />
+*/
+
+/* listItem that also works
+  <View>
+              <ListItem
+                key={checkin.posted_by}
+                title={checkin.posted_by}
+                subtitle={
+                  <HeartButton
+                    isSelected={this.hasRecord(this.props.likedComments,checkin.record_id)}
+                    likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes }
+                  />
+                }
+                //leftIcon= {this.hasRecord(this.props.likedComments,checkin.record_id) ? {name: 'heart', type: 'font-awesome', color:'purple'} : {name: 'heart-o', type: 'font-awesome'} }
+                //rightIcon= { {name: 'rocket', type: 'font-awesome' } }
+                avatar={'https://randomuser.me/api/portraits/women/31.jpg'}
+                roundAvatar={true}
+
+                //containerStyle={this.hasRecord(this.props.likedComments,checkin.record_id) ? styles.fcLiked : styles.fcNotLiked }
+                onPress={() => this.likeOrUnlike(this.props.likedComments,checkin.record_id)}
+                //hideChevron
+                //rightTitle= { this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes }
+              />
+            </View>
 */

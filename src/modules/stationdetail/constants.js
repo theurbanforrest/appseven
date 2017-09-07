@@ -18,3 +18,4 @@ export const NAME = 'stationdetail'
 	//added by forrest
 	export const REPORT_SELF = `${NAME}/REPORT_SELF`
 	export const LIKE_COMMENT = `${NAME}/LIKE_COMMENT`
+	export const UNLIKE_COMMENT = `${NAME}/UNLIKE_COMMENT`
