@@ -1,6 +1,6 @@
 // @flow
 
-import { REPORT_SELF, LIKE_COMMENT } from './constants'
+import { REPORT_SELF, LIKE_COMMENT, UNLIKE_COMMENT } from './constants'
 
 export type Action = {
   type: string,
@@ -38,6 +38,15 @@ export const reportSelf = (mystatus: string): Action => {
 export const likeComment = (record_id: string): Action => {
   return {
     type: LIKE_COMMENT,
+    payload: {
+      record_id
+    }
+  }
+}
+
+export const unlikeComment = (record_id: string): Action => {
+  return {
+    type: UNLIKE_COMMENT,
     payload: {
       record_id
     }

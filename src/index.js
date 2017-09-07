@@ -7,8 +7,6 @@ import createStore from './createStore'
 //added by forrest
 	import RootNav from './modules/rootnav/RootNav'
 
-
-
 const store = createStore();
 
 const Main = () => {

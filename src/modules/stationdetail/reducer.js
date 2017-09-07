@@ -1,7 +1,7 @@
 // @flow
 
 import { handleActions } from 'redux-actions'
-import { REPORT_SELF, LIKE_COMMENT } from './constants'
+import { REPORT_SELF, LIKE_COMMENT, UNLIKE_COMMENT } from './constants'
 
 
 
@@ -41,7 +41,7 @@ export default handleActions(
   {
     [REPORT_SELF]: (state: stationDetailState, action) => {
       const { mystatus } = state
-
+      
       return {
         ...state,
         list: {
@@ -57,9 +57,6 @@ export default handleActions(
       const { idGen, likedComments } = state
       const newId = idGen + 1
 
-      for(i=0;i<Object.keys(likedComments);i++){
-        console.log(likedComments.i);
-      }
       //add record_id to likedComments in state
       return {
         ...state,
@@ -69,7 +66,29 @@ export default handleActions(
           [newId]: record_id
         }
       }
-    }
+    },
+
+    [UNLIKE_COMMENT]: (state: likedCommentsState, action) => {
+      const { payload: { record_id } } = action
+      const { likedComments } = state
+
+      //if record_id exists, remove it
+      if(Object.values(likedComments).indexOf(record_id) > -1){
+        for(var key in likedComments){
+          if(likedComments[key] == record_id) {
+            delete likedComments[key];
+          }
+        }
+      }
+
+      //return the state
+      return {
+        ...state,
+        likedComments: {
+          ...state.likedComments,
+        }
+      }
+    },
   },
 initialState
 )
