@@ -24,25 +24,32 @@ const HeartButton = (props: HeartButtonProps) => {
     } = props;
 
   //do functions
-  let whichIcon = 'heart';
+  let whichIcon = 'thumbs-up';
+  let whichColor = 'purple';
+  let whichType = 'font-awesome';
 
     if(!isSelected){
-      whichIcon = 'heart-o';
+      whichIcon = 'thumbs-o-up';
+      whichColor = 'black';
+      whichType = 'font-awesome';
     }
 
     return(
-        <View style={styles.container}>
+      <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+        <View style={{flex:1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
           <Icon 
             name={whichIcon}
             color='purple'
-            type='font-awesome'
+            type={whichType}
             onPress={onIconPress}
-            style={{flex: 1}}
           />
-          <Text style={{flex: 1}}>
+          <Text>
             {likeCount}
           </Text>
         </View>
+        <View>
+        </View>
+      </View>
 
     )
 }
@@ -75,7 +82,7 @@ const HeartButton = (props: HeartButtonProps) => {
         container: {
           flex: 1,                    //1 flex unit
           flexDirection: 'row',       //Order left to right
-          justifyContent: 'center',   //Align the group center
+          justifyContent: 'space-between',   //Align the group center
           alignSelf: 'flex-start',    //Align the group top
           alignItems: 'center',       //Align items to each other center
           //padding: 5

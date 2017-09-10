@@ -5,11 +5,13 @@ import {
   StyleSheet,
   Platform,
   Image,
-  Text,
-  TouchableHighlight
+  TouchableHighlight,
+  Text
 } from 'react-native';
 import {
   Card,
+  Avatar,
+  Icon
 } from 'react-native-elements';
 import HeartButton from './HeartButton';
 
@@ -31,25 +33,58 @@ const CommentCard = (props: CommentCardProps) => {
 
   //do functions
 
-
   //return stuff
-    return( 
-      <View style={styles.container}>
-        <Card
-          title={title}
-          height={130}
-          style={styles.card}
-        >
-            <Text>
-              {comment}
-            </Text>
-        </Card>
-        <HeartButton
-          isSelected={isLiked}
-          likeCount={likeCount}
-          onIconPress={onLikePress}
-          style={styles.heartButton}
-        />
+    return(
+      <View style={{flex: 1, flexDirection: 'column', paddingTop: '3%', paddingBottom: '3%', justifyContent: 'space-between'}}>
+        <View style={{flex: 20, flexDirection: 'row'}}>
+          <View style={{flex: 4}}>
+            <Avatar
+              medium
+              rounded
+              source={{uri: 'https://randomuser.me/api/portraits/women/8.jpg'}}
+            />
+          </View>
+          <View style={{flex: 18, flexDirection: 'column'}}>
+            <View style={{flex: 4}}>
+              <Text style={{fontWeight: 'bold'}}>
+                {title}
+              </Text>
+            </View>
+            <View style={{flex: 20}}>
+              <Text>
+                {comment}
+              </Text>
+            </View>
+          </View>
+          <View style={{flex: 2}}>
+            <Icon
+              name='angle-down'
+              type='font-awesome'
+              color='purple'
+            />
+          </View>
+        </View>
+        <View style={{flex: 4, flexDirection: 'row', paddingTop: '3%'}}>
+          <View style={{flex: 4}}>
+          </View>
+          <View style={{flex: 4}}>
+            <HeartButton
+              isSelected={isLiked}
+              likeCount={likeCount}
+              onIconPress={onLikePress}
+              style={styles.heartButton}
+            />
+          </View>
+          <View style={{flex: 4}}>
+            <Icon
+              name='commenting-o'
+              type='font-awesome'
+              color='purple'
+            />
+          </View>
+          <View style={{flex: 11}}>
+          </View>
+        </View>
       </View>
     )
 }
@@ -58,8 +93,8 @@ const CommentCard = (props: CommentCardProps) => {
     CommentCard.defaultProps = {
       //enter the default values here
 
-        title: 'Forrest Ave',
-        imageSrc: 'https://randomuser.me/api/portraits/women/32.jpg',
+        //title: '',
+        imageSrc: 'https://randomuser.me/api/portraits/women/32.jpg',                               
         height: 150,
         isLiked: false,
         likeCount: 0,
@@ -87,20 +122,101 @@ const CommentCard = (props: CommentCardProps) => {
       //enter styles here
         container: {
           flex: 1,
-          flexDirection: 'row',
-          padding: 10,
+          flexDirection: 'column'
         },
         card: {
           flex: 5,
-          marginRight: 10,
-          backgroundColor: 'gray'
+          backgroundColor: 'powderblue'
+        },
+        interactors: {
+          flex: 1,
+          flexDirection: 'row',             //align the group top
+          justifyContent: 'center',  //align the group center
+          alignItems: 'center',             //align items to each other center
+          padding: '5%',
+          backgroundColor: 'violet'
+
         },
         heartButton: {
           flex: 1,
-          padding: 10,
-          backgroundColor: 'green'
         }
 
     });
 
+
 export default CommentCard;
+
+  /*
+
+  <View style={{flex: 1, flexDirection: 'column'}}> //container
+
+          //
+            <View
+              style={{
+                flex: 10,
+                backgroundColor:'magenta'
+              }}
+            >
+            </View>
+            <View
+              style={{
+                flex: 2,
+                flexDirection: 'row',
+                backgroundColor: 'violet',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <View style={{flex: 3}}>
+                <HeartButton
+                isSelected={isLiked}
+                likeCount={likeCount}
+                onIconPress={onLikePress}
+                style={styles.heartButton}
+                />
+              </View>
+              <View style={{flex: 21}} />
+            </View>
+        </View>
+  */
+
+  /*
+
+   <View style={{flex: 1, flexDirection: 'row', paddingTop: '3%', paddingBottom: '3%' }}> 
+          <View style={{flex: 4}}>  
+            <Avatar
+              medium
+              rounded
+              source={{uri: 'https://randomuser.me/api/portraits/women/8.jpg'}}
+            />
+          </View>
+
+          <View style={{flex: 20}}>  
+
+            <View style={{flex: 6, backgroundColor: 'powderblue'}}>
+              <Text style={{fontWeight: 'bold'}}>
+                {title}
+              </Text> 
+            </View>
+            <View style={{flex: 16, backgroundColor: 'skyblue'}}>
+              <Text>
+                {comment}
+              </Text>
+            </View>
+            <View style={{flex: 2, flexDirection: 'row', backgroundColor: 'violet'}}>
+              <View style={{flex: 4}}>
+                <HeartButton
+                  isSelected={isLiked}
+                  likeCount={likeCount}
+                  onIconPress={onLikePress}
+                  style={styles.heartButton}
+                />
+              </View>
+              <View style={{flex: 20}}>
+              </View>
+            </View>
+          </View>
+
+        </View>
+
+  */

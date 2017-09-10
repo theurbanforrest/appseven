@@ -26,7 +26,7 @@ export const stationdetails = [
 				"posted_at" : "Fri August 11, 2017",
 				"minutes_ago" : 15,
 				"report" : "service_delay",
-				"comments" : "Service on all F lines has been delayed.  Plan accordingly.",
+				"comments" : "Service on all F lines has been delayed.  Plan accordingly.  This is a very long comment.  This is a very long comment.  This is a very long comment.",
 				"likes" : 6
 			},
 		]

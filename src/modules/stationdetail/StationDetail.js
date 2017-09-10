@@ -77,7 +77,7 @@ class StationDetail extends Component {
       return (Object.values(things).indexOf('CT0008') > -1) ? true : false
     }
 
-    return ( <ScrollView>
+    return ( <ScrollView style={{flex: 1, flexDirection: 'column', padding:'3%'}}>
         <Card
           title={longName}
           imageSrc={'https://randomuser.me/api/portraits/men/2.jpg'}
@@ -88,16 +88,17 @@ class StationDetail extends Component {
           containerStyle={styles.fcList}
         >
           {stationdetails[id-1].items.map( (checkin) => (
-            <CommentCard
-              title={checkin.posted_by}
-              imageSrc={'https://randomuser.me/api/portraits/women/18.jpg'}
-              comment={checkin.comments}
-              height={80}
-              isLiked={this.hasRecord(this.props.likedComments,checkin.record_id)}
-              likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
-              onLikePress={() => this.likeOrUnlike(this.props.likedComments,checkin.record_id) }
-            />
-            
+
+                  <CommentCard
+                    title={checkin.posted_by}
+                    //imageSrc={'https://randomuser.me/api/portraits/women/18.jpg'}
+                    comment={checkin.comments}
+                    isLiked={this.hasRecord(this.props.likedComments,checkin.record_id)}
+                    likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
+                    onLikePress={() => this.likeOrUnlike(this.props.likedComments,checkin.record_id) }
+                  />
+                
+
           )
         )}
         </List>
