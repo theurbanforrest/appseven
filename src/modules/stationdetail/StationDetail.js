@@ -97,8 +97,6 @@ class StationDetail extends Component {
                     likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
                     onLikePress={() => this.likeOrUnlike(this.props.likedComments,checkin.record_id) }
                   />
-                
-
           )
         )}
         </List>
