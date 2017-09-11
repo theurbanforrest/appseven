@@ -22,6 +22,7 @@ import { connect } from 'react-redux'
 import { styles } from './styles'
 import HeartButton from '../../components/HeartButton'
 import CommentCard from '../../components/CommentCard'
+import StationCard from '../../components/StationCard'
 
     //need this for Components instead of pure functions
     import * as Actions from './actions'
@@ -79,34 +80,29 @@ class StationDetail extends Component {
 
     return ( 
       <View style={{flex: 1, flexDirection: 'column'}}>
-        <ScrollView style={{flex: 1, flexDirection: 'column', padding:'3%', backgroundColor: 'black'}}>
-          <View style={{flex: 16}}>
-            <Card
-              title={longName}
-              imageSrc={'https://randomuser.me/api/portraits/men/2.jpg'}
-              //height={240}
-              >
-            </Card>
-          </View>
-          <View style={{flex: 8}}>
+        <View style={{flex: 12}}>
+          <StationCard
+          />
+        </View>
+        <View style={{flex: 12}}>
+          <ScrollView style={{flex: 1, flexDirection: 'column', padding:'3%', backgroundColor: 'black'}}>
             <List
               containerStyle={styles.fcList}
             >
               {stationdetails[id-1].items.map( (checkin) => (
-
-                      <CommentCard
-                        title={checkin.posted_by}
-                        //imageSrc={'https://randomuser.me/api/portraits/women/18.jpg'}
-                        comment={checkin.comments}
-                        isLiked={this.hasRecord(this.props.likedComments,checkin.record_id)}
-                        likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
-                        onLikePress={() => this.likeOrUnlike(this.props.likedComments,checkin.record_id) }
-                      />
+                <CommentCard
+                  title={checkin.posted_by}
+                  //imageSrc={'https://randomuser.me/api/portraits/women/18.jpg'}
+                  comment={checkin.comments}
+                  isLiked={this.hasRecord(this.props.likedComments,checkin.record_id)}
+                  likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
+                  onLikePress={() => this.likeOrUnlike(this.props.likedComments,checkin.record_id) }
+                />
               )
             )}
             </List>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </View>
       </View>
   )}
 }
@@ -232,4 +228,15 @@ class StationDetail extends Component {
                 //rightTitle= { this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes }
               />
             </View>
+*/
+
+/* Old Station Card
+
+<Card
+              title={longName}
+              imageSrc={'https://randomuser.me/api/portraits/men/2.jpg'}
+              //height={240}
+              >
+            </Card>
+
 */
