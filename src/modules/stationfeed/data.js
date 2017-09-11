@@ -22,5 +22,13 @@ export const stations = [
 		"area" : "Harlem",
 		"lines" : "1,2,3",
 		"colors" : "red"
+	},
+	{
+		"id" : 4,
+		"shortName" : "71 Ave Woodside",
+		"longName" : "71 Ave Woodside Junction",
+		"area" : "Queens",
+		"lines" : "E,F,7",
+		"colors" : "blue,orange,purple"
 	}
 ];

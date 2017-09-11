@@ -32,26 +32,27 @@ const CommentCard = (props: CommentCardProps) => {
     } = props;
 
   //do functions
+    //insert some functions here
 
   //return stuff
     return(
-      <View style={{flex: 1, flexDirection: 'column', paddingTop: '3%', paddingBottom: '3%', justifyContent: 'space-between'}}>
+      <View style={{flex: 1, flexDirection: 'column', paddingTop: '3%', paddingBottom: '3%', justifyContent: 'space-between', backgroundColor: 'black'}}>
         <View style={{flex: 20, flexDirection: 'row'}}>
           <View style={{flex: 4}}>
             <Avatar
               medium
               rounded
-              source={{uri: 'https://randomuser.me/api/portraits/women/8.jpg'}}
+              source={{uri: 'https://randomuser.me/api/portraits/women/' + likeCount + '.jpg' }}
             />
           </View>
           <View style={{flex: 18, flexDirection: 'column'}}>
             <View style={{flex: 4}}>
-              <Text style={{fontWeight: 'bold'}}>
+              <Text style={{fontWeight: 'bold', color: 'white'}}>
                 {title}
               </Text>
             </View>
             <View style={{flex: 20}}>
-              <Text>
+              <Text style={{color: 'white'}}>
                 {comment}
               </Text>
             </View>

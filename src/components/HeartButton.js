@@ -43,7 +43,7 @@ const HeartButton = (props: HeartButtonProps) => {
             type={whichType}
             onPress={onIconPress}
           />
-          <Text>
+          <Text style={{color: 'white'}}>
             {likeCount}
           </Text>
         </View>

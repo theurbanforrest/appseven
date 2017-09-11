@@ -59,7 +59,7 @@ export const stationdetails = [
 				"minutes_ago" : 26,
 				"report" : "crowded_train",
 				"comments" : "gawdam bro lorem ipsum lalalalala",
-				"likes" : 8
+				"likes" : 21
 			},
 
 		]
@@ -83,7 +83,7 @@ export const stationdetails = [
 				"minutes_ago" : 40,
 				"report" : "crowded_platform",
 				"comments" : "where is this train??",
-				"likes" : 7
+				"likes" : 32
 			},
 			{
 				"record_id" : "CT0009",
@@ -93,6 +93,66 @@ export const stationdetails = [
 				"report" : "service_delay",
 				"comments" : "2 and 3 train service in Harlem is running behind schedule",
 				"likes" : 22
+			},
+
+		]
+	},
+	{
+		"id" : 4,
+		"items" : [
+			{
+				"record_id" : "CT0010",
+				"posted_by" : "kwimbolani",
+				"posted_at" : "Fri August 11, 2017",
+				"minutes_ago" : 2,
+				"report" : "crowded_platform",
+				"comments" : "2 E trains went by already.  where are the f trains?  #ihatemta",
+				"likes" : 16
+			},
+			{
+				"record_id" : "CT0011",
+				"posted_by" : "mimoho",
+				"posted_at" : "Fri August 11, 2017",
+				"minutes_ago" : 6,
+				"report" : "crowded_platform",
+				"comments" : "sooo crowded. everyone needs to start wearing deodorant",
+				"likes" : 19
+			},
+			{
+				"record_id" : "CT0012",
+				"posted_by" : "larz_808",
+				"posted_at" : "Fri August 11, 2017",
+				"minutes_ago" :7,
+				"report" : "service_delay",
+				"comments" : "srsly been here for 15 minutes and not a single announcement. what gives?!",
+				"likes" : 22
+			},
+			{
+				"record_id" : "CT0013",
+				"posted_by" : "lawrencerchu",
+				"posted_at" : "Fri August 11, 2017",
+				"minutes_ago" : 7,
+				"report" : "service_delay",
+				"comments" : "ughhh where is this F train",
+				"likes" : 4
+			},
+			{
+				"record_id" : "CT0014",
+				"posted_by" : "kwistofer",
+				"posted_at" : "Fri August 11, 2017",
+				"minutes_ago" : 8,
+				"report" : "crowded_platform",
+				"comments" : "WHAT. THE. FART.",
+				"likes" : 7
+			},
+			{
+				"record_id" : "CT0015",
+				"posted_by" : "mtabot",
+				"posted_at" : "Fri August 11, 2017",
+				"minutes_ago" :12,
+				"report" : "service_delay",
+				"comments" : "Due to ongoing NYPD activity at 2 Ave, F train service is being held momentarily.",
+				"likes" : 1
 			},
 
 		]

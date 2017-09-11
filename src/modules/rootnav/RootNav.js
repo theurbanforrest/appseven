@@ -30,14 +30,15 @@ import { connect } from 'react-redux';
     screen: HelloWorld,
     navigationOptions: {
       tabBarLabel: 'Me',
-      tabBarIcon: ({ tintColor }) => <Icon name="account-circle" size={35} color={tintColor} />
+      tabBarIcon: ({ tintColor }) => <Icon name="account-circle" size={35} color={tintColor} />,
+
     },
   },
   StationsFeed: {
     screen: StationFeedStack,
     navigationOptions: {
       tabBarLabel: 'All Stations',
-      tabBarIcon: ({ tintColor }) => <Icon name="subway" size={35} color={tintColor} />
+      tabBarIcon: ({ tintColor }) => <Icon name="subway" size={35} color={tintColor} /> ,
     }
   },
 });
