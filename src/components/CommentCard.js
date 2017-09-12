@@ -115,7 +115,6 @@ const CommentCard = (props: CommentCardProps) => {
         likeCount: PropTypes.number,
         comment: PropTypes.string,
         onLikePress: PropTypes.func
-
     };
 
   //Define styles
@@ -141,7 +140,6 @@ const CommentCard = (props: CommentCardProps) => {
         heartButton: {
           flex: 1,
         }
-
     });
 
 
