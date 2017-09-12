@@ -34,12 +34,66 @@ const StationCard = (props: StationCardProps) => {
 
   //return stuff
     return(
-      <View style={{flex: 1, flexDirection: 'column'}}>
-        <View style={{flex: 6, backgroundColor: 'violet'}}>
+      <View style={{
+        flex: 1,
+        flexDirection: 'column',
+      }}>
+        <View style={{flex: 16, backgroundColor: 'gray'}}>
         </View>
-        <View style={{flex: 12, backgroundColor: 'powderblue'}}>
-        </View>
-        <View style={{flex: 6, backgroundColor: 'violet'}}>
+        <View style={{flex: 8, flexDirection: 'row'}}>
+          <View style={{
+            flex: 8,
+            flexDirection: 'column',
+            backgroundColor: 'black',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <Text style={{
+              color: 'white',
+              fontSize: 24
+            }}>
+              15m ago
+            </Text>
+            <Text style={{
+              color: 'white'
+            }}>
+              Last checkin
+            </Text>
+          </View>
+          <View style={{
+            flex: 8,
+            flexDirection: 'column',
+            backgroundColor: 'black',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <Icon
+              size={30}
+              name='meh-o'
+              type='font-awesome'
+              color='orange'
+            />
+            <Text style={{color: 'orange'}}>
+              Mood: Meh
+            </Text>
+          </View>
+          <View style={{
+            flex: 8,
+            flexDirection: 'column',
+            backgroundColor: 'black',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <Icon
+              size={30}
+              name='pencil-square-o'
+              type='font-awesome'
+              color='white'
+            />
+            <Text style={{color: 'white'}}>
+              Check-In
+            </Text>
+          </View>
         </View>
       </View>
     )
