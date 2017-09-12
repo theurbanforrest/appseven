@@ -76,6 +76,18 @@ const HelloWorld = props => {
             </View>
           </MapView.Callout>
         </MapView.Marker>
+
+        <MapView.Marker
+          coordinate={{
+            latitude: 40.7456,
+            longitude: -73.9029
+          }}
+        >
+          <Icon
+            name='smile-o'
+            type='font-awesome'
+          />
+        </MapView.Marker>
       </MapView>
     </View>
   )
