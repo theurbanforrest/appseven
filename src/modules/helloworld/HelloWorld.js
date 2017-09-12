@@ -7,8 +7,10 @@ import { View,
 import { 
   Button,
   FormLabel,
-  FormInput, } from 'react-native-elements'
+  FormInput,
+  Icon } from 'react-native-elements'
 import { connect } from 'react-redux'
+import MapView from 'react-native-maps'
 
 
 //import { Counters, Counter } from './../../components'
@@ -21,47 +23,76 @@ const HelloWorld = props => {
   const { printSelf } = props;
   this.state = { text: 'Useless Placeholder' };
 
+  //Fooling around with react-native-maps MapView
   return (
     <View style={styles.container}>
-      <FormLabel>Hello World</FormLabel>
-      <FormInput/>
-
-      <Button
-        medium
-        color='#294'
-        icon={{name: 'rocket', type: 'font-awesome'}}
-        title='LARGE WITH RIGHT ICON'
-        onPress={() => {printSelf('this is printSelf')} }
-        rightTitle
-      />
+      <MapView
+        style={{
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0,
+          position: 'absolute'
+        }}
+        initialRegion={{
+          latitude: 40.7590,      //specific point (N/E is positive, S/W is negative)
+          longitude: -73.9845,    //this is Times Square i.e.
+          latitudeDelta: 0.3,     //wideness of view (smaller is more precise)
+          longitudeDelta: 0.3,
+        }}
+      >
+        <MapView.Marker
+          coordinate={{
+            latitude: 40.6924,
+            longitude: -73.9872
+          }}
+          pinColor='violet'
+        />
+        <MapView.Marker
+          coordinate={{
+            latitude: 40.8110,
+            longitude: -73.9522
+          }}
+        >
+          <MapView.Callout
+            tooltip={false}
+          >
+            <View style={{
+              flex: 8,
+              flexDirection: 'column',
+              backgroundColor: 'black',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <Icon
+                size={30}
+                name='meh-o'
+                type='font-awesome'
+                color='orange'
+              />
+              <Text style={{color: 'orange'}}>
+                Mood: Meh
+              </Text>
+            </View>
+          </MapView.Callout>
+        </MapView.Marker>
+      </MapView>
     </View>
   )
 }
 
 HelloWorld.displayName = 'Hello World'
 
-//it is a good practice to always indicate what type of props does your component
-//receive. This is really good for documenting and prevent you from a lot of bug during
-//development mode. Remember, all of these will be ignored once you set it to production.
-HelloWorld.propTypes = {
-  //age: PropTypes.number.isRequired,
-}
-
-//Here's the most complex part of our app. connect is a function which selects,
-//which part of our state tree you need to pass to your component. also, since
-//my App component is pure function, i am injecting addNewCounter, increment and
-//decrement functions wrapped with dispatch. I think this is the best and cleanest
-//way to seperate your connect and your pure function.
 export default connect(
-  state => ({
-    //age: state.app.age,
-      //counters: state.app.counters
-  }),
-  dispatch => ({
-    printSelf: string => dispatch(actions.printSelf(string)),
-      //addNewCounter: () => dispatch(actions.newCounter()),
-      //increment: id => dispatch(actions.increment(id)),
-      //decrement: id => dispatch(actions.decrement(id)),
-      //incrementWithDelay: id => dispatch(actions.incrementWithDelay(id))
-  })
-)(HelloWorld)
+    //this is mapStateToProps verbosely
+    (state) => {
+      return {
+        //idGen: state.stationdetail.idGen,
+        //likedComments: state.stationdetail.likedComments
+      }
+    },
+    //this is mapDispatchToProps verbosely
+    (dispatch) => ({
+      //actions: bindActionCreators(Actions, dispatch)
+    }),
+  )(HelloWorld);

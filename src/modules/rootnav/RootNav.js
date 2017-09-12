@@ -29,8 +29,8 @@ import { connect } from 'react-redux';
   HelloWorld: {
     screen: HelloWorld,
     navigationOptions: {
-      tabBarLabel: 'Me',
-      tabBarIcon: ({ tintColor }) => <Icon name="account-circle" size={35} color={tintColor} />,
+      tabBarLabel: 'Map',
+      tabBarIcon: ({ tintColor }) => <Icon name='street-view' type='font-awesome' size={20} color={tintColor} />,
 
     },
   },
@@ -38,7 +38,7 @@ import { connect } from 'react-redux';
     screen: StationFeedStack,
     navigationOptions: {
       tabBarLabel: 'All Stations',
-      tabBarIcon: ({ tintColor }) => <Icon name="subway" size={35} color={tintColor} /> ,
+      tabBarIcon: ({ tintColor }) => <Icon name='subway' type='font-awesome' size={20} color={tintColor} /> ,
     }
   },
 });
