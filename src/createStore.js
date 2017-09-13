@@ -13,6 +13,7 @@ import thunk from 'redux-thunk'
 	import { helloworld } from './modules'
 	import { stationfeed } from './modules'
 	import { stationdetail } from './modules'
+	import { supermap } from './modules'
 
 
 	//added by forrest for debug logging
@@ -25,11 +26,12 @@ import thunk from 'redux-thunk'
 export default (data: Object = {}) => {
   const rootReducer = combineReducers({
 
-    //added by forrest
+    //make sure to add all the reducers
     [rootnav.NAME]: rootnav.reducer,
     [helloworld.NAME]: helloworld.reducer,
     [stationfeed.NAME]: stationfeed.reducer,
-    [stationdetail.NAME]: stationdetail.reducer
+    [stationdetail.NAME]: stationdetail.reducer,
+    [supermap.NAME]: supermap.reducer
   })
 
   return createStore(rootReducer, data, middleware)

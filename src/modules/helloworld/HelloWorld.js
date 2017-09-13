@@ -1,67 +1,74 @@
-import React, { PropTypes, Component } from 'react'
-import { View, 
-  Text, 
-  TouchableHighlight,
-  TextInput
-} from 'react-native'
-import { 
-  Button,
-  FormLabel,
-  FormInput, } from 'react-native-elements'
-import { connect } from 'react-redux'
+/*------ IMPORTS -----*/
 
+  //packages
+    import React, { PropTypes, Component } from 'react'
+    import {
+      View,
+      Text,
+    } from 'react-native'
+    import { 
+      Button
+    } from 'react-native-elements'
 
-//import { Counters, Counter } from './../../components'
-import * as actions from './actions'
-import { styles } from './styles'
+  //components and styles 
+    import { styles } from './styles'
+    import { superMapData } from '../supermap/data'
 
+  //redux
+    import { bindActionCreators } from 'redux'
+    import { connect } from 'react-redux'
+    //need this for Components instead of pure functions
+      import * as Actions from './actions'
 
 const HelloWorld = props => {
 
-  const { printSelf } = props;
-  this.state = { text: 'Useless Placeholder' };
+  function hello(){
+    let gps = superMapData[0][11];
+    let myRegex = /^(\bPOINT\b)..([^\s]+)\s([^\s]+)./.exec(gps);
 
+    let long = myRegex[2];
+    let lat = myRegex[3];
+
+    console.log(long);
+    console.log(lat);
+  }
+
+  //this is an example of a pure function, not a component
+  //const { printSelf } = props;
+  //this.state = { text: 'Useless Placeholder' };
+
+  //Fooling around with react-native-maps MapView
   return (
-    <View style={styles.container}>
-      <FormLabel>Hello World</FormLabel>
-      <FormInput/>
-
+    <View style={{
+      flex: 1,
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <Text>
+        Sup ma baddah?
+      </Text>
       <Button
-        medium
-        color='#294'
-        icon={{name: 'rocket', type: 'font-awesome'}}
-        title='LARGE WITH RIGHT ICON'
-        onPress={() => {printSelf('this is printSelf')} }
-        rightTitle
+        title='Pretty g, pretty g'
+        onPress={() => hello() }
       />
     </View>
   )
 }
 
-HelloWorld.displayName = 'Hello World'
+/*----- REDUX CONNECT -----*/
 
-//it is a good practice to always indicate what type of props does your component
-//receive. This is really good for documenting and prevent you from a lot of bug during
-//development mode. Remember, all of these will be ignored once you set it to production.
-HelloWorld.propTypes = {
-  //age: PropTypes.number.isRequired,
-}
-
-//Here's the most complex part of our app. connect is a function which selects,
-//which part of our state tree you need to pass to your component. also, since
-//my App component is pure function, i am injecting addNewCounter, increment and
-//decrement functions wrapped with dispatch. I think this is the best and cleanest
-//way to seperate your connect and your pure function.
-export default connect(
-  state => ({
-    //age: state.app.age,
-      //counters: state.app.counters
-  }),
-  dispatch => ({
-    printSelf: string => dispatch(actions.printSelf(string)),
-      //addNewCounter: () => dispatch(actions.newCounter()),
-      //increment: id => dispatch(actions.increment(id)),
-      //decrement: id => dispatch(actions.decrement(id)),
-      //incrementWithDelay: id => dispatch(actions.incrementWithDelay(id))
-  })
-)(HelloWorld)
+  export default connect(
+    //this is mapStateToProps verbosely
+      //Which part of the Redux global state does our component want to receive as props?
+      (state) => {
+        return {
+          //previewedStation: state.supermap.previewedStation
+        }
+      },
+    //this is mapDispatchToProps verbosely
+      //Which action creators does it want to receive by props?
+      (dispatch) => ({
+        //actions: bindActionCreators(Actions, dispatch)
+      }),
+  )(HelloWorld);
