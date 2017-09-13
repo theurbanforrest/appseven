@@ -43,23 +43,33 @@ class SuperMap extends Component {
 
   //functions
   //add them here to call them as 'this.' in render
-    getLat(stationdata) {
-      //let gps = superMapData[0].[11]
-      console.log(stationdata);
-      console.log(superMapData);
+    getLat(myStr) {
 
-      let myRegex = /^(\bPOINT\b)..([^\s]+)\s([^\s]+)./.exec(stationdata);
+      let myRegex = /^(\bPOINT\b)..([^\s]+)\s([^\s]+)./.exec(myStr);
       return Number(myRegex[3]);
     }
 
-    getLong(stationdata) {
-      //let gps = superMapData[0].[11]
-      let myRegex = /^(\bPOINT\b)..([^\s]+)\s([^\s]+)./.exec(stationdata);
+    getLong(myStr) {
+
+      let myRegex = /^(\bPOINT\b)..([^\s]+)\s([^\s]+)./.exec(myStr);
       return Number(myRegex[2]);
+    }
+
+    displayOrNot(myStr,targetLine){
+
+      let myRegex = targetLine.exec(myStr)
+      if(!myRegex){
+        return false;
+      }
+      else {
+        return true;
+      }
     }
   
   //render()
   render() {
+
+    console.log(superMapData);
 
     //const from the navigator
       //const { id, shortName, longName, area, lines, colors } = this.props.navigation.state.params;
@@ -85,15 +95,24 @@ class SuperMap extends Component {
             longitudeDelta: 0.3,
           }}
         >
-          {superMapData.map( (stationdata) => (
-            <MapView.Marker
-              coordinate={{
-                latitude: this.getLat(stationdata[11]),
-                longitude: this.getLong(stationdata[11])
-              }}
-            >
-            </MapView.Marker>
-          ))}
+          {
+            superMapData.map( (stationData) => (
+                  <MapView.Marker
+                  coordinate={{
+                    latitude: this.getLat(stationData[11]),
+                    longitude: this.getLong(stationData[11])
+                  }}
+                >
+                  <MapView.Callout
+                    tooltip={false}
+                  >
+                    <Text style={{color: 'orange'}}>
+                      {stationData[10]}
+                    </Text>
+                  </MapView.Callout>
+                </MapView.Marker>
+            ))
+          }
         </MapView>
       </View>
     )
