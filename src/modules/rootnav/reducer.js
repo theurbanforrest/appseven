@@ -3,17 +3,6 @@
 import { handleActions } from 'redux-actions'
 import { PRINT_SELF } from './constants'
 
-/*
-type CounterState = {
-  idGen: number,
-  counters: Object,
-}
-
-type ForrestState = {
-  age: number,
-  places: Object
-}
-*/
 
 type RootNavState = {
   screen: string
@@ -24,18 +13,6 @@ const initialState:
   RootNavState = {
     screen: 'initial state screen'
   }
-
-/*
-  ForrestState = {
-    age: 28,
-    places: {
-      1: 'kailua',
-      2: 'portland',
-      3: 'seattle',
-      4: 'new york'
-    },
-  }
-*/
 
 //you can do better here, I was just showing that you need to make a new copy
 //of state. It is ok to deep copy of state. It will prevent unseen bugs in the future

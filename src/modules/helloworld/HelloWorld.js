@@ -1,110 +1,74 @@
-import React, { PropTypes, Component } from 'react'
-import { View, 
-  Text, 
-  TouchableHighlight,
-  TextInput
-} from 'react-native'
-import { 
-  Button,
-  FormLabel,
-  FormInput,
-  Icon } from 'react-native-elements'
-import { connect } from 'react-redux'
-import MapView from 'react-native-maps'
+/*------ IMPORTS -----*/
 
+  //packages
+    import React, { PropTypes, Component } from 'react'
+    import {
+      View,
+      Text,
+    } from 'react-native'
+    import { 
+      Button
+    } from 'react-native-elements'
 
-//import { Counters, Counter } from './../../components'
-import * as actions from './actions'
-import { styles } from './styles'
+  //components and styles 
+    import { styles } from './styles'
+    import { superMapData } from '../supermap/data'
 
+  //redux
+    import { bindActionCreators } from 'redux'
+    import { connect } from 'react-redux'
+    //need this for Components instead of pure functions
+      import * as Actions from './actions'
 
 const HelloWorld = props => {
 
-  const { printSelf } = props;
-  this.state = { text: 'Useless Placeholder' };
+  function hello(){
+    let gps = superMapData[0][11];
+    let myRegex = /^(\bPOINT\b)..([^\s]+)\s([^\s]+)./.exec(gps);
+
+    let long = myRegex[2];
+    let lat = myRegex[3];
+
+    console.log(long);
+    console.log(lat);
+  }
+
+  //this is an example of a pure function, not a component
+  //const { printSelf } = props;
+  //this.state = { text: 'Useless Placeholder' };
 
   //Fooling around with react-native-maps MapView
   return (
-    <View style={styles.container}>
-      <MapView
-        style={{
-          left: 0,
-          right: 0,
-          top: 0,
-          bottom: 0,
-          position: 'absolute'
-        }}
-        initialRegion={{
-          latitude: 40.7590,      //specific point (N/E is positive, S/W is negative)
-          longitude: -73.9845,    //this is Times Square i.e.
-          latitudeDelta: 0.3,     //wideness of view (smaller is more precise)
-          longitudeDelta: 0.3,
-        }}
-      >
-        <MapView.Marker
-          coordinate={{
-            latitude: 40.6924,
-            longitude: -73.9872
-          }}
-          pinColor='violet'
-        />
-        <MapView.Marker
-          coordinate={{
-            latitude: 40.8110,
-            longitude: -73.9522
-          }}
-        >
-          <MapView.Callout
-            tooltip={false}
-          >
-            <View style={{
-              flex: 8,
-              flexDirection: 'column',
-              backgroundColor: 'black',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <Icon
-                size={30}
-                name='meh-o'
-                type='font-awesome'
-                color='orange'
-              />
-              <Text style={{color: 'orange'}}>
-                Mood: Meh
-              </Text>
-            </View>
-          </MapView.Callout>
-        </MapView.Marker>
-
-        <MapView.Marker
-          coordinate={{
-            latitude: 40.7456,
-            longitude: -73.9029
-          }}
-        >
-          <Icon
-            name='smile-o'
-            type='font-awesome'
-          />
-        </MapView.Marker>
-      </MapView>
+    <View style={{
+      flex: 1,
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }}>
+      <Text>
+        Sup ma baddah?
+      </Text>
+      <Button
+        title='Pretty g, pretty g'
+        onPress={() => hello() }
+      />
     </View>
   )
 }
 
-HelloWorld.displayName = 'Hello World'
+/*----- REDUX CONNECT -----*/
 
-export default connect(
+  export default connect(
     //this is mapStateToProps verbosely
-    (state) => {
-      return {
-        //idGen: state.stationdetail.idGen,
-        //likedComments: state.stationdetail.likedComments
-      }
-    },
+      //Which part of the Redux global state does our component want to receive as props?
+      (state) => {
+        return {
+          //previewedStation: state.supermap.previewedStation
+        }
+      },
     //this is mapDispatchToProps verbosely
-    (dispatch) => ({
-      //actions: bindActionCreators(Actions, dispatch)
-    }),
+      //Which action creators does it want to receive by props?
+      (dispatch) => ({
+        //actions: bindActionCreators(Actions, dispatch)
+      }),
   )(HelloWorld);
