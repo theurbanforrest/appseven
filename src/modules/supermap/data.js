@@ -41,8 +41,6 @@ export const superMapData =
 	, [ "row-guk6~9bpk_69dn", "00000000-0000-0000-95A2-1AC63CE431DA", 0, 1483632011, null, 1483632011, null, "{ }", "http://web.mta.info/nyct/service/", "23", "Mets - Willets Point", "POINT (-73.8456249984179 40.75462199881262)", "7-7 Express", "7-all times, 7 Express-rush hours AM westbound, PM eastbound" ]
 	, [ "row-wncm.bxtn.rvav", "00000000-0000-0000-8321-0D09E85E64B5", 0, 1483632011, null, 1483632011, null, "{ }", "http://web.mta.info/nyct/service/", "24", "Junction Blvd", "POINT (-73.86952700103515 40.74914499948836)", "7-7 Express", "7-all times, 7 Express-rush hours AM westbound, PM eastbound" ]
 
-]/*
-
 
 
 	, [ "row-69mw.9yzm-wjzr", "00000000-0000-0000-5E10-FF84FF4655A5", 0, 1483632011, null, 1483632011, null, "{ }", "http://web.mta.info/nyct/service/", "25", "Flushing - Main St", "POINT (-73.83003000262508 40.75959999915012)", "7-7 Express", "7-all times, 7 Express-rush hours AM westbound, PM eastbound" ]
@@ -495,4 +493,4 @@ export const superMapData =
 	, [ "row-du8x-g9ir_x89j", "00000000-0000-0000-A33A-C89FB026FB5B", 0, 1483632011, null, 1483632011, null, "{ }", "http://web.mta.info/nyct/service/", "642", "86th St", "POINT (-73.95177090964917 40.77786104333163)", "Q", "Q-all times" ]
 	, [ "row-xjjx~886k-nws3", "00000000-0000-0000-7D2E-338EEFD139C9", 0, 1483632011, null, 1483632011, null, "{ }", "http://web.mta.info/nyct/service/", "643", "96th St", "POINT (-73.9470660219183 40.784236650177654)", "Q", "Q-all times" ]
  ]
- */
+ 
