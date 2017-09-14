@@ -50,7 +50,7 @@ const HelloWorld = props => {
       </Text>
       <Button
         title='Pretty g, pretty g'
-        onPress={() => hello() }
+        onPress={() => console.log('pretty g pretty g')}
       />
     </View>
   )

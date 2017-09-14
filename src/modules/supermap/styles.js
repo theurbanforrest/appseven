@@ -3,8 +3,9 @@ import { StyleSheet } from 'react-native'
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end'
   },
   textinput: {
   	height: 40,
