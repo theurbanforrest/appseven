@@ -1,12 +1,13 @@
 // @flow
 
-import { GET_PREVIEW } from './constants'
+import { GET_PREVIEW, SELECT_LINE } from './constants'
 
 export type Action = {
   type: string,
   payload?: {
     //define all possible payloads and their types
       station_id: string,
+      selected_line: string
   }
 }
 
@@ -21,11 +22,21 @@ export type ActionAsync = (dispatch: Function, getState: Function) => void
 //                                    newCounter action
 //  }
 
-export const reportSelf = (station_id: string): Action => {
+export const getPreview = (station_id: string): Action => {
   return {
     type: GET_PREVIEW,
     payload: {
       station_id
+    }
+  }
+}
+
+export const selectLine = (selected_line: string, selected_stops: any): Action => {
+  return {
+    type: SELECT_LINE,
+    payload: {
+      selected_line,
+      selected_stops
     }
   }
 }

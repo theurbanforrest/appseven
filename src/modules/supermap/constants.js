@@ -16,4 +16,5 @@ export const NAME = 'supermap'
 
 
 	//added by forrest
-	export const GET_PREVIEW = `${NAME}/GET_PREVIEW`
+	export const GET_PREVIEW = `${NAME}/GET_PREVIEW`;
+	export const SELECT_LINE = `${NAME}/SELECT_LINE`;
