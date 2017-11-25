@@ -7,14 +7,16 @@
       ScrollView,
       Text,
       StyleSheet,
-      TouchableHighlight
-
+      TouchableHighlight,
+      StatusBar,
+      Image,
     } from 'react-native'
     import { 
       Card,
       List,
       ListItem,
       Icon,
+      Badge,
       FormLabel,
       FormInput,
       Button
@@ -22,8 +24,12 @@
 
   //components and styles 
     import { styles } from './styles'
+    import { superMapData, lineList } from './data'
     import MapView from 'react-native-maps'
-    import { superMapData } from './data'
+    import StationPreview from  '../../components/StationPreview' //'../stationpreview/StationPreview'
+    import LocationStatusButton from '../../components/LocationStatusButton'
+    import AppHeader from '../../components/AppHeader'
+    import CheckInFlow from '../checkinflow/CheckInFlow'
 
   //redux
     import { bindActionCreators } from 'redux'
@@ -55,15 +61,10 @@ class SuperMap extends Component {
       return Number(myRegex[2]);
     }
 
-    displayOrNot(myStr,targetLine){
+    clearStationPreview(){
+      //send to redux
+      this.props.actions.clearPreview();
 
-      let myRegex = targetLine.exec(myStr)
-      if(!myRegex){
-        return false;
-      }
-      else {
-        return true;
-      }
     }
 
     getLineStops(targetLine){
@@ -78,29 +79,125 @@ class SuperMap extends Component {
 
       for(i=0;i<superMapData.length;i++){
 
+        //if targetLine matches the line
         if(superMapData[i][12].indexOf(targetLine) > -1){
 
-          stopsToDisplay.push(
-            [
-              superMapData[i][10],
-              superMapData[i][11],
-              superMapData[i][12]
-            ]
-            
-          );
+          //if targetLine is E and superMapData contains 'express'
+          let x = /Express/.exec(superMapData[i][12]);
 
+          if(targetLine=='E' && x ){
+            //do nothing
+          }
+          else{
+            //add to the array
+            stopsToDisplay.push(
+              [
+                superMapData[i][10],
+                superMapData[i][11],
+                superMapData[i][12]
+              ]
+            );
+          }
         }
         //else i++
       }
 
-      //return to redux
+      //return to redux, trying without auto clearing preview
       this.props.actions.selectLine(targetLine, stopsToDisplay);
+      //this.props.actions.clearPreview();
 
       //return the array
       //console.log(stopsToDisplay);
       return stopsToDisplay;
     }
-  
+
+    getStationLines(linesString){
+
+      let badgesToDisplay = [];
+      let myArr = linesString.split('-');
+
+      for(i=0;i<myArr.length;i++){
+
+        badgesToDisplay.push(
+          [
+            myArr[i]
+          ]
+        );
+      }
+
+      return badgesToDisplay;
+    }
+
+    getBackgroundColor(targetLine,data){
+       for(i=0;i<data.length;i++){
+        if(targetLine == data[i].id){
+          return data[i].bg;
+        }
+        //else i++
+       }
+       //if no match
+       return 'gainsboro';
+    }
+
+    getTextColor(targetLine,data){
+       for(i=0;i<data.length;i++){
+        if(targetLine == data[i].id){
+          return data[i].text;
+        }
+        //else i++
+       }
+       //if no match
+       return 'white';
+    }
+
+    onChildChanged(targetLine){
+      this.props.actions.selectLine(targetLine);
+    }
+
+    clickMyLocationButton(){
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+
+          this.props.actions.setMyLocation(position.coords.latitude,position.coords.longitude);
+
+        },
+        (error) => this.setState({ error: error.message }),
+        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+      );
+
+      return true;
+    }
+
+    componentWillMount() {
+      //set A line as the default
+      this.getLineStops('A');
+
+
+    }
+
+    hasObject(obj,val){
+
+    //if record already exists, set true
+    if(Object.values(obj).indexOf(val) > -1) {
+
+        return true;
+      }
+      //else false
+      else return false;
+    }
+
+    toggleCheckInStatus() {
+
+      if(this.props.checkInIsComplete){
+
+        this.props.actions.startCheckIn();
+      }
+      else this.props.actions.endCheckIn();
+
+
+      
+    }
+
   //render()
   render() {
 
@@ -109,72 +206,141 @@ class SuperMap extends Component {
 
     //functions
       //add them here to call in render only
+    let customMarker;
+
+    if(this.props.selectedLine == 'A'){
+      customMarker = (
+        <View>
+          <Icon
+            reverse={true}
+            //raised={isSelected}
+            name='meh-o'
+            color={ this.getBackgroundColor(this.props.selectedLine,lineList) }
+            type='font-awesome'
+            //onPress={onIconPress}
+            size={15}
+          />
+        </View>
+      );
+    }
+    else customMarker = false;
 
     //the view
     return (
       <View style={styles.container}>
+
+        <StatusBar
+          //backgroundColor="black"
+          barStyle="light-content"
+        />
         <MapView
-          style={{
-            left: 0,
-            right: 0,
-            top: 0,
-            bottom: 0,
-            position: 'absolute'
-          }}
+          style={styles.mapview}
           initialRegion={{
             latitude: 40.7590,      //specific point (N/E is positive, S/W is negative)
             longitude: -73.9845,    //this is Times Square i.e.
-            latitudeDelta: 0.3,     //wideness of view (smaller is more precise)
-            longitudeDelta: 0.3,
+            latitudeDelta: 0.05,     //wideness of view (smaller is more precise)
+            longitudeDelta: 0.05,
           }}
         >
-        {
-          this.props.selectedStops.map( (theStop) => (
-            <MapView.Marker
-              coordinate={{
-                latitude: this.getLat(theStop[1]),
-                longitude: this.getLong(theStop[1])
-              }}
-            >
-              <MapView.Callout
-                tooltip={false}
+
+          {
+            this.props.selectedStops.map( (theStop) => (
+              <MapView.Marker
+                coordinate={{
+                  latitude: this.getLat(theStop[1]),
+                  longitude: this.getLong(theStop[1])
+                }}
+                //image='http://riseandpineco.com/appten/meh.png'
+                pinColor={ this.getBackgroundColor(this.props.selectedLine,lineList) }
+                onPress={ this.props.previewedStation ? ()=>this.props.actions.getPreview(theStop[0],this.getStationLines(theStop[2])) : null } //this.getStationLines(theStop[0])) : null }
               >
-                <Text style={{color: 'gray'}}>
-                  {theStop[0]}
-                </Text>
-                <Text style={{color: 'blue'}}>
-                  {theStop[2]}
-                </Text>
-              </MapView.Callout>
-              
-            </MapView.Marker>
-          ))
-        }
+ 
+                <MapView.Callout
+                  tooltip={false}
+                  onPress={()=>this.props.actions.getPreview(theStop[0],this.getStationLines(theStop[2]))} //this.getStationLines(theStop[0]))}
+                  style={{
+                    //width: 150
+                  }}
+                >
+                  <View>
+                    <Text style={{
+                      color: 'black'}}
+                    >
+                      {theStop[0]} >
+                    </Text>
+                    <Text style={{
+                      color: 'gray'
+                    }}>
+                      {theStop[2]}
+                    </Text>
+                    <Text style={{
+                      color: 'gray'
+                    }}>
+                      Click for details
+                    </Text>
+                  </View>
+                </MapView.Callout>
+
+              </MapView.Marker>
+            ))
+          }
+          <MapView.Marker
+            coordinate={{
+              latitude: this.props.myLocation.lat,
+              longitude: this.props.myLocation.long
+            }}
+            pinColor='black'
+          />
         </MapView>
-        <View>
-          <Button
-            title='A'
-            onPress={() => this.getLineStops('A') }
-          />
-          <Button
-            title='F'
-            onPress={() => this.getLineStops('F') }
-          />
-          <Button
-            title='R'
-            onPress={() => this.getLineStops('R') }
-          />
-          <Button
-            title='2'
-            onPress={() => this.getLineStops('2') }
-          />
-          <Button
-            title='7'
-            onPress={() => this.getLineStops('7') }
+        
+        <View style = {styles.stationpreview}>
+          
+          <StationPreview
+            visible={this.props.previewedStation ? true : false}
+            stationName={ this.props.previewedStation }
+            onClearPress={()=>this.clearStationPreview()}
+            lines={ this.props.previewedStationLines }//['BB','green','white'] }//this.props.previewedStationLines }
+            selectedLine = { this.props.selectedLine }
+            onLinePress = {()=> this.props.navigation.navigate('SettingsStack')}
+            onFeedPress = {()=> this.props.navigation.navigate('LineFeed',{
+                area: 'Queens',
+                colors: 'blue,orange,purple',
+                id: 4,
+                lines: 'E,F,7',
+                longName: 'Long Name',
+                shortName: 'The Feed'
+              })}
+            onCheckInPress = {() => this.toggleCheckInStatus()}
+            onDismiss = {() => this.props.navigation.navigate('SuperMap')}
+          >
+          </StationPreview>
+        </View>
+        <View style={styles.lineandmenucontainer}>
+          <View style={styles.lineselector}>
+            {
+              lineList.map( (line) => (
+                  <Badge
+                    value= {line.id}
+                    containerStyle={{
+                      backgroundColor: this.props.selectedLine == line.id ? line.bg : 'gainsboro'
+                    }}
+                    textStyle={{
+                      color: this.props.selectedLine == line.id ? line.text : 'white'
+                    }}
+                    onPress={() => this.getLineStops(line.id) }
+                  />
+                )
+              )
+            }
+          </View>
+          <View style={styles.appheader}>
+          <AppHeader
+            onMenuPress={()=>this.props.navigation.navigate('DrawerOpen')}
+            isLocationSet={ (this.props.myLocation.lat) ? true : false }
           />
         </View>
-
       </View>
+    </View>
     )
   }//end render
 }
@@ -189,9 +355,14 @@ class SuperMap extends Component {
       (state) => {
         return {
           previewedStation: state.supermap.previewedStation,
+          previewedStationLines: state.supermap.previewedStationLines,
           selectedLine: state.supermap.selectedLine,
-          selectedStops: state.supermap.selectedStops
-        }
+          selectedStops: state.supermap.selectedStops,
+          myLocation: state.supermap.myLocation,
+          checkInIsComplete: state.supermap.checkInIsComplete,
+          forrestFetchsData: state.supermap.forrestFetchsData,
+          //tagline: state.stationfeed.targetLine   //this works, able to get ANYTHING from redux state
+        } 
       },
     //this is mapDispatchToProps verbosely
       //Which action creators does it want to receive by props?
@@ -203,39 +374,19 @@ class SuperMap extends Component {
 /*----- APPENDIX -----*/
 
 /*
-  // regex to get lat and long is " ^(\bPOINT\b)..([^\s]+)\s([^\s]+). "  
-  // yes include that final period
-  // use $2 and $3
+  This works when used right after the opening <MapMarker> tag
 
-  // let gps = superMapData[0].[11]
-  // let myRegex = /^(\bPOINT\b)..([^\s]+)\s([^\s]+)./.exec(gps)
-  // var long = myRegex[2]
-  // var lat = myRegex[3]
+  <View>
+                  <Image
+                    style={{
+                      height: 38,
+                      width: 30
+                    }}
+                    source={{
+                      uri: 'https://forrestching.com/appten/meh.png'
+                    }}
+                  />
+                </View>
 
 
 */
-
-  /*
-    This works 
-          {
-            superMapData.map( (stationData) => (
-                  <MapView.Marker
-                  coordinate={{
-                    latitude: this.getLat(stationData[11]),
-                    longitude: this.getLong(stationData[11])
-                  }}
-                >
-                  <MapView.Callout
-                    tooltip={false}
-                  >
-                    <Text style={{color: 'gray'}}>
-                      {stationData[10]}
-                    </Text>
-                    <Text style={{color: 'blue'}}>
-                      {stationData[12]}
-                    </Text>
-                  </MapView.Callout>
-                </MapView.Marker>
-            ))
-          }
-    */

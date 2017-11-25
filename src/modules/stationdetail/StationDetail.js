@@ -80,12 +80,10 @@ class StationDetail extends Component {
 
     return ( 
       <View style={{flex: 1, flexDirection: 'column'}}>
-        <View style={{flex: 8}}>
-          <StationCard
-          />
-        </View>
-        <View style={{flex: 16}}>
+        <View style={{flex: 24}}>
           <ScrollView style={{flex: 1, flexDirection: 'column', padding:'3%', backgroundColor: 'black'}}>
+            
+            <StationCard />
             <List
               containerStyle={styles.fcList}
             >
@@ -238,5 +236,14 @@ class StationDetail extends Component {
               //height={240}
               >
             </Card>
+
+*/
+
+/* StationCard removed
+
+<View style={{flex: 8}}>
+          <StationCard
+          />
+        </View>
 
 */

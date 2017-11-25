@@ -1,3 +1,72 @@
+export const lineList = [
+	{
+		id:'A',bg:'blue',text:'white'
+	},
+	{
+		id:'C',bg:'blue',text:'white'
+	},
+	{
+		id:'E',bg:'blue',text:'white'
+	},
+	{
+		id:'B',bg:'darkorange',text:'white'
+	},
+	{
+		id:'D',bg:'darkorange',text:'white'
+	},
+	{
+		id:'F',bg:'darkorange',text:'white'
+	},
+	{
+		id:'M',bg:'darkorange',text:'white'
+	},
+	{
+		id:'J',bg:'brown',text:'white'
+	},
+	{
+		id:'Z',bg:'brown',text:'white'
+	},
+	{
+		id:'G',bg:'yellowgreen',text:'white'
+	},
+	{
+		id:'L',bg:'gray',text:'white'
+	},
+	{
+		id:'N',bg:'goldenrod',text:'black'
+	},
+	{
+		id:'Q',bg:'goldenrod',text:'black'
+	},
+	{
+		id:'R',bg:'goldenrod',text:'black'
+	},
+	{
+		id:'W',bg:'goldenrod',text:'black'
+	},
+	{
+		id:'1',bg:'red',text:'white'
+	},
+	{
+		id:'2',bg:'red',text:'white'
+	},
+	{
+		id:'3',bg:'red',text:'white'
+	},
+	{
+		id:'4',bg:'green',text:'white'
+	},
+	{
+		id:'5',bg:'green',text:'white'
+	},
+	{
+		id:'6',bg:'green',text:'white'
+	},
+	{
+		id:'7',bg:'purple',text:'white'
+	},
+];
+
 export const superMapData =
 [ 
 	[ 

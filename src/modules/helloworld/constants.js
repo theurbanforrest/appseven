@@ -16,4 +16,8 @@ export const NAME = 'helloworld'
 
 
 //added by forrest
-export const PRINT_SELF = `${NAME}/PRINT_SELF`
+export const PRINT_SELF = `${NAME}/PRINT_SELF`;
+export const TEST_FETCHY = `${NAME}/TEST_FETCHY`;
+export const ITEMS_FETCH_DATA_SUCCESS = `${NAME}/ITEMS_FETCH_DATA_SUCCESS`;
+export const ITEMS_HAS_ERRORED = `${NAME}/ITEMS_HAS_ERRORED`;
+export const ITEMS_IS_LOADING = `${NAME}/ITEMS_IS_LOADING`;
