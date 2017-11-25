@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   View,
@@ -10,6 +10,7 @@ import { stations } from './data'
 import * as actions from './actions'
 import { styles } from './styles'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
 class StationFeed extends Component {
   fetchPressed() {
