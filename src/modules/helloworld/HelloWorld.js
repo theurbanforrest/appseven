@@ -1,67 +1,106 @@
-import React, { PropTypes, Component } from 'react'
-import { View, 
-  Text, 
-  TouchableHighlight,
-  TextInput
-} from 'react-native'
-import { 
-  Button,
-  FormLabel,
-  FormInput, } from 'react-native-elements'
-import { connect } from 'react-redux'
+
+import React, { Component } from 'react';
+import { View, Text, Modal } from 'react-native';
+import { Button } from 'react-native-elements';
+//import {} from 'react-xml-parser';
+
+//redux
+    import { bindActionCreators } from 'redux'
+    import { connect } from 'react-redux'
+    //need this for Components instead of pure functions
+      import * as Actions from './actions'
+
+class HelloWorld extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      latitude: null,
+      longitude: null,
+      error: null,
+    };
+  }
+
+  tryMe() {
+    var hey = fetch('http://web.mta.info/status/ServiceStatusSubway.xml');
+    console.log(hey);
+  }
+
+  parsey(response) {
+
+//    var XMLParser = require('react-xml-parser');
+    var xml = new XMLParser().parseFromString(response);    // Assume xmlText contains the example XML
+    console.log(xml);
+    console.log(xml.getElementsByTagName('Name'));
+  }
+
+  hello() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        });
+      },
+      (error) => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+    );
+
+    this.props.actions.printSelf('bro');
+  }
 
 
-//import { Counters, Counter } from './../../components'
-import * as actions from './actions'
-import { styles } from './styles'
+  render() {
+    return (
+      <View style={{ 
+        flexGrow: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
+        <View>
+          <Text>Latitude: {this.state.latitude}</Text>
+          <Text>Longitude: {this.state.longitude}</Text>
+          {this.state.error ? <Text>Error: {this.state.error}</Text> : null}
+          <Button
+            title='Get em boo'
+            onPress={() => this.hello() }
+          />
+        </View>
+        <View>
+          
+          <Button
+            title='Test Fetchy'
+            //onPress={() => this.props.actions.itemsFetchData('http://localhost:3000/api/Comments') }
+            onPress={() => this.props.actions.itemsFetchData('https://forrestching.com/appten/test.json') }
+          />
 
+          <Button
+            title='Test XML fetcher'
+            onPress={() => this.props.actions.itemsFetchData('https://forrestching.com/appten/text.xml') }
+          />
 
-const HelloWorld = props => {
+        </View>
 
-  const { printSelf } = props;
-  this.state = { text: 'Useless Placeholder' };
+      </View>
+    );
+  } //end render
+}//end component
 
-  return (
-    <View style={styles.container}>
-      <FormLabel>Hello World</FormLabel>
-      <FormInput/>
+/*----- REDUX CONNECT -----*/
 
-      <Button
-        medium
-        color='#294'
-        icon={{name: 'rocket', type: 'font-awesome'}}
-        title='LARGE WITH RIGHT ICON'
-        onPress={() => {printSelf('this is printSelf')} }
-        rightTitle
-      />
-    </View>
-  )
-}
-
-HelloWorld.displayName = 'Hello World'
-
-//it is a good practice to always indicate what type of props does your component
-//receive. This is really good for documenting and prevent you from a lot of bug during
-//development mode. Remember, all of these will be ignored once you set it to production.
-HelloWorld.propTypes = {
-  //age: PropTypes.number.isRequired,
-}
-
-//Here's the most complex part of our app. connect is a function which selects,
-//which part of our state tree you need to pass to your component. also, since
-//my App component is pure function, i am injecting addNewCounter, increment and
-//decrement functions wrapped with dispatch. I think this is the best and cleanest
-//way to seperate your connect and your pure function.
-export default connect(
-  state => ({
-    //age: state.app.age,
-      //counters: state.app.counters
-  }),
-  dispatch => ({
-    printSelf: string => dispatch(actions.printSelf(string)),
-      //addNewCounter: () => dispatch(actions.newCounter()),
-      //increment: id => dispatch(actions.increment(id)),
-      //decrement: id => dispatch(actions.decrement(id)),
-      //incrementWithDelay: id => dispatch(actions.incrementWithDelay(id))
-  })
-)(HelloWorld)
+  export default connect(
+    //this is mapStateToProps verbosely
+      //Which part of the Redux global state does our component want to receive as props?
+      (state) => {
+        return {
+          mystatus: state.helloworld.mystatus,
+          data: state.helloworld.data
+        } 
+      },
+    //this is mapDispatchToProps verbosely
+      //Which action creators does it want to receive by props?
+      (dispatch) => ({
+        actions: bindActionCreators(Actions, dispatch)
+      }),
+  )(HelloWorld);

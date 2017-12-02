@@ -36,8 +36,15 @@ const CommentCard = (props: CommentCardProps) => {
 
   //return stuff
     return(
-      <View style={{flex: 1, flexDirection: 'column', paddingTop: '3%', paddingBottom: '3%', justifyContent: 'space-between', backgroundColor: 'black'}}>
-        <View style={{flex: 20, flexDirection: 'row'}}>
+      <View style={{
+        flex: 1,
+        flexDirection: 'column', 
+        paddingTop: '3%', 
+        paddingBottom: '3%', 
+        justifyContent: 'space-between', 
+        backgroundColor: 'black'
+      }}>
+        <View style={{flex: 1, flexDirection: 'row'}}>
           <View style={{flex: 4}}>
             <Avatar
               medium
@@ -115,7 +122,6 @@ const CommentCard = (props: CommentCardProps) => {
         likeCount: PropTypes.number,
         comment: PropTypes.string,
         onLikePress: PropTypes.func
-
     };
 
   //Define styles
@@ -141,7 +147,6 @@ const CommentCard = (props: CommentCardProps) => {
         heartButton: {
           flex: 1,
         }
-
     });
 
 

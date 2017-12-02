@@ -1,5 +1,5 @@
 import React from 'react';
-import { TabNavigator, StackNavigator } from 'react-navigation';
+import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -7,8 +7,15 @@ import { connect } from 'react-redux';
   import HelloWorld from '../helloworld/HelloWorld'
   import StationFeed from '../stationfeed/StationFeed'
   import StationDetail from '../stationdetail/StationDetail'
+  import SuperMap from '../supermap/SuperMap'
+  import CheckIn from '../checkin/CheckIn'
+  import HelloFeed from '../hellofeed/HelloFeed'
 
-  /*-- StationFeed Stack --*/
+  //test component
+  import CheckInOne from '../../components/CheckInOne'
+  import CheckInTwo from '../../components/CheckInTwo'
+
+/*-- StationFeed Stack --*/
   export const StationFeedStack = StackNavigator({
     StationFeed: {
       screen: StationFeed,
@@ -24,24 +31,107 @@ import { connect } from 'react-redux';
     },
   });
 
+  /*-- MapStack --*/
+
+  export const MapStack = StackNavigator({
+    TheMap: {
+      screen: SuperMap,
+      navigationOptions: {
+        header: false,
+      }
+    },
+    LineFeed: {
+      screen: HelloFeed,
+      navigationOptions: ({ navigation }) => ({
+        title: `${navigation.state.params.shortName}`
+      }),
+    },
+  });
+
   /*-- Tabs --*/
-  export const Tabs = TabNavigator({
+  export const Tabs = DrawerNavigator({
+
+  /*-- commenting out
+  SuperMap: {
+    screen: SuperMap,
+    navigationOptions: {
+      drawerLabel: 'Super Map',
+      drawerIcon: ({ tintColor }) => <Icon name='street-view' type='font-awesome' size={25} color={tintColor} /> ,
+    }
+  },
+  StationsFeed: {
+    screen: StationFeedStack,
+    navigationOptions: {
+      drawerLabel: 'All Stations',
+      drawerIcon: ({ tintColor }) => <Icon name='subway' type='font-awesome' size={25} color={tintColor} /> ,
+    }
+  },
+  SocialFeed: {
+    screen: StationDetail,
+    navigationOptions: {
+      drawerLabel: 'Social Feed',
+      drawerIcon: ({ tintColor }) => <Icon name='comments-o' type='font-awesome' size={25} color={tintColor} /> ,
+    }
+  },
+  --*/
+
+  MapStack: {
+    screen: MapStack,
+    navigationOptions: {
+      drawerLabel: 'Home',
+      drawerIcon: ({tintColor}) => <Icon name='home' type='font-awesome' size={25} color={tintColor} /> ,
+    }
+  },
   HelloWorld: {
     screen: HelloWorld,
     navigationOptions: {
-      tabBarLabel: 'Me',
-      tabBarIcon: ({ tintColor }) => <Icon name="account-circle" size={35} color={tintColor} />,
+      drawerLabel: 'Hello World',
+      drawerIcon: ({ tintColor }) => <Icon name='smile-o' type='font-awesome' size={25} color={tintColor} />,
+
+    },
+  },
+  HelloFeed: {
+    screen: HelloFeed,
+    navigationOptions: {
+      drawerLabel: 'HelloFeed',
+      drawerIcon: ({ tintColor }) => <Icon name='shower' type='font-awesome' size={25} color={tintColor} />,
+
+    },
+  },
+  CheckIn: {
+    screen: CheckIn,
+    navigationOptions: {
+      drawerLabel: 'Check In',
+      drawerIcon: ({ tintColor }) => <Icon name='map-o' type='font-awesome' size={25} color={tintColor} />,
 
     },
   },
   StationsFeed: {
     screen: StationFeedStack,
     navigationOptions: {
-      tabBarLabel: 'All Stations',
-      tabBarIcon: ({ tintColor }) => <Icon name="subway" size={35} color={tintColor} /> ,
+      drawerLabel: 'All Stations',
+      drawerIcon: ({ tintColor }) => <Icon name='subway' type='font-awesome' size={25} color={tintColor} /> ,
     }
   },
-});
+},
+{
+  headerMode: 'screen'
+}
+);
+
+  /**-- SettingsStack --**/
+
+  export const SettingsStack = StackNavigator({
+    CheckIn: {
+      screen: CheckIn,
+    },
+  },
+  {
+    headerMode: 'none'
+  },
+);
+
+
 
   /*-- RootNav --*/
   export const RootNav = StackNavigator(
@@ -49,6 +139,9 @@ import { connect } from 'react-redux';
   		Tabs: {
   			screen: Tabs,
   		},
+      SettingsStack: {
+        screen: SettingsStack
+      },
   	}, 
   	{
   		mode: 'modal',
@@ -59,13 +152,10 @@ import { connect } from 'react-redux';
   /*-- Connect --*/
   export default connect(
     state => ({
-      //age: state.helloworld.age
+      //not needed
 
     }),
     dispatch => ({
-      /*addNewCounter: () => dispatch(actions.newCounter()),
-      increment: id => dispatch(actions.increment(id)),
-      decrement: id => dispatch(actions.decrement(id)),
-      incrementWithDelay: id => dispatch(actions.incrementWithDelay(id))*/
+      //not needed
     })
   )(RootNav)

@@ -6,10 +6,10 @@ Use with smart component to increment/decrement and fill/unfill
 Similar to Twitter like button
 */
 
-import React, { PropTypes } from 'react'
+import React, {  } from 'react'
 import { StyleSheet, View, Text, TouchableHighlight } from 'react-native'
 import { Button, Icon } from 'react-native-elements'
-
+import PropTypes from 'prop-types'
 
 /*-- THE COMPONENT --*/
 const HeartButton = (props: HeartButtonProps) => {
