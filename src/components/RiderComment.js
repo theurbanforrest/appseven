@@ -36,6 +36,7 @@ const RiderComment = (props: RiderCommentProps) => {
 
       likeCount,
       onLikePress,
+      onRemovePress,
       lineBackground,
 
 
@@ -66,10 +67,24 @@ const RiderComment = (props: RiderCommentProps) => {
 
     function isHighlighted(partial,highlightColor,defaultColor){
 
-      if(status!=''){
+      if(partial!=''){
         return highlightColor;
       }
       else return defaultColor;
+    }
+
+    function showDismissButton(partial,theFunc){
+      if(partial!=''){
+        return (
+          <Icon
+            name='times'
+            type='font-awesome'
+            color='purple'
+            onPress={() => theFunc}
+          />
+        )
+      }
+      else return false;
     }
 
   //return stuff
@@ -95,45 +110,59 @@ const RiderComment = (props: RiderCommentProps) => {
               <Text style={{
                 fontWeight: 'bold',
                 fontSize: 18,
-                color: isHighlighted(status,'white','#97ACB3'),
+                color: isHighlighted(status,'#97ACB3','#97ACB3'),
               }}>
                 {stationName}
               </Text>
               <Text style={{
-                color: isHighlighted(status,'white','#97ACB3'),
+                fontSize: 14,
+                color: isHighlighted(status,'#97ACB3','#97ACB3'),
                 //fontStyle: 'italic'
               }}>
-                {userName}
+                10m ago • {userName}
                 </Text>
                 <Text/>
             </View>
-            <View style={{flex: 20}}>
+            <View style={{
+              flex: 20
+            }}>
+              
               <Text style={{
-                color: 'white',
-                fontSize: 24,
-                fontWeight: 'bold'
-              }}>
-                {status}
-              </Text>
-              <Text style={{
-                color: isHighlighted(status,'white','#97ACB3'),
+                color: isHighlighted(status,'#97ACB3','#97ACB3'),
                 fontSize: 18,
               }}>
                 {comment}
               </Text>
             </View>
           </View>
-          <View style={{flex: 2}}>
-            <Badge
-              value= {commentOnLine}
-              containerStyle={{
-                backgroundColor: getBackgroundColor(commentOnLine,lineList) //keeping static, not connected to selectedLine
-              }}
-              textStyle={{
-                color: getTextColor(commentOnLine,lineList), //keeping static, not connected to selectedLine
-                fontSize: 14,
-              }}
-            />
+          <View style={{ flex: 4,
+            flexDirection: 'column',
+          }}>
+            <View style={{
+            }}>
+              <Badge
+                value= {commentOnLine}
+                containerStyle={{
+                  backgroundColor: getBackgroundColor(commentOnLine,lineList), //keeping static, not connected to selectedLine
+                  width: '100%',
+                }}
+                textStyle={{
+                  color: getTextColor(commentOnLine,lineList), //keeping static, not connected to selectedLine
+                  fontSize: 18,
+                }}
+              />
+            </View>
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              paddingTop: '5%',
+            }}>
+              <Text style={{
+                color: 'orange'
+              }}>
+                {status}
+              </Text>
+            </View>
           </View>
         </View>
         <View style={{flex: 4, flexDirection: 'row', paddingTop: '3%'}}>
@@ -148,11 +177,7 @@ const RiderComment = (props: RiderCommentProps) => {
             />
           </View>
           <View style={{flex: 4}}>
-            <Icon
-              name='times'
-              type='font-awesome'
-              color='purple'
-            />
+            { showDismissButton(status,console.log('clicked Dismiss')) }
           </View>
           <View style={{flex: 11}}>
           </View>
@@ -171,8 +196,9 @@ const RiderComment = (props: RiderCommentProps) => {
         isLiked: false,
         likeCount: 0,
         lineBackground: 'blue',
-        //comment not setting by default
-        //onLikePress not setting by default
+        comment: '',
+        onLikePress: console.log('onLikePress called'),
+        onRemovePress: console.log('onRemovePress called'),
     };
 
   //Define the props here
@@ -188,6 +214,7 @@ const RiderComment = (props: RiderCommentProps) => {
         comment: PropTypes.string,
         commentOnLine: PropTypes.string,
         onLikePress: PropTypes.func,
+        onRemovePress: PropTypes.func,
         lineBackground: PropTypes.string,
         status: PropTypes.string
     };
@@ -219,3 +246,15 @@ const RiderComment = (props: RiderCommentProps) => {
 
 
 export default RiderComment;
+
+/**
+
+<Text style={{
+                color: 'white',
+                fontSize: 24,
+                fontWeight: 'bold'
+              }}>
+                {status}
+              </Text>
+
+**/

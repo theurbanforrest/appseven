@@ -10,10 +10,12 @@ import {
 import {
   Button,
   Icon,
-  Badge
+  Badge,
+  Avatar
 } from 'react-native-elements'
 
 import FeaturedComment from './FeaturedComment'
+import HeartButton from './HeartButton'
 import { lineList } from '../modules/supermap/data'
 
 /*-- THE COMPONENT --*/
@@ -68,101 +70,139 @@ const StationPreview = (props: StationPreviewProps) => {
   if(visible){
     return(
       <View style={{
-        //margin: '3%',
-        backgroundColor: 'black',   //need to figure out how to render this properly
-        flexDirection: 'column',
         flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        backgroundColor: 'black',
+        paddingTop: '8%',
+        paddingLeft: '3%',
+        paddingRight: '3%',
+        paddingBottom: '3%',
       }}>
+
+
+        <TouchableHighlight
+          onPress = {onFeedPress}
+        >
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          //backgroundColor: 'powderblue'
+        }}>
+
           <View style={{
-            //flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            paddingTop: '8%',
-            paddingRight: '5%',
-            paddingBottom: '3%',
+            flex: 20,
+            justifyContent: 'flex-start'
           }}>
+            <Text style={{
+              color: '#97ACB3',
+              fontSize: 18,
+              fontWeight: 'bold',
+            }}
+            >
+              {stationName}
+            </Text>
             <View
               style={{
-                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
             }}>
+              {
+                lines.map( (line) => (
+                    <Badge
+                      value= {line}
+                      containerStyle={{
+                        backgroundColor: getBackgroundColor(line,lineList) //keeping static, not connected to selectedLine
+                      }}
+                      textStyle={{
+                        color: getTextColor(line,lineList), //keeping static, not connected to selectedLine
+                        fontSize: 14,
+                      }}
+                      onPress={()=> onBadgeLineClick(line)}//console.log('this should be some action from redux')}
+                    />
+                  ))
+              }
             </View>
-              <View style={{
-                flexDirection: 'column',
-              }}>
-                <View style={{
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                }}>
-                  <Text style={{
-                    color: 'white',
-                    fontSize: 18,
-                  }}
-                  >
-                    {stationName}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-end',
-                  }}>
-                  {
-                    lines.map( (line) => (
-                        <Badge
-                          value= {line}
-                          containerStyle={{
-                            backgroundColor: getBackgroundColor(line,lineList) //keeping static, not connected to selectedLine
-                          }}
-                          textStyle={{
-                            color: getTextColor(line,lineList), //keeping static, not connected to selectedLine
-                            fontSize: 11,
-                          }}
-                          onPress={()=> onBadgeLineClick(line)}//console.log('this should be some action from redux')}
-                        />
-                      ))
-                  }
-                </View>
-              </View>
+          </View>
+
+          <View style={{
+            flex: 4,
+          }}>
+            <Avatar
+              medium
+              rounded
+              source={{uri: 'https://randomuser.me/api/portraits/women/18.jpg' }}
+            />
+          </View>
+        </View>
+
+        </TouchableHighlight>
+        <View style={{
+          flexDirection: 'row',
+        }}>
+            <FeaturedComment
+              title={'10m ago • fochin82'}
+              imageSrc={'https://randomuser.me/api/portraits/men/18.jpg'}
+              comment={'omg this is like the second day that this gawdam train has been >15 mins late...'}
+              isLiked={false}
+              likeCount={12}
+              onLikePress={onLinePress}
+              onCommentPress={onFeedPress}
+            />
+
+            <Icon 
+              name='angle-double-up'
+              color='white'
+              type='font-awesome'
+              onPress={onClearPress}
+            />
+        </View>
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          //backgroundColor: 'pink'
+        }}>
+          <View style={{
+            flex: 4
+          }}>
+            <HeartButton
+              isSelected={false}
+              likeCount={12}
+              onIconPress={onLinePress}
+              style={styles.heartButton}
+            />
           </View>
           <View style={{
-            flex: 1,
-            flexDirection: 'row',
-            paddingTop:'3%',
-            //backgroundColor: 'gray'
+            flex: 4
           }}>
-            <View style={{
-              flex: 20,
-              paddingBottom: '3%',
-              paddingLeft: '3%',
-              //backgroundColor: 'gray', //for debug
-            }}>
-              <FeaturedComment
-                title={'fochin82'}
-                imageSrc={'https://randomuser.me/api/portraits/men/18.jpg'}
-                comment={'omg this is like the second day that this gawdam train has been >15 mins late.  wahhh'}
-                isLiked={false}
-                likeCount={12}
-                onLikePress={onLinePress}
-                onCommentPress={onFeedPress}
-              />
-            </View>
-
-              <View style={{
-                flex: 4,
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
-                paddingBottom: '3%',
-                //backgroundColor: 'violet' //for debug
-              }}>
-                  <Icon 
-                    name='angle-double-up'
-                    color='white'
-                    type='font-awesome'
-                    onPress={onClearPress}
-                  />
-              </View>
+            <Icon
+              name='commenting-o'
+              type='font-awesome'
+              color='purple'
+              onPress={onFeedPress}
+            />
           </View>
+          <View style={{
+            flex: 8
+          }}>
+            <Badge
+              value='+ Check In'
+              containerStyle={{
+                backgroundColor: 'black',
+                borderColor: 'orange',
+                borderWidth: 1
+              }}
+              textStyle={{
+                color: 'orange'
+              }}
+              onPress={onLinePress}
+            />
+          </View>
+          <View style={{
+            flex: 6
+          }}>
+          </View>
+        </View>
       </View>
     )
   } else return false;
@@ -207,71 +247,3 @@ const StationPreview = (props: StationPreviewProps) => {
 
 
 export default StationPreview;
-
-/** APPENDIX
-
-<View style={{
-              flex: 13,
-              backgroundColor: 'powderblue'
-            }}>
-                            
-              <View style={{
-                marginTop: '6%'
-              }}>
-                <Text style={{
-                  color: 'white',
-                  fontSize: 14,
-                }}>
-                  Last 30 mins:
-                </Text>
-              </View>
-              <View style={{
-                marginTop: '3%'
-              }}>
-                <Text style={{
-                  color: 'white',
-                  fontSize: 14,
-                }}>
-                  12 Too Crowded
-                </Text>
-                <Text style={{
-                  color: 'white',
-                  fontSize: 14,
-                }}>
-                  5 Long Wait
-                </Text>
-              </View>
-            </View>
-
-
-<View style={{
-              flex: 11,
-              flexDirection: 'row',
-              alignItems: 'space-between',
-              justifyContent: 'flex-end',
-              //backgroundColor: 'violet'
-            }}>
-              <Icon
-                reverse={true}
-                name='meh-o'
-                type='font-awesome'
-                color='purple'
-                onPress={onLinePress}
-              />
-              <Icon
-                reverse={true}
-                name='clock-o'
-                type='font-awesome'
-                color='purple'
-                onPress={onLinePress}
-              />
-              <Icon
-                reverse={true}
-                name='comment-o'
-                type='font-awesome'
-                color='purple'
-                onPress={onFeedPress}
-              />
-            </View>
-
-**/

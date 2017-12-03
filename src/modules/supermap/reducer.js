@@ -9,9 +9,12 @@ import {
   CLEAR_MY_LOCATION,
   START_CHECK_IN,
   END_CHECK_IN,
-  TEST_FORREST_FETCH 
-} from './constants'
 
+  FETCH_IS_LOADING,
+  FETCH_HAS_ERRORED,
+  FETCH_SPECIAL_STOPS_SUCCESS,
+
+} from './constants'
 
 
 type superMapState = {
@@ -20,6 +23,7 @@ type superMapState = {
   previewedStationLines: any,
   selectedLine: string,
   selectedStops: any,
+  specialStops: any,
   myLocation: any
 }
 
@@ -29,7 +33,8 @@ const initialState:
     forrestFetchsData: {},
     previewedStation: '',
     previewedStationLines: [],
-    selectedLine: '',
+    selectedLine: 'A',
+    specialStops: [],
     selectedStops:
       [
         [
@@ -55,13 +60,14 @@ export default handleActions(
   {
     [GET_PREVIEW]: (state: superMapState, action) => {
       //get info from action and state
-        const { payload: {station_id,station_lines} } = action;
+        const { payload: {station_name,station_lines,station_uid} } = action;
         const { previewedStation, previewedStationLines } = state;
 
-      //set station_id into previewedStation and return state
+      //set station_name into previewedStation and return state
         return {
           ...state,
-          previewedStation: station_id,
+          previewedStation: station_name,
+          previewedStationUid: station_uid,
           previewedStationLines: station_lines,
         }
     },
@@ -71,7 +77,7 @@ export default handleActions(
         //const {} = action;
         const { previewedStation, previewedStationLines } = state;
 
-      //set station_id into previewedStation and return state
+      //set station_name into previewedStation and return state
         return {
           ...state,
           previewedStation: null,
@@ -83,7 +89,7 @@ export default handleActions(
         const { payload: {selected_line,selected_stops} } = action;
         const { selectedLine, selectedStops } = state;
 
-      //set station_id into previewedStation and return state
+      //set station_name into previewedStation and return state
         return {
           ...state,
           selectedLine: selected_line,
@@ -95,7 +101,7 @@ export default handleActions(
         const { payload: {myLat,myLong} } = action;
         const { myLocation } = state;
 
-      //set station_id into previewedStation and return state
+      //set station_name into previewedStation and return state
         return {
           ...state,
           myLocation: {
@@ -135,17 +141,33 @@ export default handleActions(
           checkInIsComplete: true,
         }
     },
-    [TEST_FORREST_FETCH]: (state: superMapState, action) => {
 
-      //get info from action and state
-        const { payload: { data } } = action;
-        const { forrestFetchsData } = state;
+    [FETCH_IS_LOADING]: (state: superMapState, action) => {
 
-      //set station_id into previewedStation and return state
-        return {
-          ...state,
-          forrestFetchsData: data,
-        }
+      return {
+        ...state,
+        fetchInProgress: true
+      }
+    },
+
+    [FETCH_HAS_ERRORED]: (state: superMapState, action) => {
+
+      return {
+        ...state,
+        fetchInProgress: false
+        
+      }
+    },
+
+    [FETCH_SPECIAL_STOPS_SUCCESS]: (state: superMapState, action) => {
+      const { payload: { data } } = action;
+
+      return {
+        ...state,
+        specialStops: data,
+        fetchInProgress: false
+        
+      }
     },
   },
 initialState

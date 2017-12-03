@@ -43,7 +43,13 @@ import { connect } from 'react-redux';
     LineFeed: {
       screen: HelloFeed,
       navigationOptions: ({ navigation }) => ({
-        title: `${navigation.state.params.shortName}`
+        title: `${navigation.state.params.shortName}`,
+        headerStyle: {
+          backgroundColor: 'black'
+        },
+        headerTitleStyle: {
+          color: '#97ACB3'
+        },
       }),
     },
   });
@@ -95,7 +101,6 @@ import { connect } from 'react-redux';
     navigationOptions: {
       drawerLabel: 'HelloFeed',
       drawerIcon: ({ tintColor }) => <Icon name='shower' type='font-awesome' size={25} color={tintColor} />,
-
     },
   },
   CheckIn: {

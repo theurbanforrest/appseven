@@ -40,88 +40,29 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
     return(
       <View style={{
         flex: 1,
-        flexDirection: 'column', 
-        //paddingTop: '3%', 
-        //paddingBottom: '3%', 
+        flexDirection: 'column',  
         justifyContent: 'space-between', 
-        //backgroundColor: 'powderblue' //for debug
       }}>
-        <View style={{
-          //flex: 1, 
-          flexDirection: 'row',
-          justifyContent: 'space-between'
+        <View style={{ 
+          flexDirection: 'column',
         }}>
           <View style={{
-            flex: 4,
-            paddingRight: '3%',
-            //backgroundColor: 'pink' //for debug
           }}>
-            <Avatar
-              medium
-              rounded
-              source={{uri: 'https://randomuser.me/api/portraits/women/' + likeCount + '.jpg' }}
-            />
+            <Text style={{
+              fontSize: 14,
+              color: '#97ACB3'
+            }}>
+              {title}
+            </Text>
           </View>
           <View style={{
-            flex: 18, 
-            flexDirection: 'column'
           }}>
-            <View style={{
-              //flex: 4
+            <Text style={{
+              fontSize: 18,
+              color: '#97ACB3'
             }}>
-              <Text style={{fontWeight: 'bold', color: 'white'}}>
-                {title}
-              </Text>
-            </View>
-            <View style={{
-              //flex: 20
-            }}>
-              <Text style={{color: 'white'}}>
-                {comment}
-              </Text>
-            </View>
-          </View>
-        </View>
-        
-        <View style={{
-          //flex: 1,
-          flexDirection: 'row',
-          //paddingTop: '3%'
-        }}>
-          <View style={{
-            flex: 4
-          }}>
-            
-          </View>
-          <View style={{flex: 4}}>
-            <HeartButton
-              isSelected={isLiked}
-              likeCount={likeCount}
-              onIconPress={onLikePress}
-              style={styles.heartButton}
-            />
-          </View>
-          <View style={{flex: 4}}>
-            <Icon
-              name='commenting-o'
-              type='font-awesome'
-              color='purple'
-              onPress={onCommentPress}
-            />
-          </View>
-          <View style={{flex: 11}}>
-            <Badge
-              value='+ Check In Now'
-              containerStyle={{
-                backgroundColor: 'black',
-                borderColor: 'orange',
-                borderWidth: 1
-              }}
-              textStyle={{
-                color: 'orange'
-              }}
-              onPress={onLikePress}
-            />
+              {comment}
+            </Text>
           </View>
         </View>
       </View>
@@ -185,17 +126,52 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
 
 export default FeaturedComment;
 
-/** APPENDIX
 
-
+/**
 <View style={{
-            //flex: 2
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'center'
+        }}>
+          <View style={{
+            flex: 4
           }}>
-            <Icon
-              name='angle-down'
-              type='font-awesome'
-              color='purple'
+            <HeartButton
+              isSelected={isLiked}
+              likeCount={likeCount}
+              onIconPress={onLikePress}
+              style={styles.heartButton}
             />
           </View>
-
+          <View style={{
+            flex: 4
+          }}>
+            <Icon
+              name='commenting-o'
+              type='font-awesome'
+              color='purple'
+              onPress={onCommentPress}
+            />
+          </View>
+          <View style={{
+            flex: 8
+          }}>
+            <Badge
+              value='+ Check In'
+              containerStyle={{
+                backgroundColor: 'black',
+                borderColor: 'orange',
+                borderWidth: 1
+              }}
+              textStyle={{
+                color: 'orange'
+              }}
+              onPress={onLikePress}
+            />
+          </View>
+          <View style={{
+            flex: 6
+          }}>
+          </View>
+        </View>
 **/

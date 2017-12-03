@@ -23,4 +23,8 @@ export const NAME = 'supermap'
 	export const CLEAR_MY_LOCATION = `${NAME}/CLEAR_MY_LOCATION`;
 	export const START_CHECK_IN = `${NAME}/START_CHECK_IN`;
 	export const END_CHECK_IN = `${NAME}/END_CHECK_IN`;
-	export const TEST_FORREST_FETCH = `${NAME}/TEST_FORREST_FETCH`;
+
+	export const FETCH_IS_LOADING = `${NAME}/FETCH_IS_LOADING`;
+	export const FETCH_HAS_ERRORED = `${NAME}/FETCH_HAS_ERRORED`;
+	export const FETCH_SPECIAL_STOPS_SUCCESS = `${NAME}/FETCH_SPECIAL_STOPS_SUCCESS`;
+	

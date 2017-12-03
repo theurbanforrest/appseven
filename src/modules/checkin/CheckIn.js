@@ -7,6 +7,7 @@ import {
 } from 'react-native'
 import { 
   Button,
+  ButtonGroup,
   Avatar, 
   Icon,
   FormLabel,
@@ -29,13 +30,10 @@ class CheckIn extends Component {
 
     this.state = {
 
-      tooCrowded: false,
-      longWait: false,
-      trainStopped: false,
       comment: '',
       modalVisible: false,
       status: '',
-    };
+    }
   }
 
   setModalVisible(visible) {
@@ -53,10 +51,7 @@ class CheckIn extends Component {
   }
 
 
-
   render() {
-
-    
 
     return (
             <View style={{
@@ -68,7 +63,8 @@ class CheckIn extends Component {
         flex: 1,
         flexDirection: 'column',
         backgroundColor: 'black',
-      }}>   
+      }}> 
+
         <View style={{
           flex: 12,
           flexDirection: 'column',
@@ -143,7 +139,7 @@ class CheckIn extends Component {
                   title={'Long Wait'}
                   onIconPress={(longWait) => this.setState({
                     longWait: !this.state.longWait,
-                    status: this.state.longWait ? '' : 'Long Wait.'
+                    status: this.state.longWait ? '' : 'Long Wait'
                   })}
                   theIcon={'meh-o'}
                   selectedColor={'purple'}
@@ -198,6 +194,7 @@ class CheckIn extends Component {
                   "comment_body" : this.state.comment,
                   "comment_on_line" : this.props.selectedLine,
                   "station_name" : this.props.previewedStation,
+                  "station_uid" : this.props.previewedStationUid,
                   "station_lines" : this.props.previewedStationLines,
                   "status" : this.state.status,
                 }
@@ -232,6 +229,7 @@ class CheckIn extends Component {
 
 
           previewedStation: state.supermap.previewedStation,
+          previewedStationUid: state.supermap.previewedStationUid,
           previewedStationLines: state.supermap.previewedStationLines,
           selectedLine: state.supermap.selectedLine
         } 

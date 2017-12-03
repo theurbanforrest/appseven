@@ -78,15 +78,14 @@ class SuperMap extends Component {
       //which will later be parsed
 
       for(i=0;i<superMapData.length;i++){
-
-        //if targetLine matches the line
         if(superMapData[i][12].indexOf(targetLine) > -1){
+          //if targetLine is a line in the station's line string e.g. 'A-C-E'
 
-          //if targetLine is E and superMapData contains 'express'
+          
           let x = /Express/.exec(superMapData[i][12]);
-
           if(targetLine=='E' && x ){
-            //do nothing
+            //if targetLine is E and superMapData contains 'express'
+            //then do nothing
           }
           else{
             //add to the array
@@ -94,17 +93,23 @@ class SuperMap extends Component {
               [
                 superMapData[i][10],
                 superMapData[i][11],
-                superMapData[i][12]
+                superMapData[i][12],
+                superMapData[i][0],
               ]
             );
           }
         }
         //else i++
       }
-
       //return to redux, trying without auto clearing preview
-      this.props.actions.selectLine(targetLine, stopsToDisplay);
-      //this.props.actions.clearPreview();
+        //this.props.actions.fetchSpecialStopsAttempt(targetLine,stopsToDisplay);
+        //this.props.actions.getStopsAndAddColor(targetLine,stopsToDisplay);
+        
+        //this works before i was tinkering
+        this.props.actions.selectLine(targetLine,stopsToDisplay);
+
+        console.log('this line is after fetchSpecial');
+        //this.props.actions.clearPreview();
 
       //return the array
       //console.log(stopsToDisplay);
@@ -128,14 +133,33 @@ class SuperMap extends Component {
       return badgesToDisplay;
     }
 
-    getBackgroundColor(targetLine,data){
-       for(i=0;i<data.length;i++){
-        if(targetLine == data[i].id){
-          return data[i].bg;
+    getBackgroundColor(targetLine,defaultColorsArray,stationUid,specialStopsArray){
+
+      //Loop thru the lineList to find what the targetLine default color should be
+       for(i=0;i<defaultColorsArray.length;i++){
+
+        if(targetLine == defaultColorsArray[i].id){
+          //we found a match! now let's check if this pin should be the 
+          //normal color or special color
+
+          for(i<0;i<specialStopsArray.length;i++){
+
+            if(stationUid == specialStopsArray[i].station_uid){
+
+              //this is a special stop!
+              //let's give it the special color
+
+              return 'yellow';
+            }
+            //else i++
+          }
+          //we checked all the special stop and this doesn't match
+          //let's give it the default color
+          return defaultColorsArray[i].bg;
         }
         //else i++
        }
-       //if no match
+       //catch any errors by just returning a generic color
        return 'gainsboro';
     }
 
@@ -172,7 +196,6 @@ class SuperMap extends Component {
       //set A line as the default
       this.getLineStops('A');
 
-
     }
 
     hasObject(obj,val){
@@ -206,24 +229,6 @@ class SuperMap extends Component {
 
     //functions
       //add them here to call in render only
-    let customMarker;
-
-    if(this.props.selectedLine == 'A'){
-      customMarker = (
-        <View>
-          <Icon
-            reverse={true}
-            //raised={isSelected}
-            name='meh-o'
-            color={ this.getBackgroundColor(this.props.selectedLine,lineList) }
-            type='font-awesome'
-            //onPress={onIconPress}
-            size={15}
-          />
-        </View>
-      );
-    }
-    else customMarker = false;
 
     //the view
     return (
@@ -251,13 +256,13 @@ class SuperMap extends Component {
                   longitude: this.getLong(theStop[1])
                 }}
                 //image='http://riseandpineco.com/appten/meh.png'
-                pinColor={ this.getBackgroundColor(this.props.selectedLine,lineList) }
-                onPress={ this.props.previewedStation ? ()=>this.props.actions.getPreview(theStop[0],this.getStationLines(theStop[2])) : null } //this.getStationLines(theStop[0])) : null }
+                pinColor={ this.getBackgroundColor(this.props.selectedLine,lineList,theStop[3],this.props.specialStops) }
+                onPress={ this.props.previewedStation ? ()=>this.props.actions.getPreview(theStop[0],this.getStationLines(theStop[2]),theStop[3]) : null } //this.getStationLines(theStop[0])) : null }
               >
- 
+
                 <MapView.Callout
                   tooltip={false}
-                  onPress={()=>this.props.actions.getPreview(theStop[0],this.getStationLines(theStop[2]))} //this.getStationLines(theStop[0]))}
+                  onPress={()=>this.props.actions.getPreview(theStop[0],this.getStationLines(theStop[2]),theStop[3])} //this.getStationLines(theStop[0]))}
                   style={{
                     //width: 150
                   }}
@@ -280,7 +285,6 @@ class SuperMap extends Component {
                     </Text>
                   </View>
                 </MapView.Callout>
-
               </MapView.Marker>
             ))
           }
@@ -360,7 +364,7 @@ class SuperMap extends Component {
           selectedStops: state.supermap.selectedStops,
           myLocation: state.supermap.myLocation,
           checkInIsComplete: state.supermap.checkInIsComplete,
-          forrestFetchsData: state.supermap.forrestFetchsData,
+          specialStops: state.supermap.specialStops,
           //tagline: state.stationfeed.targetLine   //this works, able to get ANYTHING from redux state
         } 
       },

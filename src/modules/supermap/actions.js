@@ -8,14 +8,20 @@ import {
   CLEAR_MY_LOCATION,
   START_CHECK_IN,
   END_CHECK_IN,
-  TEST_FORREST_FETCH 
+
+
+  FETCH_HAS_ERRORED,
+  FETCH_IS_LOADING,
+  FETCH_SPECIAL_STOPS_SUCCESS
+  
 } from './constants'
 
 export type Action = {
   type: string,
   payload?: {
     //define all possible payloads and their types
-      station_id: string,
+      station_name: string,
+      station_uid: string,
       station_lines: string,
       selected_line: string,
       data: any,
@@ -33,12 +39,13 @@ export type ActionAsync = (dispatch: Function, getState: Function) => void
 //                                    newCounter action
 //  }
 
-export const getPreview = (station_id: string, station_lines: string): Action => {
+export const getPreview = (station_name: string, station_lines: string, station_uid: string): Action => {
   return {
     type: GET_PREVIEW,
     payload: {
-      station_id,
-      station_lines
+      station_name,
+      station_lines,
+      station_uid
     }
   }
 }
@@ -51,6 +58,7 @@ export const clearPreview = (): Action => {
 
 
 
+/*
 export const selectLine = (selected_line: string, selected_stops: any): Action => {
   return {
     type: SELECT_LINE,
@@ -60,6 +68,18 @@ export const selectLine = (selected_line: string, selected_stops: any): Action =
     }
   }
 }
+*/
+
+export function selectLine(selected_line,selected_stops) {
+        return {
+            type: SELECT_LINE,
+            payload: {
+              selected_line,
+              selected_stops
+            }
+        };
+    }
+
 
 export const setMyLocation = (myLat: string, myLong: string): Action => {
   return {
@@ -89,114 +109,77 @@ export const endCheckIn = (): Action => {
   }
 }
 
+  //fetchAttempt(url) helpers
+    export function fetchHasErrored(bool) {
+        return {
+            type: FETCH_HAS_ERRORED,
+            hasErrored: bool
+        };
+    }
+    export function fetchIsLoading(bool) {
+        return {
+            type: FETCH_IS_LOADING,
+            isLoading: bool
+        };
+    }
+    export function fetchSpecialStopsSuccess(data) {
 
-/**
-testing out fetch below.  The console.log() works and prints as expected. but we get this error:
->> cannot read property 'type of undefined'.  looks like it happens in the reducer.
+        return {
+            type: FETCH_SPECIAL_STOPS_SUCCESS,
+            payload: {
+              data,
+            }
+        };
+    }
 
-also the action below  cannot do a return{...} - tried to do it in the then() chain
-but got an unexpected token error so i guess you can't do it like that
+  //fetchSpecialStopsAttempt(url) itself
+    //let url = 'http://165.227.71.39:3000/api/RiderComments?filter=%7B%22where%22%3A%7B%22status%22%3A%7B%22regexp%22%3A%22%5BA-Za-z0-9%5D%7B1%2C%7D%22%7D%2C%22comment_on_line%22%3A%7B%22regexp%22%20%3A%20%22%2FA%2F%22%7D%7D%7D';
+      //?filter={"where":{"status":{"regexp":"[A-Za-z0-9]{1,}"},"comment_on_line":{"regexp" : "/R/"}}}
+      //get all where status is a string > 1 char AND contains 'R'
+      //Change 'A' for different lines
 
-In SuperMap, testing this out by firing on clearStationPreview()
+    let theMethod = 'GET';
+    let theHeaders = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      };
 
-warrants further investigation  -fc
+    export function fetchSpecialStopsAttempt(selectedLine) {
 
-**/
+      let url = 'http://165.227.71.39:3000/api/RiderComments?filter=%7B%22where%22%3A%7B%22status%22%3A%7B%22regexp%22%3A%22%5BA-Za-z0-9%5D%7B1%2C%7D%22%7D%2C%22comment_on_line%22%3A%7B%22regexp%22%20%3A%20%22%2F' + selectedLine + '%2F%22%7D%7D%7D';     
+
+      return (dispatch) => {
+            dispatch(fetchIsLoading(true));
+
+              fetch(url, {
+              method: theMethod,
+              headers: theHeaders,
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw Error(response.statusText);
+                    }
+
+                    dispatch(fetchIsLoading(false));
+                    return response;
+                })
+                .then((response) => response.json())
+                .then((data) => dispatch(fetchSpecialStopsSuccess(data)))
+                //.then(() => dispatch(selectLine(selectedLine)))
+                .catch(() => dispatch(fetchHasErrored(true)))
+        };
+    }
 
 
-/*** NONE OF THIS WORKS - check out HelloWorld *****/
+    export function getStopsAndAddColor(selectedLine,selectedStops){
 
-
-//export const testForrestFetch = (): Action => {
-
-  export function testForrestFetch() {
-  /* static data, no fetch, this works
-  let data = {
-    "lineList" : [
-      {
-        "id":"A","bg":"blue","text":"white"
-      },
-      {
-        "id":"C","bg":"blue","text":"white"
+      return (dispatch) => { 
+        fetchSpecialStopsAttempt(selectedLine);
+        selectLine(selectedLine,selectedStops);
+        //dispatch(selectLine(selectedLine,selectedStops));
+        
       }
-    ]
-  }
 
-  return {
-    type: TEST_FORREST_FETCH,
-    payload: {
-      data
     }
-  }
-  */
 
-  console.log('before i fetch');
-
-  return fetch(`https://facebook.github.io/react-native/movies.json`)
-    .then((response) => response.json())
-    .then((data) => {
-      return dispatch({
-        type: TEST_FORREST_FETCH,
-        payload: {
-          data
-        }
-      });
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-
-  console.log('after i fetch');
-
-
-
-/*
-export const testForrestFetch = (): Action => {
-  
-  //connection works
-
-  /*
-    return {
-      type: TEST_FORREST_FETCH, 
-    }
-    
-
-    let stuff = {"hello" : "world"}
-
-    return {
-      type: TEST_FORREST_FETCH,
-      payload: {
-        stuff
-      }
-    }
-  */
-
-  /*
-  console.log('before fetch');
-
-  //do the fetch
-  fetch(`https://forrestching.com/appten/test.json`)
-    //.then((printy) => console.log('this is .then() for printy'))
-    //.then((response) => response.json())
-    //.then((responsy) => console.log('responsy is '+ responsy))
-    
-
-    .then((the_data) => { 
-
-      return {
-        type: TEST_FORREST_FETCH,
-        payload: {
-          the_data
-        }
-      }
-    }
-      //type: TEST_FORREST_FETCH,
-      //data
-      // -- console.log(final)    //logging final.lineList[0].id also works, returns 'A'
-    )
-    .done();
-
-  console.log('after fetch');
-*/
-}
 
