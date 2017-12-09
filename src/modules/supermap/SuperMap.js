@@ -106,7 +106,8 @@ class SuperMap extends Component {
         //this.props.actions.getStopsAndAddColor(targetLine,stopsToDisplay);
         
         //this works before i was tinkering
-        this.props.actions.selectLine(targetLine,stopsToDisplay);
+          //this.props.actions.selectLine(targetLine,stopsToDisplay);
+
 
         console.log('this line is after fetchSpecial');
         //this.props.actions.clearPreview();
@@ -178,6 +179,7 @@ class SuperMap extends Component {
       this.props.actions.selectLine(targetLine);
     }
 
+/*
     clickMyLocationButton(){
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -191,7 +193,7 @@ class SuperMap extends Component {
 
       return true;
     }
-
+*/
     componentWillMount() {
       //set A line as the default
       this.getLineStops('A');
@@ -249,14 +251,14 @@ class SuperMap extends Component {
         >
 
           {
-            this.props.selectedStops.map( (theStop) => (
+            this.props.stopsToDisplay.map( (theStop) => (
               <MapView.Marker
+                key={theStop[3]}
                 coordinate={{
                   latitude: this.getLat(theStop[1]),
                   longitude: this.getLong(theStop[1])
                 }}
-                //image='http://riseandpineco.com/appten/meh.png'
-                pinColor={ this.getBackgroundColor(this.props.selectedLine,lineList,theStop[3],this.props.specialStops) }
+                pinColor={theStop[4]}
                 onPress={ this.props.previewedStation ? ()=>this.props.actions.getPreview(theStop[0],this.getStationLines(theStop[2]),theStop[3]) : null } //this.getStationLines(theStop[0])) : null }
               >
 
@@ -331,7 +333,7 @@ class SuperMap extends Component {
                     textStyle={{
                       color: this.props.selectedLine == line.id ? line.text : 'white'
                     }}
-                    onPress={() => this.getLineStops(line.id) }
+                    onPress={() => this.props.actions.fetchSpecialStopsAttempt(line.id,this.props.selectedStops,this.props.specialStops)} //this.props.actions.getAllStops(line.id,[])}
                   />
                 )
               )
@@ -365,6 +367,7 @@ class SuperMap extends Component {
           myLocation: state.supermap.myLocation,
           checkInIsComplete: state.supermap.checkInIsComplete,
           specialStops: state.supermap.specialStops,
+          stopsToDisplay: state.supermap.stopsToDisplay,
           //tagline: state.stationfeed.targetLine   //this works, able to get ANYTHING from redux state
         } 
       },

@@ -21,3 +21,4 @@ export const NAME = 'checkin'
 	export const SUBMIT_IS_LOADING = `${NAME}/SUBMIT_IS_LOADING`;
 	export const CHECKIN_START = `${NAME}/CHECKIN_START`;
 	export const CHECKIN_COMPLETE = `${NAME}/CHECKIN_COMPLETE`;
+	

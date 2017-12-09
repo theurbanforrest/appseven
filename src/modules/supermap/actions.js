@@ -9,12 +9,17 @@ import {
   START_CHECK_IN,
   END_CHECK_IN,
 
-
   FETCH_HAS_ERRORED,
   FETCH_IS_LOADING,
-  FETCH_SPECIAL_STOPS_SUCCESS
+  FETCH_SPECIAL_STOPS_SUCCESS,
+
+  GET_ALL_STOPS,
+  GET_SPECIAL_STOPS,
+  ADD_PIN_COLORS,
   
 } from './constants'
+
+import { superMapData, lineList } from './data'
 
 export type Action = {
   type: string,
@@ -132,21 +137,99 @@ export const endCheckIn = (): Action => {
         };
     }
 
-  //fetchSpecialStopsAttempt(url) itself
-    //let url = 'http://165.227.71.39:3000/api/RiderComments?filter=%7B%22where%22%3A%7B%22status%22%3A%7B%22regexp%22%3A%22%5BA-Za-z0-9%5D%7B1%2C%7D%22%7D%2C%22comment_on_line%22%3A%7B%22regexp%22%20%3A%20%22%2FA%2F%22%7D%7D%7D';
-      //?filter={"where":{"status":{"regexp":"[A-Za-z0-9]{1,}"},"comment_on_line":{"regexp" : "/R/"}}}
-      //get all where status is a string > 1 char AND contains 'R'
-      //Change 'A' for different lines
 
-    let theMethod = 'GET';
-    let theHeaders = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      };
 
-    export function fetchSpecialStopsAttempt(selectedLine) {
+
+/** ------------------ **/
+
+
+    export function fetchAttempt(url,theMethod,theHeaders) {
+      return (dispatch) => {
+            dispatch(fetchIsLoading(true));
+            fetch(url, {
+              method: theMethod,
+              headers: theHeaders,
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw Error(response.statusText);
+                    }
+
+                    dispatch(fetchIsLoading(false));
+                    return response;
+                })
+                .then((response) => response.json())
+                .then((data) => dispatch(fetchSuccess(data)))
+                .catch(() => dispatch(fetchHasErrored(true)))
+        
+        };
+    }
+
+    export function getAllStops(theLine,specialStops){
+
+      let stops_to_display = [];
+
+        for(i=0;i<superMapData.length;i++){
+          if(superMapData[i][12].indexOf(theLine) > -1){
+            
+            let x = /Express/.exec(superMapData[i][12]);
+            if(theLine=='E' && x ){
+              //do nothing
+            }
+            else{
+
+              for(k=0;k<specialStops.length;k++){
+                if(superMapData[0] == specialStops[k].station_uid){
+                  stops_to_display.push(
+                    [
+                      superMapData[i][10],
+                      superMapData[i][11],
+                      superMapData[i][12],
+                      superMapData[i][0],
+                      'yellow'
+                    ]
+                  );
+                }
+                //else i++
+              }
+              
+              //else
+              stops_to_display.push(
+                [
+                  superMapData[i][10],
+                  superMapData[i][11],
+                  superMapData[i][12],
+                  superMapData[i][0],
+                  'blue'
+                ]
+              );
+            }
+          }
+          //else i++
+        }
+        return {
+          type: GET_ALL_STOPS,
+          payload: {
+            stops_to_display
+          }
+        }
+    }
+
+
+    export function getTheFinalMarkers(){
+
+      fetchSpecialStopsAttempt('A');
+
+    }
+
+    export function fetchSpecialStopsAttempt(selectedLine,allStops,specialStops) {
 
       let url = 'http://165.227.71.39:3000/api/RiderComments?filter=%7B%22where%22%3A%7B%22status%22%3A%7B%22regexp%22%3A%22%5BA-Za-z0-9%5D%7B1%2C%7D%22%7D%2C%22comment_on_line%22%3A%7B%22regexp%22%20%3A%20%22%2F' + selectedLine + '%2F%22%7D%7D%7D';     
+      let theMethod = 'GET';
+      let theHeaders = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        };
 
       return (dispatch) => {
             dispatch(fetchIsLoading(true));
@@ -165,21 +248,13 @@ export const endCheckIn = (): Action => {
                 })
                 .then((response) => response.json())
                 .then((data) => dispatch(fetchSpecialStopsSuccess(data)))
-                //.then(() => dispatch(selectLine(selectedLine)))
+                .then(() => dispatch(getAllStops(selectedLine,specialStops)))
+                .then(() => dispatch(selectLine(selectedLine,allStops)))
                 .catch(() => dispatch(fetchHasErrored(true)))
         };
     }
 
 
-    export function getStopsAndAddColor(selectedLine,selectedStops){
 
-      return (dispatch) => { 
-        fetchSpecialStopsAttempt(selectedLine);
-        selectLine(selectedLine,selectedStops);
-        //dispatch(selectLine(selectedLine,selectedStops));
-        
-      }
-
-    }
 
 

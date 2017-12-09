@@ -14,6 +14,8 @@ import {
   FETCH_HAS_ERRORED,
   FETCH_SPECIAL_STOPS_SUCCESS,
 
+  GET_ALL_STOPS,
+
 } from './constants'
 
 
@@ -24,7 +26,8 @@ type superMapState = {
   selectedLine: string,
   selectedStops: any,
   specialStops: any,
-  myLocation: any
+  myLocation: any,
+  stopsToDisplay: any,
 }
 
 const initialState:
@@ -46,7 +49,15 @@ const initialState:
     myLocation: {
       //lat: 0,
       //long: 0
-    }
+    },
+    stopsToDisplay: [
+      [
+        "Astor Pl",
+        "POINT (-73.99106999861966 40.73005400028978)",
+        "4-6-6 Express",
+        "row-hqqp-jv95~d248"
+      ]
+    ],
   }
 
 //you can do better here, I was just showing that you need to make a new copy
@@ -169,6 +180,18 @@ export default handleActions(
         
       }
     },
+    [GET_ALL_STOPS]: (state: superMapState, action) => {
+      //get info from action and state
+        const { payload: {stops_to_display} } = action;
+        const { stopsToDisplay } = state;
+
+      //set station_name into previewedStation and return state
+        return {
+          ...state,
+          stopsToDisplay: stops_to_display,
+        }
+    },
+
   },
 initialState
 );
