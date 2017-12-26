@@ -36,10 +36,6 @@ class CheckIn extends Component {
     }
   }
 
-  setModalVisible(visible) {
-    this.setState({modalVisible: visible});
-  }
-
   componentWillMount() {
     this.props.actions.checkinStart();
   }

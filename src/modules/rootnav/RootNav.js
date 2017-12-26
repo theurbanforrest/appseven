@@ -10,10 +10,7 @@ import { connect } from 'react-redux';
   import SuperMap from '../supermap/SuperMap'
   import CheckIn from '../checkin/CheckIn'
   import HelloFeed from '../hellofeed/HelloFeed'
-
-  //test component
-  import CheckInOne from '../../components/CheckInOne'
-  import CheckInTwo from '../../components/CheckInTwo'
+  import FilterModal from '../hellofeed/FilterModal'
 
 /*-- StationFeed Stack --*/
   export const StationFeedStack = StackNavigator({
@@ -129,12 +126,24 @@ import { connect } from 'react-redux';
   export const SettingsStack = StackNavigator({
     CheckIn: {
       screen: CheckIn,
+      },
     },
-  },
-  {
-    headerMode: 'none'
-  },
-);
+    {
+      headerMode: 'none'
+    },
+  );
+
+  /**-- FilterModalStack --**/
+
+  export const FilterModalStack = StackNavigator({
+    FilterModal: {
+      screen: FilterModal,
+      },
+    },
+    {
+      headerMode: 'none'
+    },
+  );
 
 
 
@@ -147,6 +156,9 @@ import { connect } from 'react-redux';
       SettingsStack: {
         screen: SettingsStack
       },
+      FilterModalStack: {
+        screen: FilterModalStack
+      }
   	}, 
   	{
   		mode: 'modal',

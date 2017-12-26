@@ -1,5 +1,6 @@
 import { NAME } from './constants'
 import HelloFeed from './HelloFeed'
+import FilterModal from './FilterModal'
 import reducer from './reducer'
 import * as actions from './actions'
 
@@ -9,6 +10,7 @@ import * as actions from './actions'
 export default {
   NAME,
   HelloFeed,
+  FilterModal,
   reducer,
   actions,
 }

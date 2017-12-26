@@ -15,6 +15,7 @@ import {
   FETCH_SPECIAL_STOPS_SUCCESS,
 
   GET_ALL_STOPS,
+  CLEAR_ALL_STOPS,
 
 } from './constants'
 
@@ -35,7 +36,7 @@ const initialState:
     checkInIsComplete: true,
     forrestFetchsData: {},
     previewedStation: '',
-    previewedStationLines: [],
+    previewedStationLines: ['A','C','E'],
     selectedLine: 'A',
     specialStops: [],
     selectedStops:
@@ -47,8 +48,8 @@ const initialState:
         ]
       ],
     myLocation: {
-      //lat: 0,
-      //long: 0
+      lat: 40.73005400028978,
+      long: -73.99106999861966
     },
     stopsToDisplay: [
       [
@@ -172,23 +173,36 @@ export default handleActions(
 
     [FETCH_SPECIAL_STOPS_SUCCESS]: (state: superMapState, action) => {
       const { payload: { data } } = action;
+      const { specialStops, fetchInProgress, stopsToDisplay, selectedLine } = state;
 
       return {
         ...state,
         specialStops: data,
-        fetchInProgress: false
-        
+        fetchInProgress: false,
+        selectedLine: '',
+        stopsToDisplay: [],
       }
     },
     [GET_ALL_STOPS]: (state: superMapState, action) => {
       //get info from action and state
-        const { payload: {stops_to_display} } = action;
-        const { stopsToDisplay } = state;
+        const { payload: {selected_line, stops_to_display} } = action;
+        const { stopsToDisplay, selectedLine } = state;
 
       //set station_name into previewedStation and return state
         return {
           ...state,
+          selectedLine: selected_line,
           stopsToDisplay: stops_to_display,
+        }
+    },
+    [CLEAR_ALL_STOPS]: (state: superMapState, action) => {
+
+        const { selectedLine, stopsToDisplay } = state;
+
+        return {
+          ...state,
+          selectedLine: '',
+          stopsToDisplay: [],
         }
     },
 

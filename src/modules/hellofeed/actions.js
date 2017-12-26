@@ -5,6 +5,9 @@ import {
   FETCH_HAS_ERRORED,
   FETCH_IS_LOADING,
 
+  SHOW_FILTER_MODAL,
+  HIDE_FILTER_MODAL,
+
 } from './constants'
 
 export type Action = {
@@ -29,6 +32,17 @@ export const printSelf = (myStatus: string): Action => {
   }
 }
 **/
+
+	export function showFilterModal(){
+		return {
+			type: SHOW_FILTER_MODAL,
+		}
+	}
+	export function hideFilterModal(){
+		return {
+			type: HIDE_FILTER_MODAL,
+		}
+	}
 
 //-- export function for ASYNC actions --//
 

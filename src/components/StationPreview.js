@@ -110,6 +110,7 @@ const StationPreview = (props: StationPreviewProps) => {
               {
                 lines.map( (line) => (
                     <Badge
+                      key= {line}
                       value= {line}
                       containerStyle={{
                         backgroundColor: getBackgroundColor(line,lineList) //keeping static, not connected to selectedLine

@@ -14,7 +14,8 @@ import {
   Icon,
   FormLabel,
   FormInput,
-  Button
+  Button,
+  SearchBar,
 } from 'react-native-elements';
 //import { stationdetails }  from './data'
 import { bindActionCreators } from 'redux'
@@ -85,8 +86,19 @@ class HelloFeed extends Component {
     return(
       <View style={{flex: 1, flexDirection: 'column'}}>
         <View style={{flex: 24}}>
+        <TouchableHighlight
+          onPress={()=> this.props.navigation.navigate('FilterModalStack')}
+        >
+          <View>
+            <SearchBar
+              round
+              placeholder='Search...'
+              editable={false}
+              pointerEvents='none'
+            />
+          </View>
+        </TouchableHighlight>
           <ScrollView style={{flex: 1, flexDirection: 'column', padding:'3%', backgroundColor: 'black'}}>
-
             <List
               containerStyle={styles.fcList}
             >

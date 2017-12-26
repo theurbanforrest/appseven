@@ -196,9 +196,10 @@ class SuperMap extends Component {
 */
     componentWillMount() {
       //set A line as the default
-      this.getLineStops('A');
-
+      this.props.actions.fetchSpecialStopsAttempt('A',this.props.selectedStops,this.props.specialStops);
+      
     }
+
 
     hasObject(obj,val){
 
@@ -253,7 +254,7 @@ class SuperMap extends Component {
           {
             this.props.stopsToDisplay.map( (theStop) => (
               <MapView.Marker
-                key={theStop[3]}
+                key={theStop}
                 coordinate={{
                   latitude: this.getLat(theStop[1]),
                   longitude: this.getLong(theStop[1])
@@ -290,6 +291,7 @@ class SuperMap extends Component {
               </MapView.Marker>
             ))
           }
+          
           <MapView.Marker
             coordinate={{
               latitude: this.props.myLocation.lat,
@@ -297,6 +299,7 @@ class SuperMap extends Component {
             }}
             pinColor='black'
           />
+          
         </MapView>
         
         <View style = {styles.stationpreview}>
@@ -326,14 +329,15 @@ class SuperMap extends Component {
             {
               lineList.map( (line) => (
                   <Badge
-                    value= {line.id}
+                    key={line.id}
+                    value={line.id}
                     containerStyle={{
                       backgroundColor: this.props.selectedLine == line.id ? line.bg : 'gainsboro'
                     }}
                     textStyle={{
                       color: this.props.selectedLine == line.id ? line.text : 'white'
                     }}
-                    onPress={() => this.props.actions.fetchSpecialStopsAttempt(line.id,this.props.selectedStops,this.props.specialStops)} //this.props.actions.getAllStops(line.id,[])}
+                    onPress={() => this.props.actions.fetchSpecialStopsAttempt(line.id,this.props.selectedStops,this.props.specialStops )} //this.props.actions.getAllStops(line.id,[])}
                   />
                 )
               )

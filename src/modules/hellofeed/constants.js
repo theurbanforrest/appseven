@@ -19,3 +19,5 @@ export const NAME = 'hellofeed'
 	export const FETCH_SUCCESS = `${NAME}/FETCH_SUCCESS`;
 	export const FETCH_HAS_ERRORED = `${NAME}/FETCH_HAS_ERRORED`;
 	export const FETCH_IS_LOADING = `${NAME}/FETCH_IS_LOADING`;
+	export const SHOW_FILTER_MODAL = `${NAME}/SHOW_FILTER_MODAL`;
+	export const HIDE_FILTER_MODAL = `${NAME}/HIDE_FILTER_MODAL`;

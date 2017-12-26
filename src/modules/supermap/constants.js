@@ -29,5 +29,6 @@ export const NAME = 'supermap'
 	export const FETCH_SPECIAL_STOPS_SUCCESS = `${NAME}/FETCH_SPECIAL_STOPS_SUCCESS`;
 	
 	export const GET_ALL_STOPS = `${NAME}/GET_ALL_STOPS`;
+	export const CLEAR_ALL_STOPS = `${NAME}/CLEAR_ALL_STOPS`;
 	export const GET_SPECIAL_STOPS = `${NAME}/GET_SPECIAL_STOPS`;
 	export const ADD_PIN_COLORS = `${NAME}/ADD_PIN_COLORS`;

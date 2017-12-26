@@ -14,6 +14,7 @@ import {
   FETCH_SPECIAL_STOPS_SUCCESS,
 
   GET_ALL_STOPS,
+  CLEAR_ALL_STOPS,
   GET_SPECIAL_STOPS,
   ADD_PIN_COLORS,
   
@@ -60,20 +61,6 @@ export const clearPreview = (): Action => {
     type: CLEAR_PREVIEW
   }
 }
-
-
-
-/*
-export const selectLine = (selected_line: string, selected_stops: any): Action => {
-  return {
-    type: SELECT_LINE,
-    payload: {
-      selected_line,
-      selected_stops
-    }
-  }
-}
-*/
 
 export function selectLine(selected_line,selected_stops) {
         return {
@@ -138,38 +125,26 @@ export const endCheckIn = (): Action => {
     }
 
 
-
-
 /** ------------------ **/
 
 
-    export function fetchAttempt(url,theMethod,theHeaders) {
-      return (dispatch) => {
-            dispatch(fetchIsLoading(true));
-            fetch(url, {
-              method: theMethod,
-              headers: theHeaders,
-            })
-                .then((response) => {
-                    if (!response.ok) {
-                        throw Error(response.statusText);
-                    }
-
-                    dispatch(fetchIsLoading(false));
-                    return response;
-                })
-                .then((response) => response.json())
-                .then((data) => dispatch(fetchSuccess(data)))
-                .catch(() => dispatch(fetchHasErrored(true)))
-        
-        };
-    }
-
     export function getAllStops(theLine,specialStops){
 
+      let selected_line = theLine;
+      let defaultPinColor = 'gainsboro';
       let stops_to_display = [];
+      
+      //1. Get the default pin color
+        for(i=0;i<lineList.length;i++){
+          if(lineList[i].id == theLine){
+            defaultPinColor = lineList[i].bg;
+          }
+        }
 
+      //2a. Go through all the stations and check if this belongs to theLine
         for(i=0;i<superMapData.length;i++){
+
+          let superMapDataStationUid = superMapData[i][0];
           if(superMapData[i][12].indexOf(theLine) > -1){
             
             let x = /Express/.exec(superMapData[i][12]);
@@ -178,49 +153,63 @@ export const endCheckIn = (): Action => {
             }
             else{
 
-              for(k=0;k<specialStops.length;k++){
-                if(superMapData[0] == specialStops[k].station_uid){
-                  stops_to_display.push(
-                    [
-                      superMapData[i][10],
-                      superMapData[i][11],
-                      superMapData[i][12],
-                      superMapData[i][0],
-                      'yellow'
-                    ]
-                  );
+              //2b. If it does belong, do we use the special color?
+
+                let stationAlreadySet = false;
+
+                for(k=0;k<specialStops.length;k++){
+
+                  if(superMapDataStationUid == specialStops[k].station_uid && !stationAlreadySet){
+                    stops_to_display.push(
+                      [
+                        superMapData[i][10],
+                        superMapData[i][11],
+                        superMapData[i][12],
+                        superMapData[i][0],
+                        'yellow'
+                      ]
+                    );
+                    stationAlreadySet = true;
+                  }
                 }
-                //else i++
+              //2c. If not, it should be the default color
+                
+              if(!stationAlreadySet){
+                stops_to_display.push(
+                  [
+                    superMapData[i][10],
+                    superMapData[i][11],
+                    superMapData[i][12],
+                    superMapData[i][0],
+                    defaultPinColor
+                  ]
+                );
+
+                stationAlreadySet = true;
               }
-              
-              //else
-              stops_to_display.push(
-                [
-                  superMapData[i][10],
-                  superMapData[i][11],
-                  superMapData[i][12],
-                  superMapData[i][0],
-                  'blue'
-                ]
-              );
             }
           }
           //else i++
         }
+
+      //3. Emit action to Redux
         return {
           type: GET_ALL_STOPS,
           payload: {
+            selected_line,
             stops_to_display
           }
         }
+      //end
     }
 
+    export function clearAllStops() {
 
-    export function getTheFinalMarkers(){
-
-      fetchSpecialStopsAttempt('A');
-
+        return {
+            type: CLEAR_ALL_STOPS
+        };
     }
+
 
     export function fetchSpecialStopsAttempt(selectedLine,allStops,specialStops) {
 
@@ -248,8 +237,10 @@ export const endCheckIn = (): Action => {
                 })
                 .then((response) => response.json())
                 .then((data) => dispatch(fetchSpecialStopsSuccess(data)))
+                .then(() => dispatch(clearAllStops()))
                 .then(() => dispatch(getAllStops(selectedLine,specialStops)))
                 .then(() => dispatch(selectLine(selectedLine,allStops)))
+
                 .catch(() => dispatch(fetchHasErrored(true)))
         };
     }
