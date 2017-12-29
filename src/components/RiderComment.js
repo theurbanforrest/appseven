@@ -6,7 +6,8 @@ import {
   Platform,
   Image,
   TouchableHighlight,
-  Text
+  Text,
+  Alert
 } from 'react-native';
 import {
   Badge,
@@ -33,6 +34,7 @@ const RiderComment = (props: RiderCommentProps) => {
       comment,
       commentOnLine,
       isLiked,
+      timestamp,
 
       likeCount,
       onLikePress,
@@ -87,6 +89,35 @@ const RiderComment = (props: RiderCommentProps) => {
       else return false;
     }
 
+    function getFriendlyTime(x){
+
+      let inMins = Math.round( (Date.now()-x) / 1000 / 60 );
+      let inHrs = Math.round( inMins / 60 );
+      let inDays = Math.round( inHrs / 24 );
+      let inWeeks = Math.round( inDays / 7 );
+
+      switch (true) {
+          case (inMins == 0):
+            return '1m';
+            break;
+          case (inMins < 60):
+            return inMins + 'm';
+            break;
+          case (inMins >= 60 && inMins < 1440):
+            return inHrs + 'h';
+            break;
+          case (inMins >= 1440):
+            return inDays + 'd';
+            break;
+          case (inDays >= 7):
+            return inWeeks + 'd';
+            break;
+          default:
+            return '1h';
+            break;
+      }
+    }
+
   //return stuff
     return(
       <View style={{
@@ -119,7 +150,7 @@ const RiderComment = (props: RiderCommentProps) => {
                 color: isHighlighted(status,'#97ACB3','#97ACB3'),
                 //fontStyle: 'italic'
               }}>
-                10m ago • {userName}
+                { getFriendlyTime(timestamp) } ago • {userName}
                 </Text>
                 <Text/>
             </View>
@@ -158,7 +189,8 @@ const RiderComment = (props: RiderCommentProps) => {
               paddingTop: '5%',
             }}>
               <Text style={{
-                color: 'orange'
+                color: 'orange',
+                textAlign: 'center'
               }}>
                 {status}
               </Text>
@@ -213,6 +245,7 @@ const RiderComment = (props: RiderCommentProps) => {
         likeCount: PropTypes.number,
         comment: PropTypes.string,
         commentOnLine: PropTypes.string,
+        timestamp: PropTypes.number,
         onLikePress: PropTypes.func,
         onRemovePress: PropTypes.func,
         lineBackground: PropTypes.string,

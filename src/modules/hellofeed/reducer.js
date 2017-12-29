@@ -9,6 +9,9 @@ import {
   SHOW_FILTER_MODAL,
   HIDE_FILTER_MODAL,
 
+  FETCH_LINE_FEED_SUCCESS,
+  SUBMIT_LIKE_SUCCESS,
+
 } from './constants'
 
 
@@ -16,6 +19,7 @@ type helloFeedState = {
   feed_data: any,
   filter_includes: any,
   show_filter_modal: bool,
+  liked_comments: any
 }
 
 const initialState:
@@ -23,6 +27,8 @@ const initialState:
     feed_data: [],
     filter_includes: [],
     show_filter_modal: false,
+    selected_line: 'A',
+    liked_comments: {},
   }
 
 export default handleActions(
@@ -33,7 +39,8 @@ export default handleActions(
 
       return {
         ...state,
-        feed_data: data
+        feed_data: data,
+        selected_line: '',
       }
     },
     [SHOW_FILTER_MODAL]: (state: helloFeedState, action) => {
@@ -44,7 +51,6 @@ export default handleActions(
         showFilterModal: true,
       }
     },
-
     [HIDE_FILTER_MODAL]: (state: helloFeedState, action) => {
       const { showFilterModal } = state;
 
@@ -53,6 +59,27 @@ export default handleActions(
         showFilterModal: false
       }
     },
+    [FETCH_LINE_FEED_SUCCESS]: (state: helloFeedState, action) => {
+      const { payload: { data, selectedLine } } = action;
+      const { selected_line, feed_data } = state;
+
+      return {
+        ...state,
+        feed_data: data,
+        selected_line: selectedLine,
+      }
+    },
+    [SUBMIT_LIKE_SUCCESS]: (state: helloFeedState, action) => {
+      const { payload: { data } } = action;
+
+      return {
+        ...state,
+        liked_comments: {
+          ...state.liked_comments,
+          data
+        }
+      }
+    }
     //add others here
   },
   initialState

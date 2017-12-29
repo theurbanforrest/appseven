@@ -7,7 +7,8 @@ import {
   TouchableHighlight
 
 } from 'react-native';
-import { 
+import {
+  Badge,
   Card,
   List,
   ListItem,
@@ -17,6 +18,8 @@ import {
   Button,
   SearchBar,
 } from 'react-native-elements';
+import DeviceInfo from 'react-native-device-info'
+
 //import { stationdetails }  from './data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -26,6 +29,7 @@ import CommentCard from '../../components/CommentCard'
 import RiderComment from '../../components/RiderComment'
 import StationCard from '../../components/StationCard'
 import { lineList } from '../supermap/data'
+
 
 
     //need this for Components instead of pure functions
@@ -77,27 +81,41 @@ class HelloFeed extends Component {
       return true;
     }
 
+  getUUID(){
+
+    let x = DeviceInfo.getUniqueID();
+    return x;
+  }
+
+  getTimeStamp(){
+    return Date.now();
+  }
+
   componentWillMount() {
-    this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers)
+    //initially load with same line as SuperMap
+    this.props.actions.fetchLineFeedAttempt(this.props.superMapsLine);
   }
 
   render() {
 
     return(
-      <View style={{flex: 1, flexDirection: 'column'}}>
+      <View style={{
+        flex: 1,
+        flexDirection: 'column',
+      }}>
         <View style={{flex: 24}}>
-        <TouchableHighlight
-          onPress={()=> this.props.navigation.navigate('FilterModalStack')}
-        >
-          <View>
-            <SearchBar
-              round
-              placeholder='Search...'
-              editable={false}
-              pointerEvents='none'
-            />
-          </View>
-        </TouchableHighlight>
+          <TouchableHighlight
+            onPress={()=> this.props.navigation.navigate('FilterModalStack')}
+          >
+            <View>
+              <SearchBar
+                round
+                placeholder='Search...'
+                editable={false}
+                pointerEvents='none'
+              />
+            </View>
+          </TouchableHighlight>
           <ScrollView style={{flex: 1, flexDirection: 'column', padding:'3%', backgroundColor: 'black'}}>
             <List
               containerStyle={styles.fcList}
@@ -112,14 +130,66 @@ class HelloFeed extends Component {
                   imageSrc={'https://randomuser.me/api/portraits/men/5.jpg'}
                   comment={comment.comment_body}
                   commentOnLine={comment.comment_on_line}
+                  timestamp={comment.timestamp}
                   isLiked={true}  //isLiked={this.hasRecord(this.props.likedComments,checkin.record_id)}
                   likeCount={17}  //likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
-                  onLikePress={()=>console.log('pressy')}//onLikePress={() => this.likeOrUnlike(this.props.likedComments,checkin.record_id) }
+                  onLikePress={()=> this.props.actions.submitLikeAttempt(
+                    {
+                      'comment_id': comment.id,
+                      'comment_user_id': comment.user_id,
+                      'event_name': 'like',
+                      'event_user_id': this.getUUID(),
+                      'event_body' : '',
+                      'timestamp' : this.getTimeStamp(),
+                    }
+                  )}//onLikePress={() => this.likeOrUnlike(this.props.likedComments,checkin.record_id) }
                 />
               )
             )}
             </List>
           </ScrollView>
+          <View style={{
+            position: 'absolute',
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            height: '20%',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingBottom: '3%',
+          }}>
+            <View style={{
+              flex: 2,
+              //backgroundColor: 'yellow',  //for debug
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              padding: '3%',
+            }}>
+              {
+                lineList.map( (line) => (
+                    <Badge
+                      key={line.id}
+                      value={line.id}
+                      containerStyle={{
+                        backgroundColor: this.props.selectedLine == line.id ? line.bg : 'gainsboro'
+                      }}
+                      textStyle={{
+                        color: this.props.selectedLine == line.id ? line.text : 'white'
+                      }}
+                      onPress={() => this.props.selectedLine == line.id ? this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers) : this.props.actions.fetchLineFeedAttempt(line.id)} //this.props.actions.getAllStops(line.id,[])}
+                    />
+                  )
+                )
+              }
+            </View>
+            <Text style={{
+              textAlign: 'center',
+              color: 'gray',
+              fontSize: 14,
+            }}>
+              Presented by StreetEasy
+            </Text>
+          </View>
         </View>
       </View>
 
@@ -136,6 +206,9 @@ class HelloFeed extends Component {
         return {
           feedData: state.hellofeed.feed_data,  //get via this.props.feed_data
           likedComments: state.hellofeed.likedComments,
+          filterIncludes: state.hellofeed.filter_includes,
+          selectedLine: state.hellofeed.selected_line,
+          superMapsLine: state.supermap.selectedLine
         }
       },
     //this is mapDispatchToProps verbosely
@@ -144,3 +217,24 @@ class HelloFeed extends Component {
         actions: bindActionCreators(Actions, dispatch)
       }),
   )(HelloFeed);
+
+
+/** APPENDIX
+
+//This is the touchable search bar which opens FilterModalStack
+
+  <TouchableHighlight
+    onPress={()=> this.props.navigation.navigate('FilterModalStack')}
+  >
+    <View>
+      <SearchBar
+        round
+        placeholder='Search...'
+        editable={false}
+        pointerEvents='none'
+      />
+    </View>
+  </TouchableHighlight>
+
+
+**/

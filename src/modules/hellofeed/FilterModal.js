@@ -6,6 +6,7 @@ import {
   TextInput,
 } from 'react-native'
 import { 
+  Badge,
   Button,
   ButtonGroup,
   Avatar, 
@@ -17,6 +18,7 @@ import {
   NavigationActions
 } from 'react-navigation'
 import Togglecon from '../../components/Togglecon'
+import { lineList } from '../supermap/data'
 
 //redux
     import { bindActionCreators } from 'redux'
@@ -63,6 +65,37 @@ class FilterModal extends Component {
         >
           Hello World.  This is the FilterModal
         </Text>
+        <View style={{
+          bottom: 0,
+          height: '25%',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+        }}>
+          <View style={{
+            flex: 2,
+            //backgroundColor: 'yellow',  //for debug
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            padding: '3%',
+          }}>
+            {
+              lineList.map( (line) => (
+                  <Badge
+                    key={line.id}
+                    value={line.id}
+                    containerStyle={{
+                      backgroundColor: this.props.selectedLine == line.id ? line.bg : 'gainsboro'
+                    }}
+                    textStyle={{
+                      color: this.props.selectedLine == line.id ? line.text : 'white'
+                    }}
+                    onPress={() => this.props.actions.fetchSpecialStopsAttempt(line.id,this.props.selectedStops,this.props.specialStops )} //this.props.actions.getAllStops(line.id,[])}
+                  />
+                )
+              )
+            }
+          </View>
+        </View>
       </View>
     );
   } //end render

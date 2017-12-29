@@ -29,7 +29,7 @@
     import StationPreview from  '../../components/StationPreview' //'../stationpreview/StationPreview'
     import LocationStatusButton from '../../components/LocationStatusButton'
     import AppHeader from '../../components/AppHeader'
-    import CheckInFlow from '../checkinflow/CheckInFlow'
+    //import CheckInFlow from '../checkinflow/CheckInFlow'
 
   //redux
     import { bindActionCreators } from 'redux'

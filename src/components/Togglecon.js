@@ -29,6 +29,7 @@ const Togglecon = (props: ToggleconProps) => {
   let whichIcon = theIcon;
   let whichColor = selectedColor;
   let whichType = 'font-awesome';
+  let whichFontColor = '#FFFFFF';
 
 
   let bRadius = 4;
@@ -39,6 +40,7 @@ const Togglecon = (props: ToggleconProps) => {
       whichIcon = theIcon;
       whichColor = altColor;
       whichType = 'font-awesome';
+      whichFontColor = altColor;
 
       bRadius = 0;
       bWidth = 0;
@@ -63,7 +65,7 @@ const Togglecon = (props: ToggleconProps) => {
           onPress={onIconPress}
         />
         <Text style={{
-          color: whichColor
+          color: whichFontColor
         }}>
           {title}
         </Text>

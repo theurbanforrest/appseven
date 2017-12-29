@@ -187,7 +187,7 @@ const StationPreview = (props: StationPreviewProps) => {
             flex: 8
           }}>
             <Badge
-              value='+ Check In'
+              value='+ Add Status'
               containerStyle={{
                 backgroundColor: 'black',
                 borderColor: 'orange',

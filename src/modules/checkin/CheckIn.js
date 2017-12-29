@@ -16,6 +16,8 @@ import {
 import {
   NavigationActions
 } from 'react-navigation'
+import DeviceInfo from 'react-native-device-info'
+
 import Togglecon from '../../components/Togglecon'
 
 //redux
@@ -33,6 +35,10 @@ class CheckIn extends Component {
       comment: '',
       modalVisible: false,
       status: '',
+
+      trainStuck: false,
+      longWait: false,
+      packedAF: false
     }
   }
 
@@ -46,6 +52,52 @@ class CheckIn extends Component {
     }
   }
 
+  toggleSelection(theIcon){
+    switch(theIcon){
+      case 'trainStuck':
+        let x = !this.state.trainStuck;
+
+        this.setState({
+          trainStuck: x,
+          longWait: false,
+          packedAF: false,
+          status: x ? 'Train Stuck' : ''
+        });
+        break;
+
+      case 'longWait':
+        let y = !this.state.longWait;
+
+        this.setState({
+          trainStuck: false,
+          longWait: y,
+          packedAF: false,
+          status: y ? 'Long Wait' : ''
+        });
+        break;
+
+      case 'packedAF':
+        let z = !this.state.packedAF;
+
+        this.setState({
+          trainStuck: false,
+          longWait: false,
+          packedAF: z,
+          status: z ? 'Packed AF' : ''
+        });
+        break;
+    }
+  }
+
+  getUUID(){
+
+    let x = DeviceInfo.getUniqueID();
+    return x;
+  }
+
+  getTimeStamp(){
+    return Date.now();
+  }
 
   render() {
 
@@ -91,12 +143,7 @@ class CheckIn extends Component {
               fontSize: 24,
               color: 'white'
             }}>
-              Check In
-            </Text>
-            <Text style={{
-              color: 'white'
-            }}>
-              How's your commute going?
+              How's the ride going?
             </Text>
           </View>
           <View style={{
@@ -114,11 +161,10 @@ class CheckIn extends Component {
                 alignItems: 'center'
               }}>
                 <Togglecon
-                  isSelected={this.state.trainStopped}
+                  isSelected={this.state.trainStuck}
                   likeCount={0}
-                  title={'Train Stopped'}
-                  onIconPress={(trainStopped) => this.setState({
-                    trainStopped: !this.state.trainStopped}) }
+                  title={'Train Stuck'}
+                  onIconPress={() => this.toggleSelection('trainStuck') }
                   theIcon={'hand-paper-o'}
                   selectedColor={'purple'}
                   altColor={'gray'}
@@ -133,10 +179,7 @@ class CheckIn extends Component {
                   isSelected={this.state.longWait}
                   likeCount={0}
                   title={'Long Wait'}
-                  onIconPress={(longWait) => this.setState({
-                    longWait: !this.state.longWait,
-                    status: this.state.longWait ? '' : 'Long Wait'
-                  })}
+                  onIconPress={() => this.toggleSelection('longWait') }
                   theIcon={'meh-o'}
                   selectedColor={'purple'}
                   altColor={'gray'}
@@ -148,10 +191,10 @@ class CheckIn extends Component {
                 alignItems: 'center'
               }}>
                 <Togglecon
-                  isSelected={this.state.tooCrowded}
+                  isSelected={this.state.packedAF}
                   likeCount={0}
-                  title={'Too Crowded'}
-                  onIconPress={(tooCrowded) => this.setState({tooCrowded: !this.state.tooCrowded}) }
+                  title={'Packed AF'}
+                  onIconPress={() => this.toggleSelection('packedAF') }
                   theIcon={'meh-o'}
                   selectedColor={'purple'}
                   altColor={'gray'}
@@ -170,8 +213,10 @@ class CheckIn extends Component {
           <FormInput
             containerStyle={{
               backgroundColor: 'white',
-              height: 100
+              height: 100,
             }}
+            //multiline={true}
+            //qnumberOfLines={4}
             onChangeText={comment => this.setState({comment})}
           />
           <View style={{
@@ -185,7 +230,7 @@ class CheckIn extends Component {
               title='SUBMIT'
               onPress={() => {this.props.actions.submitAttempt(
                 {
-                  "user_id" : "A56",
+                  "user_id" : this.getUUID(),
                   "user_name" : "fochin82",
                   "comment_body" : this.state.comment,
                   "comment_on_line" : this.props.selectedLine,
@@ -193,6 +238,7 @@ class CheckIn extends Component {
                   "station_uid" : this.props.previewedStationUid,
                   "station_lines" : this.props.previewedStationLines,
                   "status" : this.state.status,
+                  "timestamp" : this.getTimeStamp()
                 }
             )} }
             />
