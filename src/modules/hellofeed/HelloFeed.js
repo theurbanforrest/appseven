@@ -81,6 +81,19 @@ class HelloFeed extends Component {
       return true;
     }
 
+  getCommentLikeCount(commentId,commentEvents){
+
+    let count = 0;
+
+    for(i=0;i<commentEvents.length;i++){
+
+      if(commentId == commentEvents[i].comment_id){
+        count++;
+      }
+    }
+    return count;
+  }
+
   getUUID(){
 
     let x = DeviceInfo.getUniqueID();
@@ -132,7 +145,7 @@ class HelloFeed extends Component {
                   commentOnLine={comment.comment_on_line}
                   timestamp={comment.timestamp}
                   isLiked={true}  //isLiked={this.hasRecord(this.props.likedComments,checkin.record_id)}
-                  likeCount={17}  //likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
+                  likeCount={ this.getCommentLikeCount(comment.id,this.props.commentEvents) }  //likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
                   onLikePress={()=> this.props.actions.submitLikeAttempt(
                     {
                       'comment_id': comment.id,
@@ -208,7 +221,10 @@ class HelloFeed extends Component {
           likedComments: state.hellofeed.likedComments,
           filterIncludes: state.hellofeed.filter_includes,
           selectedLine: state.hellofeed.selected_line,
-          superMapsLine: state.supermap.selectedLine
+          commentEvents: state.hellofeed.comment_events,
+
+          superMapsLine: state.supermap.selectedLine,
+
         }
       },
     //this is mapDispatchToProps verbosely

@@ -11,6 +11,7 @@ import {
 
   FETCH_LINE_FEED_SUCCESS,
   SUBMIT_LIKE_SUCCESS,
+  FETCH_LIKES_SUCCESS,
 
 } from './constants'
 
@@ -19,7 +20,8 @@ type helloFeedState = {
   feed_data: any,
   filter_includes: any,
   show_filter_modal: bool,
-  liked_comments: any
+  liked_comments: any,
+  comment_events: any,
 }
 
 const initialState:
@@ -29,6 +31,7 @@ const initialState:
     show_filter_modal: false,
     selected_line: 'A',
     liked_comments: {},
+    comment_events: [],
   }
 
 export default handleActions(
@@ -78,6 +81,14 @@ export default handleActions(
           ...state.liked_comments,
           data
         }
+      }
+    },
+    [FETCH_LIKES_SUCCESS]: (state: helloFeedState, action) => {
+      const { payload: { data } } = action;
+
+      return {
+        ...state,
+        comment_events: data
       }
     }
     //add others here

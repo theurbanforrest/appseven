@@ -209,7 +209,7 @@ const RiderComment = (props: RiderCommentProps) => {
             />
           </View>
           <View style={{flex: 4}}>
-            { showDismissButton(status,console.log('clicked Dismiss')) }
+            { showDismissButton(status,()=>console.log('clicked Dismiss')) }
           </View>
           <View style={{flex: 11}}>
           </View>

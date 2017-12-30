@@ -22,6 +22,7 @@ export const NAME = 'hellofeed'
 	export const SHOW_FILTER_MODAL = `${NAME}/SHOW_FILTER_MODAL`;
 	export const HIDE_FILTER_MODAL = `${NAME}/HIDE_FILTER_MODAL`;
 	export const FETCH_LINE_FEED_SUCCESS = `${NAME}/FETCH_LINE_FEED_SUCCESS`;
+	export const FETCH_LIKES_SUCCESS = `${NAME}/FETCH_LIKES_SUCCESS`;
 	export const LIKE_COMMENT = `${NAME}/LIKE_COMMENT`;
 	export const UNLIKE_COMMENT = `${NAME}/UNLIKE_COMMENT`;
 

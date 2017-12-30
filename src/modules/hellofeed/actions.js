@@ -1,14 +1,17 @@
 // @flow
 
 import { 
-  FETCH_SUCCESS,
   FETCH_HAS_ERRORED,
   FETCH_IS_LOADING,
+
+  FETCH_SUCCESS,
+  FETCH_LINE_FEED_SUCCESS,
+  FETCH_LIKES_SUCCESS,
 
   SHOW_FILTER_MODAL,
   HIDE_FILTER_MODAL,
 
-  FETCH_LINE_FEED_SUCCESS,
+  
   LIKE_COMMENT,
   UNLIKE_COMMENT,
 
@@ -127,7 +130,7 @@ export const printSelf = (myStatus: string): Action => {
 
 		export function fetchLineFeedAttempt(selectedLine) {
 
-	      let url = 'http://165.227.71.39:3000/api/RiderComments?filter=%7B%22where%22%3A%7B%22comment_on_line%22%3A%22' + selectedLine + '%22%7D%7D'
+	      let url = 'http://165.227.71.39:3000/api/RiderComments?filter=%7B%22where%22%3A%7B%22comment_on_line%22%3A%22' + selectedLine + '%22%7D%2C%20%22order%22%20%3A%20%22timestamp%20DESC%22%7D'
 	      let theMethod = 'GET';
 	      let theHeaders = {
 	          'Accept': 'application/json',
@@ -151,6 +154,74 @@ export const printSelf = (myStatus: string): Action => {
 	                })
 	                .then((response) => response.json())
 	                .then((data) => dispatch(fetchLineFeedSuccess(data,selectedLine)))
+
+	                .then((action) => dispatch(fetchLikesAttempt(action.payload.data)))
+	                //for debug:
+	                //.then((payload) => console.log('the payload is ' + JSON.stringify(payload)))
+
+	                .catch(() => dispatch(fetchHasErrored(true)))
+	        };
+	    }
+
+	//get CommentEvents that are likes and match the filter
+
+		export function fetchLikesSuccess(data) {
+
+		    return {
+		        type: FETCH_LIKES_SUCCESS,
+		        payload: {
+		          data
+		        }
+		    };
+		}
+
+		export function fetchLikesAttempt(comments) {
+
+			let commentIds = [];
+
+			//console.log('comments is ' + JSON.stringify(comments));
+			//console.log('comments array length is ' + comments.length);
+
+			for(i=0;i<comments.length;i++){
+				commentIds.push('{"comment_id":' + comments[i].id + '}');
+			}
+
+			//console.log('commentIds is ' + commentIds);
+			//console.log('commentIds[0] is ' + commentIds[0])
+			//commentIds = JSON.stringify(commentIds);
+
+		    let url = 'http://165.227.71.39:3000/api/CommentEvents?filter={"where":{"or":[' + commentIds + ']}}'
+		    url = encodeURI(url);
+
+		    //console.log('url is now ' + url);
+
+		    let theMethod = 'GET';
+		    let theHeaders = {
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json',
+		    };
+
+		    //console.log('url is ' + url);
+
+	      return (dispatch) => {
+	            dispatch(fetchIsLoading(true));
+
+	              fetch(url, {
+	              method: theMethod,
+	              headers: theHeaders,
+	            })
+	                .then((response) => {
+	                    if (!response.ok) {
+	                        throw Error(response.statusText);
+	                    }
+
+	                    dispatch(fetchIsLoading(false));
+	                    return response;
+	                })
+	                .then((response) => response.json())
+	                .then((data) => dispatch(fetchLikesSuccess(data)))
+
+	                //.then((payload) => console.log('the payload is ' + JSON.stringify(payload)))
 
 	                .catch(() => dispatch(fetchHasErrored(true)))
 	        };

@@ -26,10 +26,9 @@
     import { styles } from './styles'
     import { superMapData, lineList } from './data'
     import MapView from 'react-native-maps'
-    import StationPreview from  '../../components/StationPreview' //'../stationpreview/StationPreview'
+    import StationPreview from  '../../components/StationPreview'
     import LocationStatusButton from '../../components/LocationStatusButton'
     import AppHeader from '../../components/AppHeader'
-    //import CheckInFlow from '../checkinflow/CheckInFlow'
 
   //redux
     import { bindActionCreators } from 'redux'
@@ -195,21 +194,24 @@ class SuperMap extends Component {
     }
 */
     componentWillMount() {
-      //set A line as the default
-      this.props.actions.fetchSpecialStopsAttempt('A',this.props.selectedStops,this.props.specialStops);
-      
-    }
+      //if coming from HelloFeed, set as that line.  Else A by default
 
+      console.log('componentWillMount called');
+      console.log('this.props.helloFeedLine is ' + this.props.helloFeedLine);
 
-    hasObject(obj,val){
+      let x;
 
-    //if record already exists, set true
-    if(Object.values(obj).indexOf(val) > -1) {
-
-        return true;
+      switch (true) {
+        case (this.props.helloFeedLine):
+          x = this.props.helloFeedLine;
+          break;
+        default:
+          x = 'W';
+          break;
       }
-      //else false
-      else return false;
+
+      this.props.actions.fetchSpecialStopsAttempt(x,this.props.selectedStops,this.props.specialStops);
+      
     }
 
     toggleCheckInStatus() {
@@ -366,7 +368,10 @@ class SuperMap extends Component {
         return {
           previewedStation: state.supermap.previewedStation,
           previewedStationLines: state.supermap.previewedStationLines,
+
           selectedLine: state.supermap.selectedLine,
+          helloFeedLine: state.hellofeed.selected_line,
+
           selectedStops: state.supermap.selectedStops,
           myLocation: state.supermap.myLocation,
           checkInIsComplete: state.supermap.checkInIsComplete,
