@@ -206,7 +206,7 @@ class SuperMap extends Component {
           x = this.props.helloFeedLine;
           break;
         default:
-          x = 'W';
+          x = 'A';  //default line is A
           break;
       }
 

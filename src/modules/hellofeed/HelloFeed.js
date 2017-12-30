@@ -58,28 +58,63 @@ class HelloFeed extends Component {
 
   hasRecord(obj,val){
 
-    //if record already exists, set true
-    if(Object.values(obj).indexOf(val) > -1) {
-
+    switch (true) {
+      case (!obj):
+        //console.log('obj is undefined, return false');
+        return false;
+        break;
+      case (Object.values(obj).indexOf(val) > -1):
+        //console.log('indexOf is ' + Object.values(obj).indexOf(val) > -1 + ' so return true' );
         return true;
-      }
-      //else false
-      else return false;
-
+        break;
+      default:
+        //console.log('default, return false');
+        return false;
+        break;
+    }
   }
 
-  likeOrUnlike(likedComments,record_id){
-
-      //if record already exists, unlike it
-      if( this.hasRecord(likedComments,record_id) ) {
-
-        this.props.actions.unlikeComment(record_id);
+  existsInLikedComments(match,arr){
+    for(i=0;i<arr.length;i++){
+      if(arr[i].id == match){
+        return true;
       }
-      //else like it
-      else this.props.actions.likeComment(record_id);
-
-      return true;
     }
+    return false;
+  }
+
+
+
+  likeOrUnlike(theComment,likedComments){
+
+    console.log('theComment.id is ' + theComment.id);
+    console.log('theComment is  ' + JSON.stringify(theComment));
+    console.log('likedComments is ' + JSON.stringify(likedComments));
+
+    for(i=0;i<likedComments.length;i++){
+      if(theComment.id == likedComments[i].id){
+        this.props.actions.unlikeComment(theComment);
+        return false;
+      }
+    }
+
+    this.props.actions.likeComment(theComment);
+    return true;
+
+
+    /*if record already exists, unlike it
+    if( this.hasRecord(likedComments,theComment.id) ) {
+
+      this.props.actions.unlikeComment(theComment);
+    }
+    //else like it
+    else 
+
+      this.props.actions.likeComment(theComment);
+  
+    return true;
+    */
+  }
 
   getCommentLikeCount(commentId,commentEvents){
 
@@ -91,6 +126,7 @@ class HelloFeed extends Component {
         count++;
       }
     }
+
     return count;
   }
 
@@ -102,6 +138,11 @@ class HelloFeed extends Component {
 
   getTimeStamp(){
     return Date.now();
+  }
+
+
+  componentWillUpdate() {
+
   }
 
   componentWillMount() {
@@ -144,19 +185,10 @@ class HelloFeed extends Component {
                   comment={comment.comment_body}
                   commentOnLine={comment.comment_on_line}
                   timestamp={comment.timestamp}
-                  isLiked={true}  //isLiked={this.hasRecord(this.props.likedComments,checkin.record_id)}
-                  likeCount={ this.getCommentLikeCount(comment.id,this.props.commentEvents) }  //likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
-                  onLikePress={()=> this.props.actions.submitLikeAttempt(
-                    {
-                      'comment_id': comment.id,
-                      'comment_user_id': comment.user_id,
-                      'event_name': 'like',
-                      'event_user_id': this.getUUID(),
-                      'event_body' : '',
-                      'timestamp' : this.getTimeStamp(),
-                    }
-                  )}//onLikePress={() => this.likeOrUnlike(this.props.likedComments,checkin.record_id) }
-                />
+                  isLiked={ this.existsInLikedComments(comment.id, this.props.likedComments) ? true : false}  //isLiked={this.hasRecord(this.props.likedComments,checkin.record_id)}
+                  likeCount={ this.getCommentLikeCount(comment.id, this.props.commentEvents) }  //likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
+                  onLikePress={() => this.likeOrUnlike(comment, this.props.likedComments)}
+                  />
               )
             )}
             </List>
@@ -218,7 +250,7 @@ class HelloFeed extends Component {
       (state) => {
         return {
           feedData: state.hellofeed.feed_data,  //get via this.props.feed_data
-          likedComments: state.hellofeed.likedComments,
+          likedComments: state.hellofeed.liked_comments,
           filterIncludes: state.hellofeed.filter_includes,
           selectedLine: state.hellofeed.selected_line,
           commentEvents: state.hellofeed.comment_events,
@@ -252,5 +284,16 @@ class HelloFeed extends Component {
     </View>
   </TouchableHighlight>
 
+//This submits successfully
+  onLikePress={()=> this.props.actions.submitLikeAttempt(
+    {
+      'comment_id': comment.id,
+      'comment_user_id': comment.user_id,
+      'event_name': 'like',
+      'event_user_id': this.getUUID(),
+      'event_body' : '',
+      'timestamp' : this.getTimeStamp(),
+    }
+  )}
 
 **/

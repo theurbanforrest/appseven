@@ -55,15 +55,21 @@ export const printSelf = (myStatus: string): Action => {
 			type: HIDE_FILTER_MODAL,
 		}
 	}
-	export function likeComment(){
-		return {
-			type: LIKE_COMMENT,
-		}
+	export function likeComment(data) {
+	    return {
+	        type: LIKE_COMMENT,
+	        payload: {
+	          data,
+	        }
+	    };
 	}
-	export function unlikeComment(){
-		return {
-			type: UNLIKE_COMMENT,
-		}
+	export function unlikeComment (data) {
+	    return {
+	        type: UNLIKE_COMMENT,
+	        payload: {
+	          data,
+	        }
+	    };
 	}
 
 //-- export function for ASYNC actions --//
@@ -278,6 +284,7 @@ export const printSelf = (myStatus: string): Action => {
 		            })
 		            .then((response) => response.json())
 		            .then((data) => dispatch(submitLikeSuccess(data)))
+		            .then((payload) => dispatch(likeComment(payload)))
 
 		            .catch(() => dispatch(submitHasErrored(true)))
 		    };

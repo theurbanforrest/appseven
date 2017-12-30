@@ -13,6 +13,9 @@ import {
   SUBMIT_LIKE_SUCCESS,
   FETCH_LIKES_SUCCESS,
 
+  LIKE_COMMENT,
+  UNLIKE_COMMENT,
+
 } from './constants'
 
 
@@ -30,7 +33,7 @@ const initialState:
     filter_includes: [],
     show_filter_modal: false,
     selected_line: 'A',
-    liked_comments: {},
+    liked_comments: [],
     comment_events: [],
   }
 
@@ -90,7 +93,41 @@ export default handleActions(
         ...state,
         comment_events: data
       }
-    }
+    },
+    [LIKE_COMMENT]: (state: helloFeedState, action) => {
+      const { payload: { data } } = action;
+
+      return {
+        ...state,
+        liked_comments: [
+          ...state.liked_comments,
+          data
+        ]
+      }
+    },
+    [UNLIKE_COMMENT]: (state: helloFeedState, action) => {
+      const { payload: { data } } = action;
+      const { liked_comments } = state;
+
+      let newLikedCommentsArray = liked_comments;
+      //console.log('newLikedCommentsArray is ' + JSON.stringify(newLikedCommentsArray));
+
+      for(i=0;i<newLikedCommentsArray.length;i++){
+
+        if(data.id == newLikedCommentsArray[i].id){
+          newLikedCommentsArray.splice(i,1);
+          //console.log('spliced out ' + newLikedCommentsArray[i].comment_body);
+        }
+
+      }
+
+      console.log('newLikedCommentsArray is ' + JSON.stringify(newLikedCommentsArray));
+
+      return {
+        ...state,
+        liked_comments: newLikedCommentsArray
+      }
+    },
     //add others here
   },
   initialState
