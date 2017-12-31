@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { View, Text, Modal } from 'react-native';
+import { View, Text, Modal, Alert, NetInfo } from 'react-native';
 import { Button } from 'react-native-elements';
 //import {} from 'react-xml-parser';
 
@@ -24,6 +24,60 @@ class HelloWorld extends Component {
   tryMe() {
     var hey = fetch('http://web.mta.info/status/ServiceStatusSubway.xml');
     console.log(hey);
+  }
+
+  alerty(netInfoData){
+    console.log('Initial, type: ' + netInfoData.type + ', effectiveType: ' + netInfoData.effectiveType);
+    
+    Alert.alert(
+      'Alert Title',
+      'My Alert Msg',
+      [
+        {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ],
+      { cancelable: false }
+    )
+    return netInfoData;
+  }
+
+  checkConnectAndAlert() {
+
+    function alerty(netInfoData){
+    console.log('Initial, type: ' + netInfoData.type + ', effectiveType: ' + netInfoData.effectiveType);
+    
+    Alert.alert(
+      'Alert Title',
+      'My Alert Msg',
+      [
+        {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+        {text: 'OK', onPress: () => console.log('OK Pressed')},
+      ],
+      { cancelable: false }
+    )
+    return netInfoData;
+  }
+
+    NetInfo.getConnectionInfo().
+    then((data)=> alerty(data))
+
+    .catch(() => console.log('checkConnectAndAlert() errored out'));
+
+    /*
+    NetInfo.isConnected.fetch().then(isConnected => {
+      console.log('First, is ' + (isConnected ? 'online' : 'offline'));
+    });
+    */
+
+/*
+    NetInfo.getConnectionInfo().
+    then((connectionInfo) => {
+      console.log('Initial, type: ' + connectionInfo.type + ', effectiveType: ' + connectionInfo.effectiveType);
+    });
+*/
+    
   }
 
   parsey(response) {
@@ -78,6 +132,11 @@ class HelloWorld extends Component {
           <Button
             title='Test XML fetcher'
             onPress={() => this.props.actions.itemsFetchData('https://forrestching.com/appten/text.xml') }
+          />
+
+          <Button
+            title='Test alert'
+            onPress={() => this.checkConnectAndAlert()}
           />
 
         </View>

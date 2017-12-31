@@ -20,6 +20,7 @@ import {
   
 } from './constants'
 
+import { Alert, NetInfo } from 'react-native'
 import { superMapData, lineList } from './data'
 
 export type Action = {
@@ -103,10 +104,54 @@ export const endCheckIn = (): Action => {
 
   //fetchAttempt(url) helpers
     export function fetchHasErrored(bool) {
-        return {
-            type: FETCH_HAS_ERRORED,
-            hasErrored: bool
-        };
+
+          function getErrorText(netInfoData){
+            console.log(netInfoData.type);
+
+            switch(true) {
+              case(netInfoData.type=='none'):
+                return "Connect yourself to some internet. Please try again.";
+                break;
+              default:
+                return 'Something went wrong. Please try again.';
+                break;
+            }
+          }
+
+          function getErrorTitle(netInfoData){
+            console.log(netInfoData.type);
+
+            switch(true) {
+              case(netInfoData.type=='unknown'):
+                return "Offline :/";
+              default:
+                return 'Oops!';
+                break;
+            }
+          }
+
+          function fireAlert(netInfoData){
+
+            Alert.alert(
+              getErrorTitle(netInfoData),
+              getErrorText(netInfoData),
+              [
+                {text: 'OK', onPress: () => console.log('OK Pressed')},
+              ],
+              { cancelable: false }
+            );
+
+          }
+
+          NetInfo.getConnectionInfo().
+          then((data)=> fireAlert(data))
+          .catch(() => console.log('getConnectionInfo() errored out'));
+          
+      //dispatch to reducer
+      return {
+          type: FETCH_HAS_ERRORED,
+          hasErrored: bool
+      };
     }
     export function fetchIsLoading(bool) {
         return {
