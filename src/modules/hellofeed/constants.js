@@ -27,5 +27,6 @@ export const NAME = 'hellofeed'
 	export const UNLIKE_COMMENT = `${NAME}/UNLIKE_COMMENT`;
 
 	export const SUBMIT_LIKE_SUCCESS = `${NAME}/SUBMIT_LIKE_SUCCESS`;
+	export const SUBMIT_UNLIKE_SUCCESS = `${NAME}/SUBMIT_UNLIKE_SUCCESS`;
 	export const SUBMIT_HAS_ERRORED = `${NAME}/SUBMIT_HAS_ERRORED`;
 	export const SUBMIT_IS_LOADING = `${NAME}/SUBMIT_IS_LOADING`;

@@ -179,8 +179,8 @@ export default handleActions(
         ...state,
         specialStops: data,
         fetchInProgress: false,
-        selectedLine: '',
         stopsToDisplay: [],
+        selectedLine: '',
       }
     },
     [GET_ALL_STOPS]: (state: superMapState, action) => {

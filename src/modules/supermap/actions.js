@@ -237,9 +237,14 @@ export const endCheckIn = (): Action => {
                 })
                 .then((response) => response.json())
                 .then((data) => dispatch(fetchSpecialStopsSuccess(data)))
-                .then(() => dispatch(clearAllStops()))
-                .then(() => dispatch(getAllStops(selectedLine,specialStops)))
-                .then(() => dispatch(selectLine(selectedLine,allStops)))
+
+                .then((theAction)=> dispatch(selectLine(selectedLine,theAction.payload.data)))
+                .then((theAction)=> dispatch(getAllStops(theAction.payload.selected_line,theAction.payload.selected_stops)))
+                
+
+                //.then(() => dispatch(clearAllStops()))
+                //.then(() => dispatch(getAllStops(selectedLine,specialStops)))
+                //.then(() => dispatch(selectLine(selectedLine,allStops)))
 
                 .catch(() => dispatch(fetchHasErrored(true)))
         };

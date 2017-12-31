@@ -76,13 +76,12 @@ class HelloFeed extends Component {
 
   existsInLikedComments(match,arr){
     for(i=0;i<arr.length;i++){
-      if(arr[i].id == match){
+      if(arr[i].comment_id == match){
         return true;
       }
     }
     return false;
   }
-
 
 
   likeOrUnlike(theComment,likedComments){
@@ -92,13 +91,23 @@ class HelloFeed extends Component {
     console.log('likedComments is ' + JSON.stringify(likedComments));
 
     for(i=0;i<likedComments.length;i++){
-      if(theComment.id == likedComments[i].id){
-        this.props.actions.unlikeComment(theComment);
-        return false;
+
+      if(theComment.id == likedComments[i].comment_id){
+
+        this.props.actions.submitUnlikeAttempt(likedComments[i].id);
+        return true;
       }
     }
+   
+    this.props.actions.submitLikeAttempt({
+      'comment_id': theComment.id,
+      'comment_user_id': theComment.user_id,
+      'event_name': 'like',
+      'event_user_id': this.getUUID(),
+      'event_body' : '',
+      'timestamp' : this.getTimeStamp(),
+    });
 
-    this.props.actions.likeComment(theComment);
     return true;
 
 

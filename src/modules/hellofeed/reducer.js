@@ -11,6 +11,7 @@ import {
 
   FETCH_LINE_FEED_SUCCESS,
   SUBMIT_LIKE_SUCCESS,
+  SUBMIT_UNLIKE_SUCCESS,
   FETCH_LIKES_SUCCESS,
 
   LIKE_COMMENT,
@@ -78,6 +79,7 @@ export default handleActions(
     [SUBMIT_LIKE_SUCCESS]: (state: helloFeedState, action) => {
       const { payload: { data } } = action;
 
+      /*
       return {
         ...state,
         liked_comments: {
@@ -85,6 +87,14 @@ export default handleActions(
           data
         }
       }
+      */
+
+      return {
+        ...state,
+      }
+
+      //essentially do nothing and let LIKE_COMMENT handle everything
+
     },
     [FETCH_LIKES_SUCCESS]: (state: helloFeedState, action) => {
       const { payload: { data } } = action;
@@ -96,37 +106,49 @@ export default handleActions(
     },
     [LIKE_COMMENT]: (state: helloFeedState, action) => {
       const { payload: { data } } = action;
+      const { liked_comments, feed_data } = state;
+
+      let refreshedFeedData = feed_data;
 
       return {
         ...state,
         liked_comments: [
           ...state.liked_comments,
           data
-        ]
+        ],
+        feed_data: refreshedFeedData
       }
     },
     [UNLIKE_COMMENT]: (state: helloFeedState, action) => {
-      const { payload: { data } } = action;
-      const { liked_comments } = state;
+      const { payload: { theId } } = action;
+      const { liked_comments, feed_data } = state;
 
       let newLikedCommentsArray = liked_comments;
+      let refreshedFeedData = feed_data;  //test to see if this forces likes to refresh in render
+
       //console.log('newLikedCommentsArray is ' + JSON.stringify(newLikedCommentsArray));
 
       for(i=0;i<newLikedCommentsArray.length;i++){
 
-        if(data.id == newLikedCommentsArray[i].id){
+        if(theId == newLikedCommentsArray[i].id){
           newLikedCommentsArray.splice(i,1);
           //console.log('spliced out ' + newLikedCommentsArray[i].comment_body);
         }
-
       }
-
-      console.log('newLikedCommentsArray is ' + JSON.stringify(newLikedCommentsArray));
 
       return {
         ...state,
-        liked_comments: newLikedCommentsArray
+        liked_comments: newLikedCommentsArray,
+        feed_data: refreshedFeedData
       }
+    },
+    [SUBMIT_UNLIKE_SUCCESS]: (state: helloFeedState, action) => {
+      const { payload: { data } } = action;
+
+      return {
+        ...state
+      }
+      //essentially do nothing and let UNLIKE_COMMENT get called
     },
     //add others here
   },

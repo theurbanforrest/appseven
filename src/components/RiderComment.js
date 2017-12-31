@@ -118,6 +118,10 @@ const RiderComment = (props: RiderCommentProps) => {
       }
     }
 
+    function toggleIcon(){
+      
+    }
+
   //return stuff
     return(
       <View style={{

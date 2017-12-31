@@ -66,6 +66,7 @@ class SuperMap extends Component {
 
     }
 
+/*
     getLineStops(targetLine){
       //superMapData[i][11] is the string of the lat/long that needs to be regex'd
       //superMapData[i][12] is the string of lines e.g. 'A-C-F' 
@@ -114,7 +115,8 @@ class SuperMap extends Component {
       //return the array
       //console.log(stopsToDisplay);
       return stopsToDisplay;
-    }
+    } 
+*/
 
     getStationLines(linesString){
 
@@ -149,7 +151,7 @@ class SuperMap extends Component {
               //this is a special stop!
               //let's give it the special color
 
-              return 'yellow';
+              return 'pink';
             }
             //else i++
           }

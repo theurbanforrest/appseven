@@ -18,6 +18,7 @@ import {
   SUBMIT_IS_LOADING,
   SUBMIT_HAS_ERRORED,
   SUBMIT_LIKE_SUCCESS,
+  SUBMIT_UNLIKE_SUCCESS,
 
 } from './constants'
 
@@ -63,11 +64,11 @@ export const printSelf = (myStatus: string): Action => {
 	        }
 	    };
 	}
-	export function unlikeComment (data) {
+	export function unlikeComment (theId) {
 	    return {
 	        type: UNLIKE_COMMENT,
 	        payload: {
-	          data,
+	          theId,
 	        }
 	    };
 	}
@@ -284,7 +285,50 @@ export const printSelf = (myStatus: string): Action => {
 		            })
 		            .then((response) => response.json())
 		            .then((data) => dispatch(submitLikeSuccess(data)))
-		            .then((payload) => dispatch(likeComment(payload)))
+
+		            .then((theAction) => dispatch(likeComment(theAction.payload.data)))
+
+		            .catch(() => dispatch(submitHasErrored(true)))
+		    };
+		}
+
+		export function submitUnlikeSuccess(data) {
+
+		    return {
+		        type: SUBMIT_UNLIKE_SUCCESS,
+		        payload: {
+		          data,
+		        }
+		    };
+		}
+
+		export function submitUnlikeAttempt(theId) {
+
+		let url = 'http://165.227.71.39:3000/api/CommentEvents/' + theId;
+    	let theMethod = 'DELETE';
+    	let theHeaders = {
+        	'Accept': 'application/json',
+        	'Content-Type': 'application/json',
+      	};
+
+		  return (dispatch) => {
+		        dispatch(submitIsLoading(true));
+
+		        fetch(url, {
+		          method: theMethod,
+		          headers: theHeaders,
+		          //no body, id is in url
+		        })
+		            .then((response) => {
+		                if (!response.ok) {
+		                    throw Error(response.statusText);
+		                }
+		                dispatch(submitIsLoading(false));
+		                return response;
+		            })
+		            .then((response) => response.json())
+		            .then((data) => dispatch(submitUnlikeSuccess(data)))
+		            .then(() => dispatch(unlikeComment(theId)))
 
 		            .catch(() => dispatch(submitHasErrored(true)))
 		    };
