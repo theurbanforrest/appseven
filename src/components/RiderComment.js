@@ -193,7 +193,7 @@ const RiderComment = (props: RiderCommentProps) => {
               paddingTop: '5%',
             }}>
               <Text style={{
-                color: 'orange',
+                color: 'magenta',
                 textAlign: 'center'
               }}>
                 {status}

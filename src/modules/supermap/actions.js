@@ -46,13 +46,19 @@ export type ActionAsync = (dispatch: Function, getState: Function) => void
 //                                    newCounter action
 //  }
 
-export const getPreview = (station_name: string, station_lines: string, station_uid: string): Action => {
+export const getPreview = (
+  station_name: string,
+  station_lines: string,
+  station_uid: string,
+  station_pin_color: string
+  ): Action => {
   return {
     type: GET_PREVIEW,
     payload: {
       station_name,
       station_lines,
-      station_uid
+      station_uid,
+      station_pin_color
     }
   }
 }
@@ -110,7 +116,7 @@ export const endCheckIn = (): Action => {
 
             switch(true) {
               case(netInfoData.type=='none'):
-                return "Connect yourself to some internet. Please try again.";
+                return "Please check your phone connectivity and try again.";
                 break;
               default:
                 return 'Something went wrong. Please try again.';
@@ -122,8 +128,8 @@ export const endCheckIn = (): Action => {
             console.log(netInfoData.type);
 
             switch(true) {
-              case(netInfoData.type=='unknown'):
-                return "Offline :/";
+              case(netInfoData.type=='none'):
+                return "No Internet Connection";
               default:
                 return 'Oops!';
                 break;
@@ -211,7 +217,7 @@ export const endCheckIn = (): Action => {
                         superMapData[i][11],
                         superMapData[i][12],
                         superMapData[i][0],
-                        'yellow'
+                        'magenta'
                       ]
                     );
                     stationAlreadySet = true;

@@ -1,7 +1,7 @@
 // @flow
 
 /*
-HeartButton: a heart button that displays a counter
+HeartButtonVertical: a heart button that displays a counter
 Use with smart component to increment/decrement and fill/unfill
 Similar to Twitter like button
 */
@@ -12,68 +12,78 @@ import { Button, Icon } from 'react-native-elements'
 import PropTypes from 'prop-types'
 
 /*-- THE COMPONENT --*/
-const HeartButton = (props: HeartButtonProps) => {
+const HeartButtonVertical = (props: HeartButtonVerticalProps) => {
 
   //define constants to take in as props
   //e.g. const { all, the, things } = props
     
     const {
+      iconPrimary,
+      iconAlt,
       isSelected,
       likeCount,
       onIconPress
     } = props;
 
   //do functions
-  let whichIcon = 'thumbs-o-up';
+  let whichIcon = iconPrimary;
   let whichColor = 'black';
   let whichType = 'font-awesome';
   let likesToDisplay = likeCount;
 
   if(isSelected){
-    whichIcon = 'thumbs-up';
+    whichIcon = iconAlt;
     whichColor = 'purple';
     whichType = 'font-awesome';
-    likesToDisplay = likeCount + 1;
+    likesToDisplay = likesToDisplay + 1;
   }
 
     return(
-      <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
-        <View style={{flex:1, flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center'}}>
-          <Icon 
-            name={whichIcon}
-            color='purple'
-            type={whichType}
-            onPress={onIconPress}
-          />
-          <Text style={{color: 'white'}}>
-            {likesToDisplay}
-          </Text>
-        </View>
-        <View>
-        </View>
+      <View style={{
+        //flex: 1,
+        flexDirection: 'column',
+        height: '100%',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+      }}>
+        <Icon 
+          name={whichIcon}
+          size={36}
+          color='purple'
+          type={whichType}
+          onPress={onIconPress}
+        />
+        <Text style={{
+          color: 'white',
+          fontSize: 18
+        }}>
+          {likesToDisplay}
+        </Text>
       </View>
 
     )
 }
 
   //Enter the default values of the props
-    HeartButton.defaultProps = {
+    HeartButtonVertical.defaultProps = {
       //enter the default values here
 
         isSelected: false,
         likeCount: 0,
+        onIconPress: console.log('onIconPress executed'),
+        iconPrimary: 'thumbs-o-up',
+        iconAlt: 'thumbs-up',
         //onIconPress left undefined by default
     };
 
   //Define the props here
-    HeartButton.propTypes = {
-      //define the types here  e.g. string, object, func, any, bool, number
-      //oneOfType([array of types])
-
+    HeartButtonVertical.propTypes = {
 
         isSelected: PropTypes.bool,
         likeCount: PropTypes.number,
-        onIconPress: PropTypes.func
+        onIconPress: PropTypes.func,
+        iconPrimary: PropTypes.string,
+        iconAlt: PropTypes.string,
 
     };
 
@@ -91,4 +101,4 @@ const HeartButton = (props: HeartButtonProps) => {
         },
     });
 
-export default HeartButton;
+export default HeartButtonVertical;

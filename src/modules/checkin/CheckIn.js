@@ -6,18 +6,20 @@ import {
   TextInput,
 } from 'react-native'
 import { 
+  Badge,
   Button,
   ButtonGroup,
   Avatar, 
   Icon,
   FormLabel,
   FormInput,
+
 } from 'react-native-elements'
 import {
   NavigationActions
 } from 'react-navigation'
 import DeviceInfo from 'react-native-device-info'
-
+import { lineList } from '../supermap/data'
 import Togglecon from '../../components/Togglecon'
 
 //redux
@@ -99,6 +101,28 @@ class CheckIn extends Component {
     return Date.now();
   }
 
+  getBackgroundColor(targetLine,data){
+   for(i=0;i<data.length;i++){
+    if(targetLine == data[i].id){
+      return data[i].bg;
+    }
+    //else i++
+   }
+   //if no match
+   return 'gainsboro';
+  }
+
+  getTextColor(targetLine,data){
+       for(i=0;i<data.length;i++){
+        if(targetLine == data[i].id){
+          return data[i].text;
+        }
+        //else i++
+       }
+       //if no match
+       return 'white';
+    }
+
   render() {
 
     return (
@@ -140,11 +164,35 @@ class CheckIn extends Component {
               //onPress={onMenuPress}
             />
             <Text style={{
-              fontSize: 24,
-              color: 'white'
-            }}>
-              How's the ride going?
-            </Text>
+                color: '#97ACB3',
+                fontSize: 18,
+                fontWeight: 'bold',
+              }}
+              >
+                {this.props.previewedStation}
+              </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+              }}>
+                {
+                  this.props.previewedStationLines.map( (line) => (
+                      <Badge
+                        key= {line}
+                        value= {line}
+                        containerStyle={{
+                          backgroundColor: this.getBackgroundColor(line,lineList) //keeping static, not connected to selectedLine
+                        }}
+                        textStyle={{
+                          color: this.getTextColor(line,lineList), //keeping static, not connected to selectedLine
+                          fontSize: 14,
+                        }}
+                      />
+                    ))
+                }
+              </View>
+            
           </View>
           <View style={{
             flex: 8,
@@ -282,3 +330,14 @@ class CheckIn extends Component {
         actions: bindActionCreators(Actions, dispatch)
       }),
   )(CheckIn);
+
+/** Appendix
+
+<Text style={{
+              fontSize: 24,
+              color: 'white'
+            }}>
+              How's the ride going?
+            </Text>
+
+**/

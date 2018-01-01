@@ -15,6 +15,8 @@ import {
   Badge
 } from 'react-native-elements';
 import HeartButton from './HeartButton';
+import HeartButtonVertical from './HeartButtonVertical';
+import ToggleconMini from './ToggleconMini';
 
 /*-- THE COMPONENT --*/
 const FeaturedComment = (props: FeaturedCommentProps) => {
@@ -22,6 +24,7 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
   //define constants to take in as props
   //e.g. const { all, the, things } = props
     const {
+      hasReport,
       title,
       imageSrc,
       height,
@@ -30,49 +33,129 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
       likeCount,
       onLikePress,
       onCommentPress,
+      onUpdatePress,
 
     } = props;
 
   //do functions
     //insert some functions here
 
-  //return stuff
+
+  if(!hasReport){
     return(
       <View style={{
+        paddingTop: '1%',
         flex: 1,
-        flexDirection: 'column',  
-        justifyContent: 'space-between', 
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        //backgroundColor: 'goldenrod',
       }}>
-        <View style={{ 
-          flexDirection: 'column',
+        <Text style={{
+          color: '#97ACB3',
+          fontSize: 18,
+          fontStyle: 'italic',
         }}>
-          <View style={{
-          }}>
-            <Text style={{
-              fontSize: 14,
-              color: '#97ACB3'
-            }}>
-              {title}
-            </Text>
-          </View>
-          <View style={{
-          }}>
-            <Text style={{
-              fontSize: 18,
-              color: '#97ACB3'
-            }}>
-              {comment}
-            </Text>
-          </View>
+          No reports.  Click to add..
+        </Text>
+      </View>
+    );
+  }
+  else return(
+      <View style={{
+        paddingTop: '1%',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        //backgroundColor: 'goldenrod',
+      }}>
+      
+      <View style={{
+        flex: 17,
+        height: '100%',
+        flexDirection: 'column',
+        //backgroundColor: 'orange'
+      }}> 
+        <Text style={{
+          color: 'magenta',
+          fontSize: 18,
+        }}
+        >
+          Long Wait
+        </Text>
+        <Text style={{
+          color: '#97ACB3',
+          fontSize: 14,
+          fontWeight: 'bold',
+        }}
+        >
+          10m ago • fochin82
+        </Text>
+        <Text style={{
+          color: '#97ACB3',
+          fontSize: 18,
+        }}
+        >
+          {comment}
+        </Text>
+      </View>
+      <View style={{
+        flex: 7,
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        height: '100%'
+      }}>
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+          alignItems: 'flex-start',
+          width: '100%'
+        }}>
+          <HeartButtonVertical
+            iconPrimary='thumbs-o-up'
+            iconAlt='thumbs-up'
+            isSelected={false}
+            likeCount={17}
+            onIconPress={onLikePress}
+          />
+          <HeartButtonVertical
+            iconPrimary='commenting-o'
+            iconAlt='commenting-o'
+            isSelected={true}
+            likeCount={2}
+            onIconPress={onCommentPress}
+          />
+        </View>
+        <View style={{
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <Badge
+            value='+ Update'
+            containerStyle={{
+              backgroundColor: 'black',
+              borderColor: 'orange',
+              borderWidth: 1
+            }}
+            textStyle={{
+              color: 'orange'
+            }}
+            onPress={onUpdatePress}
+          />
         </View>
       </View>
-    )
+    </View>
+  )
 }
 
   //Enter the default values of the props
     FeaturedComment.defaultProps = {
       //enter the default values here
 
+        hasReport: 'false',
         title: '',
         imageSrc: 'https://randomuser.me/api/portraits/women/32.jpg',                               
         height: 150,
@@ -88,6 +171,7 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
       //define the types here  e.g. string, object, func, any, bool, number
       //oneOfType([array of types])
 
+        hasReport: PropTypes.bool,
         title: PropTypes.string,
         imageSrc: PropTypes.string,
         height: PropTypes.number,
@@ -96,6 +180,7 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
         comment: PropTypes.string,
         onLikePress: PropTypes.func,
         onCommentPress: PropTypes.func,
+        onUpdatePress: PropTypes.func,
     };
 
   //Define styles
@@ -123,55 +208,25 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
         }
     });
 
-
 export default FeaturedComment;
 
+/** Long Wait giant icon
 
-/**
 <View style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          alignItems: 'center'
-        }}>
-          <View style={{
-            flex: 4
-          }}>
-            <HeartButton
-              isSelected={isLiked}
-              likeCount={likeCount}
-              onIconPress={onLikePress}
-              style={styles.heartButton}
-            />
-          </View>
-          <View style={{
-            flex: 4
-          }}>
-            <Icon
-              name='commenting-o'
-              type='font-awesome'
-              color='purple'
-              onPress={onCommentPress}
-            />
-          </View>
-          <View style={{
-            flex: 8
-          }}>
-            <Badge
-              value='+ Check In'
-              containerStyle={{
-                backgroundColor: 'black',
-                borderColor: 'orange',
-                borderWidth: 1
-              }}
-              textStyle={{
-                color: 'orange'
-              }}
-              onPress={onLikePress}
-            />
-          </View>
-          <View style={{
-            flex: 6
-          }}>
-          </View>
-        </View>
+        flex: 5,
+        flexDirection: 'column',
+        //height: '100%',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+
+        //backgroundColor: 'powderblue'
+      }}>
+        <Icon
+          //reverse
+          name='clock-o'
+          type='font-awesome'
+          color='magenta'
+        />
+      </View>
+
 **/

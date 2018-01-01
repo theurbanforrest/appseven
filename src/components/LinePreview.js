@@ -19,12 +19,11 @@ import HeartButton from './HeartButton'
 import { lineList } from '../modules/supermap/data'
 
 /*-- THE COMPONENT --*/
-const StationPreview = (props: StationPreviewProps) => {
+const LinePreview = (props: LinePreviewProps) => {
 
   //define constants to take in as props
   //e.g. const { all, the, things } = props
     const {
-      isSpecial,
       stationName,
       lines,
       selectedLine,
@@ -34,6 +33,8 @@ const StationPreview = (props: StationPreviewProps) => {
       onFeedPress,
       onCheckInPress,
       onDismiss,
+
+      stationsWithReports,
 
     } = props;
 
@@ -68,20 +69,44 @@ const StationPreview = (props: StationPreviewProps) => {
        return 'white';
     }
 
+    function getLinePreviewText(stationsWithReports){
+
+      switch(true){
+        case(stationsWithReports==0):
+
+          tagLineColor = '#97ACB3';
+          tagLineHeadline = 'No reports';
+          tagLineDescription = 'Click station on map to add a report';
+
+          break;
+
+        case(stationsWithReports>0):
+
+          tagLineColor = 'magenta';
+          tagLineHeadline = stationsWithReports + ' stops with reports';
+          tagLineDescription = 'Click station on map for details';
+
+          break;
+      }
+      return true;
+    }
 
   //if visible is false, return nothing
   if(visible){
+
+    getLinePreviewText(stationsWithReports);
+
     return(
+
       <View style={{
         position: 'absolute',
         top: '0%',
-        height: '27%',
+        height: '15%',
         width: '100%'
       }}>
         <View style={{
           flex: 1,
           flexDirection: 'column',
-          height: '100%',
           justifyContent: 'space-between',
           backgroundColor: 'black',
           paddingTop: '8%',
@@ -90,73 +115,73 @@ const StationPreview = (props: StationPreviewProps) => {
           paddingBottom: '3%',
         }}>
           <TouchableHighlight
-            onPress = {onClearPress}
+            onPress = {onFeedPress}
           >
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            //backgroundColor: 'powderblue'
+          }}>
             <View style={{
-              flexDirection: 'row',
-              justifyContent: 'flex-start',
-              //alignItems: '',
-              //backgroundColor: 'powderblue'
+              flex: 4,
+              justifyContent: 'flex-start'
             }}>
-
-              <View style={{
-                flex: 22,
-                justifyContent: 'flex-start'
+              
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
               }}>
-                <Text style={{
-                  color: '#97ACB3',
-                  fontSize: 18,
-                  fontWeight: 'bold',
-                }}
-                >
-                  {stationName}
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-start',
-                }}>
-                  {
-                    lines.map( (line) => (
-                        <Badge
-                          key= {line}
-                          value= {line}
-                          containerStyle={{
-                            backgroundColor: getBackgroundColor(line,lineList) //keeping static, not connected to selectedLine
-                          }}
-                          textStyle={{
-                            color: getTextColor(line,lineList), //keeping static, not connected to selectedLine
-                            fontSize: 14,
-                          }}
-                          onPress={()=> onBadgeLineClick(line)}//console.log('this should be some action from redux')}
-                        />
-                      ))
-                  }
-                </View>
-              </View>
-              <View style={{
-                flex: 2,
-              }}>
-                <Icon 
-                  name='close'
-                  color='#97ACB3'
-                  size={26}
-                  type='font-awesome'
-                  onPress={onClearPress}
-                />
+                {
+                  lines.map( (line) => (
+                      <Badge
+                        key= {line}
+                        value= {line}
+                        containerStyle={{
+                          backgroundColor: getBackgroundColor(line,lineList) //keeping static, not connected to selectedLine
+                        }}
+                        textStyle={{
+                          color: getTextColor(line,lineList), //keeping static, not connected to selectedLine
+                          fontSize: 32,
+                        }}
+                        onPress={()=> onBadgeLineClick(line)}//console.log('this should be some action from redux')}
+                      />
+                    ))
+                }
               </View>
             </View>
+            <View style={{
+              flex: 20,
+              //backgroundColor: 'powderblue',
+            }}>
+              <Text style={{
+                color: '#97ACB3',
+                fontSize: 18,
+                fontWeight: 'bold',
+              }}
+              >
+                Last 45m:
+              </Text>
+              <Text style={{
+                color: tagLineColor,
+                fontSize: 18,
+                //fontWeight: 'bold',
+              }}
+              >
+                {tagLineHeadline}
+              </Text>
+              <Text style={{
+                color: '#97ACB3',
+                fontSize: 14,
+                fontStyle: 'italic',
+                //fontWeight: 'bold',
+              }}
+              >
+                {tagLineDescription}
+              </Text>
+            </View>
+          </View>
           </TouchableHighlight>
-          <FeaturedComment
-            hasReport={isSpecial}
-            imageSrc={'https://randomuser.me/api/portraits/men/18.jpg'}
-            comment={'omg this is like the second day that this gawdam train has b..'}
-            isLiked={false}
-            likeCount={12}
-            onLikePress={onCheckInPress}
-            onCommentPress={onFeedPress}
-            onUpdatePress={onCheckInPress}
-          /> 
         </View>
       </View>
     )
@@ -165,7 +190,7 @@ const StationPreview = (props: StationPreviewProps) => {
 }
 
   //Enter the default values of the props
-    StationPreview.defaultProps = {
+    LinePreview.defaultProps = {
       //enter the default values here
 
         stationName: 'Howzit braddah',
@@ -179,11 +204,10 @@ const StationPreview = (props: StationPreviewProps) => {
     };
 
   //Define the props here
-    StationPreview.propTypes = {
+    LinePreview.propTypes = {
       //define the types here  e.g. string, object, func, any, bool, number
       //oneOfType([array of types])
 
-        isSpecial: PropTypes.bool,
         stationName: PropTypes.string,
         visible: PropTypes.bool,
         onClearPress: PropTypes.func,
@@ -193,6 +217,9 @@ const StationPreview = (props: StationPreviewProps) => {
         onFeedPress: PropTypes.func,
         onCheckInPress: PropTypes.func,
         onDismiss: PropTypes.func,
+
+        stationsWithReports: PropTypes.number,
+
     };
 
   //Define styles
@@ -201,22 +228,43 @@ const StationPreview = (props: StationPreviewProps) => {
 
     });
 
+export default LinePreview;
 
-export default StationPreview;
+/** APPENDIX - these things work
 
-/** Appendix
-
-<Avatar
-                medium
-                rounded
-                source={{uri: 'https://randomuser.me/api/portraits/women/18.jpg' }}
-              />
+<Text style={{
+                color: '#97ACB3',
+                fontSize: 18,
+                fontWeight: 'bold',
+              }}
+              >
+                {stationName}
+              </Text>
 
 **/
 
-/** The like + comment + Add Status strip
-
+/**
 <View style={{
+            flexDirection: 'row',
+          }}>
+              <FeaturedComment
+                title={'10m ago • fochin82'}
+                imageSrc={'https://randomuser.me/api/portraits/men/18.jpg'}
+                comment={'omg this is like the second day that this gawdam train has been >15 mins late...'}
+                isLiked={false}
+                likeCount={12}
+                onLikePress={onLinePress}
+                onCommentPress={onFeedPress}
+              />
+
+              <Icon 
+                name='angle-double-up'
+                color='white'
+                type='font-awesome'
+                onPress={onClearPress}
+              />
+          </View>
+          <View style={{
             flexDirection: 'row',
             justifyContent: 'flex-start',
             //backgroundColor: 'pink'
@@ -262,24 +310,5 @@ export default StationPreview;
             }}>
             </View>
           </View>
-
-
-
+        </View>
 **/
-
-/**
-
-            <Badge
-              value='+ Update Status'
-              containerStyle={{
-                backgroundColor: 'black',
-                borderColor: 'orange',
-                borderWidth: 1
-              }}
-              textStyle={{
-                color: 'orange'
-              }}
-              //onPress={onLinePress}
-            />
-
-            **/

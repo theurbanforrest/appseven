@@ -24,6 +24,7 @@ type superMapState = {
   checkInIsComplete: bool,
   previewedStation: string,
   previewedStationLines: any,
+  previewedStationPinColor: string,
   selectedLine: string,
   selectedStops: any,
   specialStops: any,
@@ -36,7 +37,8 @@ const initialState:
     checkInIsComplete: true,
     forrestFetchsData: {},
     previewedStation: '',
-    previewedStationLines: ['A','C','E'],
+    previewedStationLines: [],
+    previewedStationPinColor: 'black',
     selectedLine: 'A',
     specialStops: [],
     selectedStops:
@@ -72,7 +74,7 @@ export default handleActions(
   {
     [GET_PREVIEW]: (state: superMapState, action) => {
       //get info from action and state
-        const { payload: {station_name,station_lines,station_uid} } = action;
+        const { payload: {station_name,station_lines,station_uid,station_pin_color} } = action;
         const { previewedStation, previewedStationLines } = state;
 
       //set station_name into previewedStation and return state
@@ -81,6 +83,7 @@ export default handleActions(
           previewedStation: station_name,
           previewedStationUid: station_uid,
           previewedStationLines: station_lines,
+          previewedStationPinColor: station_pin_color
         }
     },
     //add other reducers here
