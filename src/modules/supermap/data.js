@@ -64,7 +64,8 @@ export const lineList = [
 	},
 	{
 		id:'7',bg:'purple',text:'white'
-	},
+	}
+
 ];
 
 export const superMapData =

@@ -40,27 +40,56 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
   //do functions
     //insert some functions here
 
-
   if(!hasReport){
     return(
-      <View style={{
-        paddingTop: '1%',
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'flex-start',
-        //backgroundColor: 'goldenrod',
-      }}>
-        <Text style={{
-          color: '#97ACB3',
-          fontSize: 18,
-          fontStyle: 'italic',
+      
+        <View style={{
+          paddingTop: '2%',
+          flex: 1,
+          flexDirection: 'column',
         }}>
-          No reports.  Click to add..
-        </Text>
-      </View>
+          <TouchableHighlight
+            onPress={onUpdatePress}
+          >
+            <View style={{
+              height: '100%',
+              width: '100%',
+              flexDirection: 'row',
+              justifyContent: 'flex-start',
+              alignItems: 'flex-start',
+              //backgroundColor: 'goldenrod',
+            }}>
+              <Text style={{
+                color: '#97ACB3',
+                fontSize: 18,
+                fontStyle: 'italic',
+              }}>
+                No reports.  Click to
+              </Text>
+              <View style={{
+                paddingLeft: '3%'
+              }}>
+                <Badge
+                  value='+ Update'
+                  containerStyle={{
+                    backgroundColor: 'black',
+                    borderColor: 'orange',
+                    borderWidth: 1
+                  }}
+                  textStyle={{
+                    color: 'orange'
+                  }}
+                  onPress={onUpdatePress}
+                />
+              </View>
+            </View>
+          </TouchableHighlight>
+        </View>
+      
+      
     );
   }
+  
   else return(
       <View style={{
         paddingTop: '1%',
@@ -70,86 +99,90 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
         alignItems: 'center',
         //backgroundColor: 'goldenrod',
       }}>
-      
-      <View style={{
-        flex: 17,
-        height: '100%',
-        flexDirection: 'column',
-        //backgroundColor: 'orange'
-      }}> 
-        <Text style={{
-          color: 'magenta',
-          fontSize: 18,
-        }}
-        >
-          Long Wait
-        </Text>
-        <Text style={{
-          color: '#97ACB3',
-          fontSize: 14,
-          fontWeight: 'bold',
-        }}
-        >
-          10m ago • fochin82
-        </Text>
-        <Text style={{
-          color: '#97ACB3',
-          fontSize: 18,
-        }}
-        >
-          {comment}
-        </Text>
-      </View>
-      <View style={{
-        flex: 7,
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        height: '100%'
-      }}>
-        <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          alignItems: 'flex-start',
-          width: '100%'
-        }}>
-          <HeartButtonVertical
-            iconPrimary='thumbs-o-up'
-            iconAlt='thumbs-up'
-            isSelected={false}
-            likeCount={17}
-            onIconPress={onLikePress}
-          />
-          <HeartButtonVertical
-            iconPrimary='commenting-o'
-            iconAlt='commenting-o'
-            isSelected={true}
-            likeCount={2}
-            onIconPress={onCommentPress}
-          />
-        </View>
-        <View style={{
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-          <Badge
-            value='+ Update'
-            containerStyle={{
-              backgroundColor: 'black',
-              borderColor: 'orange',
-              borderWidth: 1
+
+          <View style={{
+            flex: 17,
+            height: '100%',
+            flexDirection: 'column',
+            //backgroundColor: 'orange'
+          }}> 
+            <Text style={{
+              color: hasReport ? 'magenta' : '#97ACB3',
+              fontSize: 18,
             }}
-            textStyle={{
-              color: 'orange'
+            >
+              { hasReport ? 'Long Wait' : ''}
+            </Text>
+            <Text style={{
+              color: '#97ACB3',
+              fontSize: 14,
+              fontWeight: 'bold',
             }}
-            onPress={onUpdatePress}
-          />
-        </View>
+            >
+              { hasReport ? '10m ago • fochin82' : 'No reports'}
+            </Text>
+            <Text style={{
+              color: '#97ACB3',
+              fontSize: 18,
+              fontStyle: hasReport ? 'normal' : 'italic',
+            }}
+            >
+              { hasReport ? comment : 'Click to Update...'}
+            </Text>
+          </View>
+          <View style={{
+            flex: 7,
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            height: '100%'
+          }}>
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              alignItems: 'flex-start',
+              width: '100%'
+            }}>
+              <HeartButtonVertical
+                iconPrimary='thumbs-o-up'
+                iconAlt='thumbs-up'
+                isSelected={false}
+                likeCount={17}
+                onIconPress={onLikePress}
+                isDisabled={ hasReport ? false : true }
+              />
+              <HeartButtonVertical
+                iconPrimary='commenting-o'
+                iconAlt='commenting-o'
+                isSelected={false}
+                likeCount={2}
+                onIconPress={onCommentPress}
+                isDisabled={ hasReport ? false : true }
+              />
+            </View>
+            <View style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+              <Badge
+                value='+ Update'
+                containerStyle={{
+                  backgroundColor: 'black',
+                  borderColor: 'orange',
+                  borderWidth: 1
+                }}
+                textStyle={{
+                  color: 'orange'
+                }}
+                onPress={onUpdatePress}
+              />
+            </View> 
+          </View>
+
       </View>
-    </View>
-  )
-}
+    )
+  }
 
   //Enter the default values of the props
     FeaturedComment.defaultProps = {
@@ -228,5 +261,30 @@ export default FeaturedComment;
           color='magenta'
         />
       </View>
+
+**/
+
+/** No Reports view
+
+if(!hasReport){
+    return(
+      <View style={{
+        paddingTop: '1%',
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+        //backgroundColor: 'goldenrod',
+      }}>
+        <Text style={{
+          color: '#97ACB3',
+          fontSize: 18,
+          fontStyle: 'italic',
+        }}>
+          No reports.  Click to add...
+        </Text>
+      </View>
+    );
+  }
 
 **/

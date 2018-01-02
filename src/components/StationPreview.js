@@ -75,7 +75,7 @@ const StationPreview = (props: StationPreviewProps) => {
       <View style={{
         position: 'absolute',
         top: '0%',
-        height: '27%',
+        height: isSpecial ? '27%' : '20%',
         width: '100%'
       }}>
         <View style={{

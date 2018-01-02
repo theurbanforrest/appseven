@@ -81,7 +81,7 @@ const AppHeader = (props: AppHeaderProps) => {
                 flex: 3
               }}>
                 <Icon
-                  name='ellipsis-v'
+                  name='cog'
                   type='font-awesome'
                   //onPress={onMenuPress}
                   color='white'

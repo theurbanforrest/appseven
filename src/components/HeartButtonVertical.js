@@ -22,20 +22,31 @@ const HeartButtonVertical = (props: HeartButtonVerticalProps) => {
       iconAlt,
       isSelected,
       likeCount,
-      onIconPress
+      onIconPress,
+      isDisabled,
     } = props;
 
   //do functions
   let whichIcon = iconPrimary;
-  let whichColor = 'black';
+  let whichColor = 'purple';
   let whichType = 'font-awesome';
+  let whichFontColor = 'white';
   let likesToDisplay = likeCount;
 
   if(isSelected){
-    whichIcon = iconAlt;
-    whichColor = 'purple';
+    whichIcon = iconAlt;;
     whichType = 'font-awesome';
     likesToDisplay = likesToDisplay + 1;
+  }
+
+  if(isDisabled){
+    whichColor = '#97ACB3';
+    whichFontColor = 'black';
+  }
+
+  if(likeCount == 99999){
+    whichColor = 'purple';
+    whichFontColor = 'black';
   }
 
     return(
@@ -49,12 +60,12 @@ const HeartButtonVertical = (props: HeartButtonVerticalProps) => {
         <Icon 
           name={whichIcon}
           size={36}
-          color='purple'
+          color={whichColor}
           type={whichType}
-          onPress={onIconPress}
+          onPress={ isDisabled ? '' : onIconPress }
         />
         <Text style={{
-          color: 'white',
+          color: whichFontColor,
           fontSize: 18
         }}>
           {likesToDisplay}
@@ -73,6 +84,7 @@ const HeartButtonVertical = (props: HeartButtonVerticalProps) => {
         onIconPress: console.log('onIconPress executed'),
         iconPrimary: 'thumbs-o-up',
         iconAlt: 'thumbs-up',
+        isDisabled: 'false',
         //onIconPress left undefined by default
     };
 
@@ -84,6 +96,7 @@ const HeartButtonVertical = (props: HeartButtonVerticalProps) => {
         onIconPress: PropTypes.func,
         iconPrimary: PropTypes.string,
         iconAlt: PropTypes.string,
+        isDisabled: PropTypes.bool
 
     };
 
