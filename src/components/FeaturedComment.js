@@ -72,7 +72,7 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
                 <Badge
                   value='+ Update'
                   containerStyle={{
-                    backgroundColor: 'black',
+                    backgroundColor: '#1F252A',
                     borderColor: 'orange',
                     borderWidth: 1
                   }}
@@ -168,7 +168,7 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
               <Badge
                 value='+ Update'
                 containerStyle={{
-                  backgroundColor: 'black',
+                  backgroundColor: '#1F252A',
                   borderColor: 'orange',
                   borderWidth: 1
                 }}

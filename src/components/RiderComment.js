@@ -76,6 +76,10 @@ const RiderComment = (props: RiderCommentProps) => {
     }
 
     function showDismissButton(partial,theFunc){
+
+      return false;
+
+      /** Always returning false for now to hide X
       if(partial!=''){
         return (
           <Icon
@@ -87,6 +91,7 @@ const RiderComment = (props: RiderCommentProps) => {
         )
       }
       else return false;
+      */
     }
 
     function getFriendlyTime(x){

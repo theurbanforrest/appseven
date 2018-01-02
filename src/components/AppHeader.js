@@ -27,36 +27,32 @@ const AppHeader = (props: AppHeaderProps) => {
   //do functions
 
     return(
-        <TouchableHighlight onPress={onMenuPress} style={{
-          width: '100%',
-        }}>
-        <View style={{
-          //position: 'absolute',
-          //top: '88%',
-          //right: '0%',
-          width: '100%',
-          //paddingTop: '5%',
-          //paddingBottom: '2%',
-          //paddingLeft: '3%',
-          //height: '12%',
-          backgroundColor: 'black', 
-          flexDirection: 'row',
-          //justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+        <TouchableHighlight
+          style={{
+            width: '100%',
+            backgroundColor: '#1F252A'
+          }}
+          onPress={onMenuPress}
+        >
+          <View style={{
+            flexDirection: 'row',
+            width: '100%',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+          }}>
           
               <View style={{
-                flex: 3,
+                flex: 4,
               }}>
                 <Avatar
-                  small
+                  medium
                   rounded
                   source={{uri: 'https://randomuser.me/api/portraits/men/49.jpg' }}
                   //onPress={onMenuPress}
                 />
               </View>
               <View style={{
-                flex: 18
+                flex: 17
               }}>
                 <Text
                   style={{
@@ -83,7 +79,7 @@ const AppHeader = (props: AppHeaderProps) => {
                 <Icon
                   name='cog'
                   type='font-awesome'
-                  //onPress={onMenuPress}
+                  size={36}
                   color='white'
                 />
               </View>

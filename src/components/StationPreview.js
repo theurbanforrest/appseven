@@ -83,7 +83,7 @@ const StationPreview = (props: StationPreviewProps) => {
           flexDirection: 'column',
           height: '100%',
           justifyContent: 'space-between',
-          backgroundColor: 'black',
+          backgroundColor: '#1F252A',
           paddingTop: '8%',
           paddingLeft: '3%',
           paddingRight: '3%',
@@ -120,6 +120,7 @@ const StationPreview = (props: StationPreviewProps) => {
                     lines.map( (line) => (
                         <Badge
                           key= {line}
+
                           value= {line}
                           containerStyle={{
                             backgroundColor: getBackgroundColor(line,lineList) //keeping static, not connected to selectedLine

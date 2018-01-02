@@ -1,6 +1,6 @@
 import React from 'react';
 import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation';
-import { Icon } from 'react-native-elements';
+import { Icon, Avatar } from 'react-native-elements';
 import { connect } from 'react-redux';
 
   //define the screens
@@ -35,6 +35,9 @@ import { connect } from 'react-redux';
       screen: SuperMap,
       navigationOptions: {
         header: false,
+      },
+      navigatorStyle:{
+        navBarBackgroundColor: 'pink'
       }
     },
     LineFeed: {
@@ -42,7 +45,7 @@ import { connect } from 'react-redux';
       navigationOptions: ({ navigation }) => ({
         title: `${navigation.state.params.shortName}`,
         headerStyle: {
-          backgroundColor: 'black'
+          backgroundColor: '#1F252A'
         },
         headerTitleStyle: {
           color: '#97ACB3'
@@ -52,52 +55,34 @@ import { connect } from 'react-redux';
   });
 
   /*-- Tabs --*/
-  export const Tabs = DrawerNavigator({
 
-  /*-- commenting out
-  SuperMap: {
-    screen: SuperMap,
-    navigationOptions: {
-      drawerLabel: 'Super Map',
-      drawerIcon: ({ tintColor }) => <Icon name='street-view' type='font-awesome' size={25} color={tintColor} /> ,
-    }
-  },
-  StationsFeed: {
-    screen: StationFeedStack,
-    navigationOptions: {
-      drawerLabel: 'All Stations',
-      drawerIcon: ({ tintColor }) => <Icon name='subway' type='font-awesome' size={25} color={tintColor} /> ,
-    }
-  },
-  SocialFeed: {
-    screen: StationDetail,
-    navigationOptions: {
-      drawerLabel: 'Social Feed',
-      drawerIcon: ({ tintColor }) => <Icon name='comments-o' type='font-awesome' size={25} color={tintColor} /> ,
-    }
-  },
-  --*/
+
+  export const Tabs = DrawerNavigator({
+  //export const Tabs = TabNavigator({
 
   MapStack: {
     screen: MapStack,
     navigationOptions: {
-      drawerLabel: 'Home',
-      drawerIcon: ({tintColor}) => <Icon name='home' type='font-awesome' size={25} color={tintColor} /> ,
+      drawerLabel: 'Map',
+      drawerIcon: ({tintColor}) => 
+        <Icon name='map-pin' type='font-awesome' size={25} color={tintColor} /> ,
     }
   },
+  HelloFeed: {
+    screen: HelloFeed,
+    navigationOptions: {
+      drawerLabel: 'Feed',
+      drawerIcon: ({ tintColor }) => <Icon name='list-ul' type='font-awesome' size={25} color={tintColor} />,
+    },
+  },
+
+
   HelloWorld: {
     screen: HelloWorld,
     navigationOptions: {
       drawerLabel: 'Hello World',
       drawerIcon: ({ tintColor }) => <Icon name='smile-o' type='font-awesome' size={25} color={tintColor} />,
 
-    },
-  },
-  HelloFeed: {
-    screen: HelloFeed,
-    navigationOptions: {
-      drawerLabel: 'HelloFeed',
-      drawerIcon: ({ tintColor }) => <Icon name='shower' type='font-awesome' size={25} color={tintColor} />,
     },
   },
   CheckIn: {
@@ -112,7 +97,8 @@ import { connect } from 'react-redux';
     screen: StationFeedStack,
     navigationOptions: {
       drawerLabel: 'All Stations',
-      drawerIcon: ({ tintColor }) => <Icon name='subway' type='font-awesome' size={25} color={tintColor} /> ,
+      drawerIcon: ({ tintColor }) => 
+      <Icon name='subway' type='font-awesome' size={25} color={tintColor} /> ,
     }
   },
 },

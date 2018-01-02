@@ -67,58 +67,6 @@ class SuperMap extends Component {
 
     }
 
-/*
-    getLineStops(targetLine){
-      //superMapData[i][11] is the string of the lat/long that needs to be regex'd
-      //superMapData[i][12] is the string of lines e.g. 'A-C-F' 
-
-      let stopsToDisplay = [];
-
-      //loop - if the line of strings contains the target
-      //then add the lat/long string to the array
-      //which will later be parsed
-
-      for(i=0;i<superMapData.length;i++){
-        if(superMapData[i][12].indexOf(targetLine) > -1){
-          //if targetLine is a line in the station's line string e.g. 'A-C-E'
-
-          
-          let x = /Express/.exec(superMapData[i][12]);
-          if(targetLine=='E' && x ){
-            //if targetLine is E and superMapData contains 'express'
-            //then do nothing
-          }
-          else{
-            //add to the array
-            stopsToDisplay.push(
-              [
-                superMapData[i][10],
-                superMapData[i][11],
-                superMapData[i][12],
-                superMapData[i][0],
-              ]
-            );
-          }
-        }
-        //else i++
-      }
-      //return to redux, trying without auto clearing preview
-        //this.props.actions.fetchSpecialStopsAttempt(targetLine,stopsToDisplay);
-        //this.props.actions.getStopsAndAddColor(targetLine,stopsToDisplay);
-        
-        //this works before i was tinkering
-          //this.props.actions.selectLine(targetLine,stopsToDisplay);
-
-
-        console.log('this line is after fetchSpecial');
-        //this.props.actions.clearPreview();
-
-      //return the array
-      //console.log(stopsToDisplay);
-      return stopsToDisplay;
-    } 
-*/
-
     getStationLines(linesString){
 
       let badgesToDisplay = [];
@@ -199,21 +147,6 @@ class SuperMap extends Component {
       this.props.actions.selectLine(targetLine);
     }
 
-/*
-    clickMyLocationButton(){
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-
-          this.props.actions.setMyLocation(position.coords.latitude,position.coords.longitude);
-
-        },
-        (error) => this.setState({ error: error.message }),
-        { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
-      );
-
-      return true;
-    }
-*/
     componentWillMount() {
       //if coming from HelloFeed, set as that line.  Else A by default
 
@@ -270,7 +203,6 @@ class SuperMap extends Component {
     return (
       <View style={styles.container}>
         <StatusBar
-          //backgroundColor="black"
           barStyle="light-content"
         />
         <MapView
@@ -331,7 +263,6 @@ class SuperMap extends Component {
             }}
             pinColor='black'
           />
-          
         </MapView>
 
         <LinePreview
@@ -369,9 +300,40 @@ class SuperMap extends Component {
               }
             )}
             onDismiss = {() => this.props.navigation.navigate('SuperMap')}
-          />
-        <View style={styles.lineandmenucontainer}>
-          <View style={styles.lineselector}>
+        />
+
+        <View style={{
+          bottom: 0,
+          flexDirection: 'column-reverse',
+          height: '26%',
+        }}>
+
+          <View style={{
+            flex: 1,
+            backgroundColor: '#1F252A',
+            padding: '3%',
+          }}>
+            <AppHeader
+              onMenuPress={()=>this.props.navigation.navigate('DrawerOpen')}
+              isLocationSet={ (this.props.myLocation.lat) ? true : false }
+            />
+          </View>
+
+          <Text style={{
+            textAlign: 'center',
+            backgroundColor: 'rgba(0,0,0,0.0)',
+            color: 'gray',
+            fontSize: 14,
+          }}>
+            Presented by StreetEasy
+          </Text>
+          
+
+          <View style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            padding: '3%',
+          }}>
             {
               lineList.map( (line) => (
                   <Badge
@@ -383,20 +345,14 @@ class SuperMap extends Component {
                     textStyle={{
                       color: this.props.selectedLine == line.id ? line.text : 'white'
                     }}
-                    onPress={() => this.props.actions.fetchSpecialStopsAttempt(line.id,this.props.selectedStops,this.props.specialStops )} //this.props.actions.getAllStops(line.id,[])}
+                    onPress={() => this.props.actions.fetchSpecialStopsAttempt(line.id,this.props.selectedStops,this.props.specialStops )}
                   />
                 )
               )
             }
           </View>
-          <View style={styles.appheader}>
-          <AppHeader
-            onMenuPress={()=>this.props.navigation.navigate('DrawerOpen')}
-            isLocationSet={ (this.props.myLocation.lat) ? true : false }
-          />
         </View>
       </View>
-    </View>
     )
   }//end render
 }
@@ -435,46 +391,104 @@ class SuperMap extends Component {
 
 /*----- APPENDIX -----*/
 
-/*
-  This works when used right after the opening <MapMarker> tag
+/** Hosted images
 
   <View>
-                  <Image
-                    style={{
-                      height: 38,
-                      width: 30
-                    }}
-                    source={{
-                      uri: 'https://forrestching.com/appten/meh.png'
-                    }}
-                  />
-                </View>
+    <Image
+      style={{
+        height: 38,
+        width: 30
+      }}
+      source={{
+        uri: 'https://forrestching.com/appten/meh.png'
+      }}
+    />
+  </View>
 
 
-*/
+**/
 
-/*
+/** StationPreview
 
-        <View style = {styles.stationpreview}>
+  <View style = {styles.stationpreview}>
 
-          <StationPreview
-            visible={this.props.previewedStation ? true : false}
-            stationName={ this.props.previewedStation }
-            onClearPress={()=>this.clearStationPreview()}
-            lines={ this.props.previewedStationLines }//['BB','green','white'] }//this.props.previewedStationLines }
-            selectedLine = { this.props.selectedLine }
-            onLinePress = {()=> this.props.navigation.navigate('SettingsStack')}
-            onFeedPress = {()=> this.props.navigation.navigate('LineFeed',{
-                area: 'Queens',
-                colors: 'blue,orange,purple',
-                id: 4,
-                lines: 'E,F,7',
-                longName: 'Long Name',
-                shortName: 'The Feed'
-              })}
-            onCheckInPress = {() => this.toggleCheckInStatus()}
-            onDismiss = {() => this.props.navigation.navigate('SuperMap')}
+    <StationPreview
+      visible={this.props.previewedStation ? true : false}
+      stationName={ this.props.previewedStation }
+      onClearPress={()=>this.clearStationPreview()}
+      lines={ this.props.previewedStationLines }//['BB','green','white'] }//this.props.previewedStationLines }
+      selectedLine = { this.props.selectedLine }
+      onLinePress = {()=> this.props.navigation.navigate('SettingsStack')}
+      onFeedPress = {()=> this.props.navigation.navigate('LineFeed',{
+          area: 'Queens',
+          colors: 'blue,orange,purple',
+          id: 4,
+          lines: 'E,F,7',
+          longName: 'Long Name',
+          shortName: 'The Feed'
+        })}
+      onCheckInPress = {() => this.toggleCheckInStatus()}
+      onDismiss = {() => this.props.navigation.navigate('SuperMap')}
+    />
+    </StationPreview>
+  </View>
+**/
+
+/** AppHeader
+
+ <View style={styles.appheader}>
+          <AppHeader
+            onMenuPress={()=>this.props.navigation.navigate('DrawerOpen')}
+            isLocationSet={ (this.props.myLocation.lat) ? true : false }
           />
-          </StationPreview>
         </View>
-          */
+
+**/
+
+/** Line Picker
+
+<View style={{
+          //position: 'absolute',
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.0)',
+          height: '20%',
+          flexDirection: 'column',
+
+          justifyContent: 'space-around',
+          alignItems: 'center',
+
+          paddingBottom: '3%',
+        }}>
+          <View style={{
+            flex: 2,
+            //backgroundColor: 'yellow',  //for debug
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            padding: '3%',
+          }}>
+            {
+              lineList.map( (line) => (
+                  <Badge
+                    key={line.id}
+                    value={line.id}
+                    containerStyle={{
+                      backgroundColor: this.props.selectedLine == line.id ? line.bg : 'gainsboro'
+                    }}
+                    textStyle={{
+                      color: this.props.selectedLine == line.id ? line.text : 'white'
+                    }}
+                    onPress={() => this.props.actions.fetchSpecialStopsAttempt(line.id,this.props.selectedStops,this.props.specialStops )}
+                  />
+                )
+              )
+            }
+          </View>
+          <Text style={{
+            textAlign: 'center',
+            color: 'gray',
+            fontSize: 14,
+          }}>
+            Presented by StreetEasy
+          </Text>
+        </View>
+**/

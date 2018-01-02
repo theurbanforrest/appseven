@@ -126,15 +126,11 @@ class CheckIn extends Component {
   render() {
 
     return (
-            <View style={{
-        //position: 'absolute',
-        //top: '75%',
-        //right: '0%',
-        //width: '100%',
+      <View style={{
         paddingTop: '5%',
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: 'black',
+        backgroundColor: '#1F252A',
       }}> 
 
         <View style={{
@@ -269,34 +265,44 @@ class CheckIn extends Component {
           />
           <View style={{
             paddingTop: '3%',
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            width: '100%'
           }}>
-            <Button 
-              large
-              disabled={this.props.submitInProgress}
-              icon={{name: 'commenting-o', type: 'font-awesome'}}
-              backgroundColor='purple'
-              title='SUBMIT'
+            <Badge
+              value='+ Update'
+              containerStyle={{
+                backgroundColor: '#1F252A',
+                borderColor: 'orange',
+                borderWidth: 1,
+              }}
+              textStyle={{
+                color: 'orange',
+                fontSize: 24,
+              }}
               onPress={() => {this.props.actions.submitAttempt(
-                {
-                  "user_id" : this.getUUID(),
-                  "user_name" : "fochin82",
-                  "comment_body" : this.state.comment,
-                  "comment_on_line" : this.props.selectedLine,
-                  "station_name" : this.props.previewedStation,
-                  "station_uid" : this.props.previewedStationUid,
-                  "station_lines" : this.props.previewedStationLines,
-                  "status" : this.state.status,
-                  "timestamp" : this.getTimeStamp()
-                }
-            )} }
+              {
+                "user_id" : this.getUUID(),
+                "user_name" : "fochin82",
+                "comment_body" : this.state.comment,
+                "comment_on_line" : this.props.selectedLine,
+                "station_name" : this.props.previewedStation,
+                "station_uid" : this.props.previewedStationUid,
+                "station_lines" : this.props.previewedStationLines,
+                "status" : this.state.status,
+                "timestamp" : this.getTimeStamp()
+              }
+              )}}
             />
-            <Button
-              small
-              icon={{name: 'meh-o', type: 'font-awesome'}}
-              backgroundColor='orange'
-              title='No, thanks'
+            <Text
+              style={{
+                color: '#97ACB3'
+              }}
               onPress={()=> this.props.navigation.dispatch(NavigationActions.back()) }
-            />
+            >
+              No, Thanks
+            </Text>
           </View>
         </View>
       </View>
@@ -340,4 +346,28 @@ class CheckIn extends Component {
               How's the ride going?
             </Text>
 
+**/
+
+/** Submit button
+
+<Button 
+              large
+              disabled={this.props.submitInProgress}
+              icon={{name: 'commenting-o', type: 'font-awesome'}}
+              backgroundColor='purple'
+              title='SUBMIT'
+              onPress={() => {this.props.actions.submitAttempt(
+                {
+                  "user_id" : this.getUUID(),
+                  "user_name" : "fochin82",
+                  "comment_body" : this.state.comment,
+                  "comment_on_line" : this.props.selectedLine,
+                  "station_name" : this.props.previewedStation,
+                  "station_uid" : this.props.previewedStationUid,
+                  "station_lines" : this.props.previewedStationLines,
+                  "status" : this.state.status,
+                  "timestamp" : this.getTimeStamp()
+                }
+            )} }
+            />
 **/

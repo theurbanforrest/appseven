@@ -28,6 +28,7 @@ import HeartButton from '../../components/HeartButton'
 import CommentCard from '../../components/CommentCard'
 import RiderComment from '../../components/RiderComment'
 import StationCard from '../../components/StationCard'
+import AppHeader from '../../components/AppHeader'
 import { lineList } from '../supermap/data'
 
 
@@ -167,19 +168,13 @@ class HelloFeed extends Component {
         flexDirection: 'column',
       }}>
         <View style={{flex: 24}}>
-          <TouchableHighlight
-            onPress={()=> this.props.navigation.navigate('FilterModalStack')}
-          >
-            <View>
-              <SearchBar
-                round
-                placeholder='Search...'
-                editable={false}
-                pointerEvents='none'
-              />
-            </View>
-          </TouchableHighlight>
-          <ScrollView style={{flex: 1, flexDirection: 'column', padding:'3%', backgroundColor: 'black'}}>
+          
+          <ScrollView style={{
+            flex: 1, 
+            flexDirection: 'column', 
+            padding:'3%', 
+            backgroundColor: 'black'
+          }}>
             <List
               containerStyle={styles.fcList}
             >
@@ -203,21 +198,37 @@ class HelloFeed extends Component {
             </List>
           </ScrollView>
           <View style={{
-            //position: 'absolute',
+            position: 'absolute',
             bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-            height: '20%',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingBottom: '3%',
+            flexDirection: 'column-reverse',
+            height: '30%',
           }}>
+
             <View style={{
-              flex: 2,
-              //backgroundColor: 'yellow',  //for debug
+              flex: 1,
+              backgroundColor: '#1F252A',
+              padding: '3%',
+            }}>
+              <AppHeader
+                onMenuPress={()=>this.props.navigation.navigate('DrawerOpen')}
+                //isLocationSet={ (this.props.myLocation.lat) ? true : false }
+              />
+            </View>
+
+            <Text style={{
+              textAlign: 'center',
+              backgroundColor: 'rgba(31,37,42,0.9)',
+              color: 'gray',
+              fontSize: 14,
+            }}>
+              Presented by StreetEasy
+            </Text>
+
+            <View style={{
               flexDirection: 'row',
               flexWrap: 'wrap',
               padding: '3%',
+              backgroundColor: 'rgba(31,37,42,0.8)',
             }}>
               {
                 lineList.map( (line) => (
@@ -230,19 +241,12 @@ class HelloFeed extends Component {
                       textStyle={{
                         color: this.props.selectedLine == line.id ? line.text : 'white'
                       }}
-                      onPress={() => this.props.selectedLine == line.id ? this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers) : this.props.actions.fetchLineFeedAttempt(line.id)} //this.props.actions.getAllStops(line.id,[])}
+                      onPress={() => this.props.selectedLine == line.id ? this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers) : this.props.actions.fetchLineFeedAttempt(line.id)}
                     />
                   )
                 )
               }
             </View>
-            <Text style={{
-              textAlign: 'center',
-              color: 'gray',
-              fontSize: 14,
-            }}>
-              Presented by StreetEasy
-            </Text>
           </View>
         </View>
       </View>
@@ -304,5 +308,68 @@ class HelloFeed extends Component {
       'timestamp' : this.getTimeStamp(),
     }
   )}
+
+**/
+
+/** Search bar
+
+<TouchableHighlight
+            onPress={()=> this.props.navigation.navigate('FilterModalStack')}
+          >
+            <View>
+              <SearchBar
+                round
+                placeholder='Search...'
+                editable={false}
+                pointerEvents='none'
+              />
+            </View>
+          </TouchableHighlight>
+**/
+
+/** Line Picker
+
+<View style={{
+            //position: 'absolute',
+            bottom: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            height: '20%',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingBottom: '3%',
+          }}>
+            <View style={{
+              flex: 2,
+              //backgroundColor: 'yellow',  //for debug
+              flexDirection: 'row',
+              flexWrap: 'wrap',
+              padding: '3%',
+            }}>
+              {
+                lineList.map( (line) => (
+                    <Badge
+                      key={line.id}
+                      value={line.id}
+                      containerStyle={{
+                        backgroundColor: this.props.selectedLine == line.id ? line.bg : 'gainsboro'
+                      }}
+                      textStyle={{
+                        color: this.props.selectedLine == line.id ? line.text : 'white'
+                      }}
+                      onPress={() => this.props.selectedLine == line.id ? this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers) : this.props.actions.fetchLineFeedAttempt(line.id)} //this.props.actions.getAllStops(line.id,[])}
+                    />
+                  )
+                )
+              }
+            </View>
+            <Text style={{
+              textAlign: 'center',
+              color: 'gray',
+              fontSize: 14,
+            }}>
+              Presented by StreetEasy
+            </Text>
+          </View>
 
 **/
