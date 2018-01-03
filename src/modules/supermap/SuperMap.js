@@ -308,16 +308,7 @@ class SuperMap extends Component {
           height: '26%',
         }}>
 
-          <View style={{
-            flex: 1,
-            backgroundColor: '#1F252A',
-            padding: '3%',
-          }}>
-            <AppHeader
-              onMenuPress={()=>this.props.navigation.navigate('DrawerOpen')}
-              isLocationSet={ (this.props.myLocation.lat) ? true : false }
-            />
-          </View>
+          
 
           <Text style={{
             textAlign: 'center',
@@ -491,4 +482,17 @@ class SuperMap extends Component {
             Presented by StreetEasy
           </Text>
         </View>
+**/
+
+/**
+<View style={{
+            flex: 1,
+            backgroundColor: '#1F252A',
+            padding: '3%',
+          }}>
+            <AppHeader
+              onMenuPress={()=>this.props.navigation.navigate('DrawerOpen')}
+              isLocationSet={ (this.props.myLocation.lat) ? true : false }
+            />
+          </View>
 **/

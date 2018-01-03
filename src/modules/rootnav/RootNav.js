@@ -57,55 +57,68 @@ import { connect } from 'react-redux';
   /*-- Tabs --*/
 
 
-  export const Tabs = DrawerNavigator({
-  //export const Tabs = TabNavigator({
+  //export const Tabs = DrawerNavigator({
+  export const Tabs = TabNavigator(
+    {
 
-  MapStack: {
-    screen: MapStack,
-    navigationOptions: {
-      drawerLabel: 'Map',
-      drawerIcon: ({tintColor}) => 
-        <Icon name='map-pin' type='font-awesome' size={25} color={tintColor} /> ,
-    }
-  },
-  HelloFeed: {
-    screen: HelloFeed,
-    navigationOptions: {
-      drawerLabel: 'Feed',
-      drawerIcon: ({ tintColor }) => <Icon name='list-ul' type='font-awesome' size={25} color={tintColor} />,
+       HelloFeed: {
+        screen: HelloFeed,
+        navigationOptions: {
+          tabBarLabel: 'Feed',
+          tabBarIcon: ({ tintColor }) => <Icon name='list-ul' type='font-awesome' size={25} color={tintColor} />,
+        },
+      },
+      
+      MapStack: {
+        screen: MapStack,
+        navigationOptions: {
+          tabBarLabel: 'Stations',
+          tabBarIcon: ({tintColor}) => 
+            <Icon name='map-pin' type='font-awesome' size={25} color={tintColor} /> ,
+        }
+      },
+    
+      /*
+      CheckIn: {
+        screen: CheckIn,
+        navigationOptions: {
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ tintColor }) => <Icon name='home' type='font-awesome' size={25} color={tintColor} />,
+
+        },
+      },
+      */
+
+      HelloWorld: {
+        screen: HelloWorld,
+        navigationOptions: {
+          tabBarLabel: 'Settings',
+          tabBarIcon: ({ tintColor }) => <Icon name='cog' type='font-awesome' size={25} color={tintColor} />,
+
+        },
+      },
+        /*
+        StationsFeed: {
+          screen: StationFeedStack,
+          navigationOptions: {
+            tabBarLabel: 'All Stations',
+            tabBarIcon: ({ tintColor }) => 
+            <Icon name='subway' type='font-awesome' size={25} color={tintColor} /> ,
+          }
+        },
+        */
+
     },
-  },
-
-
-  HelloWorld: {
-    screen: HelloWorld,
-    navigationOptions: {
-      drawerLabel: 'Hello World',
-      drawerIcon: ({ tintColor }) => <Icon name='smile-o' type='font-awesome' size={25} color={tintColor} />,
-
+    {
+      headerMode: 'screen',
+      tabBarOptions : {
+        style: {
+          backgroundColor: '#1F252A',
+          activeTintColor: 'orange'
+        }
+      }
     },
-  },
-  CheckIn: {
-    screen: CheckIn,
-    navigationOptions: {
-      drawerLabel: 'Check In',
-      drawerIcon: ({ tintColor }) => <Icon name='map-o' type='font-awesome' size={25} color={tintColor} />,
-
-    },
-  },
-  StationsFeed: {
-    screen: StationFeedStack,
-    navigationOptions: {
-      drawerLabel: 'All Stations',
-      drawerIcon: ({ tintColor }) => 
-      <Icon name='subway' type='font-awesome' size={25} color={tintColor} /> ,
-    }
-  },
-},
-{
-  headerMode: 'screen'
-}
-);
+  );
 
   /**-- SettingsStack --**/
 
@@ -137,7 +150,7 @@ import { connect } from 'react-redux';
   export const RootNav = StackNavigator(
   	{
   		Tabs: {
-  			screen: Tabs,
+  			screen: Tabs
   		},
       SettingsStack: {
         screen: SettingsStack

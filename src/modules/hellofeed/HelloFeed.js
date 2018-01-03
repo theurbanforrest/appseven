@@ -150,6 +150,34 @@ class HelloFeed extends Component {
     return Date.now();
   }
 
+  noCommentsToShow(arrLength){
+    if(arrLength == 0){
+      return(
+        <View style={{
+          flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          backgroundColor: 'black',
+          //height: '100%'
+        }}>
+          <Text style={{
+            fontSize: 18,
+            color: '#97ACB3'
+          }}>
+            No comments on the {this.props.selectedLine} line.
+          </Text>
+          <Text style={{
+            fontSize: 18,
+            color: '#97ACB3'
+          }}>
+            Go to Stations to add a report.
+          </Text>
+        </View>
+      );
+    }
+  }
+
 
   componentWillUpdate() {
 
@@ -162,13 +190,15 @@ class HelloFeed extends Component {
 
   render() {
 
+    let zeroResultsView = this.noCommentsToShow(this.props.feedData.length);
+
     return(
       <View style={{
         flex: 1,
         flexDirection: 'column',
       }}>
         <View style={{flex: 24}}>
-          
+
           <ScrollView style={{
             flex: 1, 
             flexDirection: 'column', 
@@ -197,38 +227,20 @@ class HelloFeed extends Component {
             )}
             </List>
           </ScrollView>
+
+          {zeroResultsView}          
+
           <View style={{
-            position: 'absolute',
+            //position: 'absolute',
             bottom: 0,
             flexDirection: 'column-reverse',
-            height: '30%',
+            //height: '30%',
           }}>
-
-            <View style={{
-              flex: 1,
-              backgroundColor: '#1F252A',
-              padding: '3%',
-            }}>
-              <AppHeader
-                onMenuPress={()=>this.props.navigation.navigate('DrawerOpen')}
-                //isLocationSet={ (this.props.myLocation.lat) ? true : false }
-              />
-            </View>
-
-            <Text style={{
-              textAlign: 'center',
-              backgroundColor: 'rgba(31,37,42,0.9)',
-              color: 'gray',
-              fontSize: 14,
-            }}>
-              Presented by StreetEasy
-            </Text>
-
             <View style={{
               flexDirection: 'row',
               flexWrap: 'wrap',
               padding: '3%',
-              backgroundColor: 'rgba(31,37,42,0.8)',
+              backgroundColor: 'rgba(31,37,42,1.0)',
             }}>
               {
                 lineList.map( (line) => (
@@ -371,5 +383,33 @@ class HelloFeed extends Component {
               Presented by StreetEasy
             </Text>
           </View>
+
+**/
+
+/** 
+
+<View style={{
+              flex: 1,
+              backgroundColor: '#1F252A',
+              padding: '3%',
+            }}>
+              <AppHeader
+                onMenuPress={()=>this.props.navigation.navigate('DrawerOpen')}
+                //isLocationSet={ (this.props.myLocation.lat) ? true : false }
+              />
+            </View>
+
+**/
+
+/** Presented by Sponsor
+
+  <Text style={{
+              textAlign: 'center',
+              backgroundColor: 'rgba(31,37,42,0.9)',
+              color: 'gray',
+              fontSize: 14,
+            }}>
+              Presented by StreetEasy
+            </Text>
 
 **/

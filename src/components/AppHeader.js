@@ -56,7 +56,7 @@ const AppHeader = (props: AppHeaderProps) => {
               }}>
                 <Text
                   style={{
-                    color: 'white',
+                    color: '#97ACB3',
                     //fontFamily: 'serif',
                     fontSize: 18
                   }}
@@ -65,7 +65,7 @@ const AppHeader = (props: AppHeaderProps) => {
                 </Text>
                 <Text
                   style={{
-                    color: 'white',
+                    color: '#97ACB3',
                     //fontFamily: 'serif',
                     fontSize: 14
                   }}
@@ -80,7 +80,7 @@ const AppHeader = (props: AppHeaderProps) => {
                   name='cog'
                   type='font-awesome'
                   size={36}
-                  color='white'
+                  color='#97ACB3'
                 />
               </View>
         </View>
