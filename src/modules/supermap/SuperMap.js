@@ -299,6 +299,9 @@ class SuperMap extends Component {
                 'previewedStationLines' : this.props.previewedStationLines
               }
             )}
+            onStationPress = {()=> this.props.navigation.navigate('StationFeed',{
+                shortName: this.props.previewedStation
+              })}
             onDismiss = {() => this.props.navigation.navigate('SuperMap')}
         />
 

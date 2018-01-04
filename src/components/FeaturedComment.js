@@ -79,7 +79,7 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
                   textStyle={{
                     color: 'orange'
                   }}
-                  onPress={onUpdatePress}
+                  onPress={onLikePress}
                 />
               </View>
             </View>

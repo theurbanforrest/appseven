@@ -15,5 +15,18 @@ export const NAME = 'stationfeed'
 //as you can see above, each action is namespaced with module's name.
 
 
-//added by forrest
-export const REPORT_SELF = `${NAME}/REPORT_SELF`
+	//added by forrest
+	export const FETCH_SUCCESS = `${NAME}/FETCH_SUCCESS`;
+	export const FETCH_HAS_ERRORED = `${NAME}/FETCH_HAS_ERRORED`;
+	export const FETCH_IS_LOADING = `${NAME}/FETCH_IS_LOADING`;
+	export const SHOW_FILTER_MODAL = `${NAME}/SHOW_FILTER_MODAL`;
+	export const HIDE_FILTER_MODAL = `${NAME}/HIDE_FILTER_MODAL`;
+	export const FETCH_STATION_FEED_SUCCESS = `${NAME}/FETCH_LINE_FEED_SUCCESS`;
+	export const FETCH_LIKES_SUCCESS = `${NAME}/FETCH_LIKES_SUCCESS`;
+	export const LIKE_COMMENT = `${NAME}/LIKE_COMMENT`;
+	export const UNLIKE_COMMENT = `${NAME}/UNLIKE_COMMENT`;
+
+	export const SUBMIT_LIKE_SUCCESS = `${NAME}/SUBMIT_LIKE_SUCCESS`;
+	export const SUBMIT_UNLIKE_SUCCESS = `${NAME}/SUBMIT_UNLIKE_SUCCESS`;
+	export const SUBMIT_HAS_ERRORED = `${NAME}/SUBMIT_HAS_ERRORED`;
+	export const SUBMIT_IS_LOADING = `${NAME}/SUBMIT_IS_LOADING`;

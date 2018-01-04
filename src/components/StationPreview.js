@@ -33,6 +33,7 @@ const StationPreview = (props: StationPreviewProps) => {
       onLinePress,
       onFeedPress,
       onCheckInPress,
+      onStationPress,
       onDismiss,
 
     } = props;
@@ -75,7 +76,7 @@ const StationPreview = (props: StationPreviewProps) => {
       <View style={{
         position: 'absolute',
         top: '0%',
-        height: isSpecial ? '27%' : '20%',
+        height: isSpecial ? '30%' : '20%',
         width: '100%'
       }}>
         <View style={{
@@ -83,7 +84,7 @@ const StationPreview = (props: StationPreviewProps) => {
           flexDirection: 'column',
           height: '100%',
           justifyContent: 'space-between',
-          backgroundColor: '#1F252A',
+          backgroundColor: 'rgba(31,37,42,1.0)',
           paddingTop: '8%',
           paddingLeft: '3%',
           paddingRight: '3%',
@@ -154,7 +155,7 @@ const StationPreview = (props: StationPreviewProps) => {
             comment={'omg this is like the second day that this gawdam train has b..'}
             isLiked={false}
             likeCount={12}
-            onLikePress={onCheckInPress}
+            onLikePress={onStationPress}
             onCommentPress={onFeedPress}
             onUpdatePress={onCheckInPress}
           /> 
@@ -194,6 +195,7 @@ const StationPreview = (props: StationPreviewProps) => {
         onFeedPress: PropTypes.func,
         onCheckInPress: PropTypes.func,
         onDismiss: PropTypes.func,
+        onStationPress: PropTypes.func,
     };
 
   //Define styles

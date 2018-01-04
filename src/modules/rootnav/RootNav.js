@@ -52,6 +52,18 @@ import { connect } from 'react-redux';
         },
       }),
     },
+    StationFeed: {
+      screen: StationFeed,
+      navigationOptions: ({ navigation }) => ({
+        title: `${navigation.state.params.shortName}`,
+        headerStyle: {
+          backgroundColor: '#1F252A'
+        },
+        headerTitleStyle: {
+          color: '#97ACB3'
+        },
+      }),
+    },
   });
 
   /*-- Tabs --*/

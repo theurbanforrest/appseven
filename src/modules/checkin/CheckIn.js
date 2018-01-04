@@ -253,16 +253,25 @@ class CheckIn extends Component {
           paddingLeft: '3%',
           paddingRight: '3%',
         }}>
-          <FormLabel>Add a comment</FormLabel>
-          <FormInput
-            containerStyle={{
-              backgroundColor: 'white',
-              height: 100,
-            }}
-            //multiline={true}
-            //qnumberOfLines={4}
-            onChangeText={comment => this.setState({comment})}
-          />
+          <View style={{
+            height: '40%',
+            width: '100%',
+            padding: '3%',
+            backgroundColor: 'white'
+          }}>
+            <TextInput
+              onChangeText={comment => this.setState({comment})}
+              editable = {true}
+              maxLength = {140}
+              multiline = {true}
+              numberOfLines = {6}
+              style={{
+                fontSize: 18,
+                fontColor: '#97ACB3',
+                backgroundColor: 'white'
+              }}
+            />
+          </View>
           <View style={{
             paddingTop: '3%',
             flexDirection: 'column',
@@ -370,4 +379,18 @@ class CheckIn extends Component {
                 }
             )} }
             />
+**/
+
+/** Comment Box
+
+<FormInput
+            containerStyle={{
+              backgroundColor: 'white',
+              height: 100,
+            }}
+            //multiline={true}
+            //numberOfLines={4}
+            onChangeText={comment => this.setState({comment})}
+          />
+
 **/
