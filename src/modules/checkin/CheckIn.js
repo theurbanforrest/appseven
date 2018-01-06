@@ -263,11 +263,12 @@ class CheckIn extends Component {
               onChangeText={comment => this.setState({comment})}
               editable = {true}
               maxLength = {140}
-              multiline = {true}
-              numberOfLines = {6}
+              autoGrow = {true}
+              returnKeyType = 'done'
+              maxHeight = {600}
               style={{
                 fontSize: 18,
-                fontColor: '#97ACB3',
+                color: '#97ACB3',
                 backgroundColor: 'white'
               }}
             />

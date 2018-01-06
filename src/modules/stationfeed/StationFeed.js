@@ -21,6 +21,7 @@ import {
 
 import DeviceInfo from 'react-native-device-info'
 import HeartButton from '../../components/HeartButton'
+import HeartButtonVertical from '../../components/HeartButtonVertical'
 import CommentCard from '../../components/CommentCard'
 import RiderComment from '../../components/RiderComment'
 import StationPreview from '../../components/StationPreview'
@@ -225,53 +226,28 @@ class StationFeed extends Component {
         flex: 1,
         flexDirection: 'column',
       }}>
-        <View style={{
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            backgroundColor: '#1F252A',
-            paddingLeft: '3%',
-            width: '100%',
-        }}>
-          {
-            this.props.superMapsPreviewedStationLines.map( (line) => (
-                <Badge
-                  key= {line}
-
-                  value= {line}
-                  containerStyle={{
-                    backgroundColor: this.getBackgroundColor(line,lineList) //keeping static, not connected to selectedLine
-                  }}
-                  textStyle={{
-                    color: this.getTextColor(line,lineList), //keeping static, not connected to selectedLine
-                    fontSize: 14,
-                  }}
-                  onPress={()=> this.onBadgeLineClick(line)}//console.log('this should be some action from redux')}
-                />
-              ))
-          }
-        </View>
+        
         <View style={{
           flex: 5,
           flexDirection: 'row',
           justifyContent: 'flex-start',
           alignItems: 'flex-start',
           backgroundColor: '#1F252A',
-          padding:'3%',
+          paddingLeft:'3%',
+          paddingRight: '3%',
           width: '100%'
         }}>
           <View style={{
-            flex: 8,
+            flex: 17,
             flexDirection: 'column',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-start',
             alignItems: 'flex-start',
+            height: '100%'
           }}>
             <Avatar
               medium
               rounded
-              source={{uri: 'https://randomuser.me/api/portraits/men/49.jpg' }}
-              //onPress={onMenuPress}
+              source={{uri: 'https://randomuser.me/api/portraits/women/19.jpg' }}
             />
             <Text
               style={{
@@ -282,29 +258,68 @@ class StationFeed extends Component {
             >
               Long Wait.
             </Text>
-            <Badge
-              wrapperStyle={{
-                width: '80%'
+            
+            <Text
+              style={{
+                color: '#97ACB3',
+                fontSize: 18,
+                fontStyle: 'normal'
               }}
-              value='+ Update'
-              containerStyle={{
-                backgroundColor: '#1F252A',
-                borderColor: 'orange',
-                borderWidth: 1
-              }}
-              textStyle={{
-                color: 'orange'
-              }}
-              onPress={()=> this.props.navigation.navigate('SettingsStack',{
-                'previewedStation': this.props.superMapsPreviewedStation,
-                'previewedStationLines' : this.props.superMapsPreviewedStationLines
-              }
-            )}
-            />
+            >
+              32m ago • @theurbanforrest
+            </Text>
           </View>
           <View style={{
-            flex: 16
+            flex: 7,
+            flexDirection: 'column',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            height: '100%'
           }}>
+            <View style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              alignItems: 'flex-start',
+              width: '100%'
+            }}>
+              <HeartButtonVertical
+                iconPrimary='thumbs-o-up'
+                iconAlt='thumbs-up'
+                isSelected={false}
+                likeCount={17}
+                //onIconPress={onLikePress}
+                isDisabled={false} //{ hasReport ? false : true }
+              />
+              <HeartButtonVertical
+                iconPrimary='commenting-o'
+                iconAlt='commenting-o'
+                isSelected={false}
+                likeCount={2}
+                //onIconPress={onCommentPress}
+                isDisabled={false} //{ hasReport ? false : true }
+              />
+            </View>
+            <View style={{
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+              <Badge
+                value='+ Update'
+                containerStyle={{
+                  backgroundColor: '#1F252A',
+                  borderColor: 'orange',
+                  borderWidth: 1
+                }}
+                textStyle={{
+                  color: 'orange'
+                }}
+                onPress={()=> this.props.navigation.navigate('SettingsStack',{
+                'previewedStation': this.props.superMapsPreviewedStation,
+                'previewedStationLines' : this.props.superMapsPreviewedStationLines
+              })}
+              />
+            </View> 
           </View>
         </View>
         <View style={{

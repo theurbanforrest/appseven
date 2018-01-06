@@ -308,11 +308,12 @@ class SuperMap extends Component {
         <View style={{
           bottom: 0,
           flexDirection: 'column-reverse',
-          height: '26%',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          paddingBottom: '3%',
+          paddingLeft: '3%',
+          paddingRight: '3%',
         }}>
-
-          
-
           <Text style={{
             textAlign: 'center',
             backgroundColor: 'rgba(0,0,0,0.0)',
@@ -321,12 +322,10 @@ class SuperMap extends Component {
           }}>
             Presented by StreetEasy
           </Text>
-          
-
           <View style={{
             flexDirection: 'row',
             flexWrap: 'wrap',
-            padding: '3%',
+            justifyContent: 'flex-start',
           }}>
             {
               lineList.map( (line) => (
