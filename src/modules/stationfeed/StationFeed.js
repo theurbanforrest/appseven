@@ -24,6 +24,7 @@ import HeartButton from '../../components/HeartButton'
 import HeartButtonVertical from '../../components/HeartButtonVertical'
 import CommentCard from '../../components/CommentCard'
 import RiderComment from '../../components/RiderComment'
+import FeaturedComment from '../../components/FeaturedComment'
 import StationPreview from '../../components/StationPreview'
 import AppHeader from '../../components/AppHeader'
 import { lineList } from '../supermap/data'
@@ -80,6 +81,36 @@ class StationFeed extends Component {
     }
     return false;
   }
+
+  getBackgroundColor(targetLine,defaultColorsArray,stationUid,specialStopsArray){
+
+      //Loop thru the lineList to find what the targetLine default color should be
+       for(i=0;i<defaultColorsArray.length;i++){
+
+        if(targetLine == defaultColorsArray[i].id){
+          //we found a match! now let's check if this pin should be the 
+          //normal color or special color
+
+          for(i<0;i<specialStopsArray.length;i++){
+
+            if(stationUid == specialStopsArray[i].station_uid){
+
+              //this is a special stop!
+              //let's give it the special color
+
+              return 'pink';
+            }
+            //else i++
+          }
+          //we checked all the special stop and this doesn't match
+          //let's give it the default color
+          return defaultColorsArray[i].bg;
+        }
+        //else i++
+       }
+       //catch any errors by just returning a generic color
+       return 'gainsboro';
+    }
 
 
   likeOrUnlike(theComment,likedComments){
@@ -204,6 +235,21 @@ class StationFeed extends Component {
        return 'white';
     }
 
+    getFirstPreviewedComment(specialStopsArray,stationUid){
+
+      for(i=0;i<specialStopsArray.length;i++){
+
+        console.log('the current id is ' + specialStopsArray[i].station_uid);
+
+        if(specialStopsArray[i].station_uid == stationUid) {
+
+          return specialStopsArray[i];
+        }
+      }
+
+      return false;
+    }
+
 
   componentWillUpdate() {
 
@@ -220,24 +266,148 @@ class StationFeed extends Component {
   render() {
 
     let zeroResultsView = this.noCommentsToShow(this.props.feedData.length);
+    //console.log('specialStops is ' + JSON.stringify(this.props.superMapsSpecialStops));
+
+    let featuredComment = this.getFirstPreviewedComment(this.props.superMapsSpecialStops,this.props.superMapsPreviewedStationUid);
+    let checkInModal = () => this.props.navigation.navigate('SettingsStack',{
+        'previewedStation': this.props.previewedStation,
+        'previewedStationLines' : this.props.previewedStationLines
+      }
+    )
+
 
     return(
       <View style={{
         flex: 1,
         flexDirection: 'column',
       }}>
-        
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            backgroundColor: '#1F252A',
+            paddingLeft: '3%'
+        }}>
+          {
+            this.props.superMapsPreviewedStationLines.map( (line) => (
+                <Badge
+                  key= {line}
+
+                  value= {line}
+                  containerStyle={{
+                    backgroundColor: this.getBackgroundColor(line,lineList) //keeping static, not connected to selectedLine
+                  }}
+                  textStyle={{
+                    color: this.getTextColor(line,lineList), //keeping static, not connected to selectedLine
+                    fontSize: 14,
+                  }}
+                  onPress={()=> this.onBadgeLineClick(line)}//console.log('this should be some action from redux')}
+                />
+              ))
+          }
+        </View>
         <View style={{
           flex: 5,
-          flexDirection: 'row',
-          justifyContent: 'flex-start',
-          alignItems: 'flex-start',
           backgroundColor: '#1F252A',
-          paddingLeft:'3%',
-          paddingRight: '3%',
-          width: '100%'
+          padding: '3%'
         }}>
-          <View style={{
+          <FeaturedComment
+            hasReport={true}  //need to update
+            imageSrc={'https://randomuser.me/api/portraits/men/18.jpg'}
+            comment={featuredComment}
+            isLiked={false}
+            likeCount={this.getCommentLikeCount(featuredComment,this.props.commentEvents)}
+            onLikePress={() => this.likeOrUnlike(featuredComment,this.props.likedComments)}
+            onCommentPress={() => checkInModal}
+            onUpdatePress={() => checkInModal}
+          /> 
+        </View>
+        <View style={{
+          flex: 19,
+        }}>
+          <ScrollView style={{
+            flex: 1, 
+            flexDirection: 'column', 
+            padding:'3%', 
+            backgroundColor: 'black'
+          }}>
+            <List
+              containerStyle={styles.fcList}
+            >
+              {this.props.feedData.map( (comment,i) => (
+                <RiderComment
+                  key={i}
+                  status={comment.status}
+                  userName={comment.user_name}
+                  stationName={comment.station_name}
+                  stationLines={comment.station_lines}
+                  imageSrc={'https://randomuser.me/api/portraits/men/5.jpg'}
+                  comment={comment.comment_body}
+                  commentOnLine={comment.comment_on_line}
+                  timestamp={comment.timestamp}
+                  isLiked={ this.existsInLikedComments(comment.id, this.props.likedComments) ? true : false}  //isLiked={this.hasRecord(this.props.likedComments,checkin.record_id)}
+                  likeCount={ this.getCommentLikeCount(comment.id, this.props.commentEvents) }  //likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
+                  onLikePress={() => this.likeOrUnlike(comment, this.props.likedComments)}
+                  />
+              )
+            )}
+            </List>
+          </ScrollView>
+
+          {zeroResultsView}          
+
+        </View>
+      </View>
+
+    )
+  }
+}
+
+/*----- REDUX CONNECT -----*/
+
+  export default connect(
+    //this is mapStateToProps verbosely
+      //Which part of the Redux global state does our component want to receive as props?
+      (state) => {
+        return {
+          feedData: state.stationfeed.feed_data,  //get via this.props.feed_data
+          likedComments: state.stationfeed.liked_comments,
+          filterIncludes: state.stationfeed.filter_includes,
+          selectedLine: state.stationfeed.selected_line,
+          commentEvents: state.stationfeed.comment_events,
+
+          superMapsLine: state.supermap.selectedLine,
+          superMapsPreviewedStation: state.supermap.previewedStation,
+          superMapsPreviewedStationUid: state.supermap.previewedStationUid,
+          superMapsPreviewedStationLines: state.supermap.previewedStationLines,
+          superMapsSpecialStops: state.supermap.specialStops,
+
+        }
+      },
+    //this is mapDispatchToProps verbosely
+      //Which action creators does it want to receive by props?
+      (dispatch) => ({
+        actions: bindActionCreators(Actions, dispatch)
+      }),
+  )(StationFeed);
+
+/** stationName
+
+<Text style={{
+            color: '#97ACB3',
+            fontSize: 18,
+            fontWeight: 'bold',
+          }}
+          >
+            {this.props.superMapsPreviewedStation}
+          </Text>
+
+**/
+
+/** StationPreview
+
+
+<View style={{
             flex: 17,
             flexDirection: 'column',
             justifyContent: 'flex-start',
@@ -321,84 +491,6 @@ class StationFeed extends Component {
               />
             </View> 
           </View>
-        </View>
-        <View style={{
-          flex: 19,
-        }}>
-          <ScrollView style={{
-            flex: 1, 
-            flexDirection: 'column', 
-            padding:'3%', 
-            backgroundColor: 'black'
-          }}>
-            <List
-              containerStyle={styles.fcList}
-            >
-              {this.props.feedData.map( (comment,i) => (
-                <RiderComment
-                  key={i}
-                  status={comment.status}
-                  userName={comment.user_name}
-                  stationName={comment.station_name}
-                  stationLines={comment.station_lines}
-                  imageSrc={'https://randomuser.me/api/portraits/men/5.jpg'}
-                  comment={comment.comment_body}
-                  commentOnLine={comment.comment_on_line}
-                  timestamp={comment.timestamp}
-                  isLiked={ this.existsInLikedComments(comment.id, this.props.likedComments) ? true : false}  //isLiked={this.hasRecord(this.props.likedComments,checkin.record_id)}
-                  likeCount={ this.getCommentLikeCount(comment.id, this.props.commentEvents) }  //likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
-                  onLikePress={() => this.likeOrUnlike(comment, this.props.likedComments)}
-                  />
-              )
-            )}
-            </List>
-          </ScrollView>
 
-          {zeroResultsView}          
-
-        </View>
-      </View>
-
-    )
-  }
-}
-
-/*----- REDUX CONNECT -----*/
-
-  export default connect(
-    //this is mapStateToProps verbosely
-      //Which part of the Redux global state does our component want to receive as props?
-      (state) => {
-        return {
-          feedData: state.stationfeed.feed_data,  //get via this.props.feed_data
-          likedComments: state.stationfeed.liked_comments,
-          filterIncludes: state.stationfeed.filter_includes,
-          selectedLine: state.stationfeed.selected_line,
-          commentEvents: state.stationfeed.comment_events,
-
-          superMapsLine: state.supermap.selectedLine,
-          superMapsPreviewedStation: state.supermap.previewedStation,
-          superMapsPreviewedStationUid: state.supermap.previewedStationUid,
-          superMapsPreviewedStationLines: state.supermap.previewedStationLines
-
-        }
-      },
-    //this is mapDispatchToProps verbosely
-      //Which action creators does it want to receive by props?
-      (dispatch) => ({
-        actions: bindActionCreators(Actions, dispatch)
-      }),
-  )(StationFeed);
-
-/** stationName
-
-<Text style={{
-            color: '#97ACB3',
-            fontSize: 18,
-            fontWeight: 'bold',
-          }}
-          >
-            {this.props.superMapsPreviewedStation}
-          </Text>
 
 **/

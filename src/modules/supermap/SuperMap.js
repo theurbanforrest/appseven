@@ -177,16 +177,18 @@ class SuperMap extends Component {
       else this.props.actions.endCheckIn();
     }
 
-    isSpecialStop(specialStopsArray,stationUid){
+    getFirstPreviewedComment(specialStopsArray,stationUid){
 
-      for(i=0;i<specialStopsArray;i++){
+      for(i=0;i<specialStopsArray.length;i++){
 
-        console.log(specialStopsArray[i].station_uid);
+        console.log('the current id is ' + specialStopsArray[i].station_uid);
 
-        if(specialStopsArray[i].station_uid == stationUid){
-          return true;
+        if(specialStopsArray[i].station_uid == stationUid) {
+
+          return specialStopsArray[i];
         }
       }
+
       return false;
     }
 
@@ -275,7 +277,7 @@ class SuperMap extends Component {
           tagLineColor={ this.props.specialStops.length > 0 ? 'magenta' : '#97ACB3'  }
         />
         <StationPreview
-            isSpecial={this.props.previewedStationPinColor == 'magenta' ? true : false}//{ this.isSpecialStop(this.props.specialStops,this.props.previewedStationUid) }
+            isSpecial={this.props.previewedStationPinColor == 'magenta' ? true : false}
             visible={ this.showStationPreview(this.props.previewedStationLines,this.props.selectedLine)}//{this.props.previewedStation ? true : false}
             stationName={ this.props.previewedStation }
             lines={ this.props.previewedStationLines }//['BB','green','white'] }//this.props.previewedStationLines }
@@ -303,6 +305,7 @@ class SuperMap extends Component {
                 shortName: this.props.previewedStation
               })}
             onDismiss = {() => this.props.navigation.navigate('SuperMap')}
+            comment = { this.getFirstPreviewedComment(this.props.specialStops,this.props.previewedStationUid) }
         />
 
         <View style={{

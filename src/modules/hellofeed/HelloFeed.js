@@ -27,6 +27,7 @@ import { styles } from './styles'
 import HeartButton from '../../components/HeartButton'
 import CommentCard from '../../components/CommentCard'
 import RiderComment from '../../components/RiderComment'
+import LinePreview from '../../components/LinePreview'
 import StationCard from '../../components/StationCard'
 import AppHeader from '../../components/AppHeader'
 import { lineList } from '../supermap/data'
@@ -261,6 +262,7 @@ class HelloFeed extends Component {
             </View>
           </View>
         </View>
+        
       </View>
 
     )
@@ -281,6 +283,7 @@ class HelloFeed extends Component {
           commentEvents: state.hellofeed.comment_events,
 
           superMapsLine: state.supermap.selectedLine,
+          superMapsSpecialStops: state.supermap.specialStops
 
         }
       },
@@ -412,4 +415,15 @@ class HelloFeed extends Component {
               Presented by StreetEasy
             </Text>
 
+**/
+
+/** LinePreview
+
+<LinePreview
+          visible={true}
+          lines={ [this.props.selectedLine] }
+          onLinePress={()=> console.log('hello')}
+          stationsWithReports={ this.props.superMapsSpecialStops.length }
+          tagLineColor={ this.props.superMapsSpecialStops.length > 0 ? 'magenta' : '#97ACB3'  }
+        />
 **/

@@ -40,6 +40,35 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
   //do functions
     //insert some functions here
 
+  function getFriendlyTime(x){
+
+      let inMins = Math.round( (Date.now()-x) / 1000 / 60 );
+      let inHrs = Math.round( inMins / 60 );
+      let inDays = Math.round( inHrs / 24 );
+      let inWeeks = Math.round( inDays / 7 );
+
+      switch (true) {
+          case (inMins == 0):
+            return '1m';
+            break;
+          case (inMins < 60):
+            return inMins + 'm';
+            break;
+          case (inMins >= 60 && inMins < 1440):
+            return inHrs + 'h';
+            break;
+          case (inMins >= 1440):
+            return inDays + 'd';
+            break;
+          case (inDays >= 7):
+            return inWeeks + 'd';
+            break;
+          default:
+            return '1h';
+            break;
+      }
+    }
+
   if(!hasReport){
     return(
       
@@ -92,95 +121,98 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
   
   else return(
       <View style={{
-        paddingTop: '1%',
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        //backgroundColor: 'goldenrod',
-      }}>
-
-          <View style={{
-            flex: 17,
-            height: '100%',
-            flexDirection: 'column',
-            //backgroundColor: 'orange'
-          }}> 
-            <Text style={{
-              color: hasReport ? 'magenta' : '#97ACB3',
-              fontSize: 18,
-            }}
-            >
-              { hasReport ? 'Long Wait' : ''}
-            </Text>
-            <Text style={{
-              color: '#97ACB3',
-              fontSize: 14,
-              fontWeight: 'bold',
-            }}
-            >
-              { hasReport ? '10m ago • fochin82' : 'No reports'}
-            </Text>
-            <Text style={{
-              color: '#97ACB3',
-              fontSize: 18,
-              fontStyle: hasReport ? 'normal' : 'italic',
-            }}
-            >
-              { hasReport ? comment : 'Click to Update...'}
-            </Text>
-          </View>
-          <View style={{
-            flex: 7,
-            flexDirection: 'column',
-            justifyContent: 'space-between',
+            flex: 24,
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
             alignItems: 'center',
-            height: '100%'
+            backgroundColor: '#1F252A',
+            width: '100%'
           }}>
             <View style={{
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              alignItems: 'flex-start',
-              width: '100%'
-            }}>
-              <HeartButtonVertical
-                iconPrimary='thumbs-o-up'
-                iconAlt='thumbs-up'
-                isSelected={false}
-                likeCount={17}
-                onIconPress={onLikePress}
-                isDisabled={ hasReport ? false : true }
-              />
-              <HeartButtonVertical
-                iconPrimary='commenting-o'
-                iconAlt='commenting-o'
-                isSelected={false}
-                likeCount={2}
-                onIconPress={onCommentPress}
-                isDisabled={ hasReport ? false : true }
-              />
-            </View>
-            <View style={{
+              flex: 17,
               flexDirection: 'column',
               justifyContent: 'center',
-              alignItems: 'center',
+              alignItems: 'flex-start',
+              height: '100%',
             }}>
-              <Badge
-                value='+ Update'
-                containerStyle={{
-                  backgroundColor: '#1F252A',
-                  borderColor: 'orange',
-                  borderWidth: 1
-                }}
-                textStyle={{
-                  color: 'orange'
-                }}
-                onPress={onUpdatePress}
+              <Avatar
+                medium
+                rounded
+                source={{uri: 'https://randomuser.me/api/portraits/women/19.jpg' }}
               />
-            </View> 
+              <Text
+                style={{
+                  color: 'magenta',
+                  fontSize: 24,
+                  fontWeight: 'bold'
+                }}
+              >
+                {comment.status}
+              </Text>
+              
+              <Text
+                style={{
+                  color: '#97ACB3',
+                  fontSize: 14,
+                  fontStyle: 'normal'
+                }}
+              >
+                {getFriendlyTime(comment.timestamp)} ago • {comment.user_name}
+              </Text>
+            </View>
+            <View style={{
+              flex: 7,
+              flexDirection: 'column',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              height: '100%'
+            }}>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                alignItems: 'flex-start',
+                width: '100%'
+              }}>
+                <HeartButtonVertical
+                  iconPrimary='thumbs-o-up'
+                  iconAlt='thumbs-up'
+                  isSelected={false}
+                  likeCount={likeCount}
+                  onIconPress={onLikePress}
+                  isDisabled={false} //{ hasReport ? false : true }
+                />
+                <HeartButtonVertical
+                  iconPrimary='commenting-o'
+                  iconAlt='commenting-o'
+                  isSelected={false}
+                  likeCount={2}
+                  onIconPress={onCommentPress}
+                  isDisabled={false} //{ hasReport ? false : true }
+                />
+              </View>
+              <View style={{
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+                <Badge
+                  value='+ Update'
+                  containerStyle={{
+                    backgroundColor: '#1F252A',
+                    borderColor: 'orange',
+                    borderWidth: 1
+                  }}
+                  textStyle={{
+                    color: 'orange'
+                  }}
+                  onPress={()=> this.props.navigation.navigate('SettingsStack',{
+                  'previewedStation': this.props.superMapsPreviewedStation,
+                  'previewedStationLines' : this.props.superMapsPreviewedStationLines
+                })}
+                />
+              </View> 
+            </View>
           </View>
-
-      </View>
     )
   }
 
@@ -210,7 +242,7 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
         height: PropTypes.number,
         isLiked: PropTypes.bool,
         likeCount: PropTypes.number,
-        comment: PropTypes.string,
+        comment: PropTypes.any,
         onLikePress: PropTypes.func,
         onCommentPress: PropTypes.func,
         onUpdatePress: PropTypes.func,

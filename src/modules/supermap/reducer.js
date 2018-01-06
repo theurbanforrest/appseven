@@ -25,6 +25,7 @@ type superMapState = {
   previewedStation: string,
   previewedStationLines: any,
   previewedStationPinColor: string,
+  featuredComment: any,
   selectedLine: string,
   selectedStops: any,
   specialStops: any,
@@ -39,6 +40,7 @@ const initialState:
     previewedStation: '',
     previewedStationLines: [],
     previewedStationPinColor: 'black',
+    faturedComment: {},
     selectedLine: 'A',
     specialStops: [],
     selectedStops:

@@ -16,6 +16,7 @@ import {
 
 import FeaturedComment from './FeaturedComment'
 import HeartButton from './HeartButton'
+import HeartButtonVertical from './HeartButtonVertical'
 import { lineList } from '../modules/supermap/data'
 
 /*-- THE COMPONENT --*/
@@ -25,10 +26,13 @@ const StationPreview = (props: StationPreviewProps) => {
   //e.g. const { all, the, things } = props
     const {
       isSpecial,
+
       stationName,
       lines,
+      comment,
       selectedLine,
       visible,
+
       onClearPress,
       onLinePress,
       onFeedPress,
@@ -69,8 +73,11 @@ const StationPreview = (props: StationPreviewProps) => {
        return 'white';
     }
 
+    
+
 
   //if visible is false, return nothing
+
   if(visible){
     return(
       <View style={{
@@ -152,11 +159,11 @@ const StationPreview = (props: StationPreviewProps) => {
           <FeaturedComment
             hasReport={isSpecial}
             imageSrc={'https://randomuser.me/api/portraits/men/18.jpg'}
-            comment={'omg this is like the second day that this gawdam train has b..'}
+            comment={comment}
             isLiked={false}
             likeCount={12}
             onLikePress={onStationPress}
-            onCommentPress={onFeedPress}
+            onCommentPress={onStationPress}
             onUpdatePress={onCheckInPress}
           /> 
         </View>
@@ -196,6 +203,7 @@ const StationPreview = (props: StationPreviewProps) => {
         onCheckInPress: PropTypes.func,
         onDismiss: PropTypes.func,
         onStationPress: PropTypes.func,
+        comment: PropTypes.any
     };
 
   //Define styles
@@ -286,3 +294,19 @@ export default StationPreview;
             />
 
             **/
+
+
+/** FeaturedComment
+
+<FeaturedComment
+            hasReport={isSpecial}
+            imageSrc={'https://randomuser.me/api/portraits/men/18.jpg'}
+            comment={'omg this is like the second day that this gawdam train has b..'}
+            isLiked={false}
+            likeCount={12}
+            onLikePress={onStationPress}
+            onCommentPress={onFeedPress}
+            onUpdatePress={onCheckInPress}
+          /> 
+
+**/
