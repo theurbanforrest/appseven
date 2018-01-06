@@ -318,8 +318,14 @@ class StationFeed extends Component {
             isLiked={false}
             likeCount={this.getCommentLikeCount(featuredComment,this.props.commentEvents)}
             onLikePress={() => this.likeOrUnlike(featuredComment,this.props.likedComments)}
-            onCommentPress={() => checkInModal}
-            onUpdatePress={() => checkInModal}
+            onCommentPress={()=> this.props.navigation.navigate('SettingsStack',{
+                  'previewedStation': this.props.superMapsPreviewedStation,
+                  'previewedStationLines' : this.props.superMapsPreviewedStationLines
+                })}
+            onUpdatePress={()=> this.props.navigation.navigate('SettingsStack',{
+                  'previewedStation': this.props.superMapsPreviewedStation,
+                  'previewedStationLines' : this.props.superMapsPreviewedStationLines
+                })}
           /> 
         </View>
         <View style={{

@@ -205,10 +205,7 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
                   textStyle={{
                     color: 'orange'
                   }}
-                  onPress={()=> this.props.navigation.navigate('SettingsStack',{
-                  'previewedStation': this.props.superMapsPreviewedStation,
-                  'previewedStationLines' : this.props.superMapsPreviewedStationLines
-                })}
+                  onPress={onUpdatePress}
                 />
               </View> 
             </View>
