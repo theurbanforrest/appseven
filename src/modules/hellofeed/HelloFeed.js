@@ -4,7 +4,8 @@ import {
   ScrollView,
   Text,
   StyleSheet,
-  TouchableHighlight
+  TouchableHighlight,
+  Image
 
 } from 'react-native';
 import {
@@ -199,7 +200,37 @@ class HelloFeed extends Component {
         flexDirection: 'column',
       }}>
         <View style={{flex: 24}}>
-
+          <View style={{
+            paddingTop: '8%',
+            paddingBottom: '3%',
+            paddingLeft: '3%',
+            paddingRight: '3%',
+            width: '100%',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            backgroundColor: '#1F252A'
+          }}>
+            <View style={{
+              paddingRight: '3%'
+            }}>
+              <Image
+                style={{
+                  width: 50,
+                  height: 50,
+                }}
+                source={{uri: 'http://104.236.3.128/img/prayfam.png'}}
+              />
+            </View>
+            <Text style={{
+              fontFamily: 'Menlo',
+              fontSize: 24,
+              fontWeight: 'bold',
+              color: '#97ACB3',
+            }}>
+              undercrowd
+            </Text>
+          </View>
           <ScrollView style={{
             flex: 1, 
             flexDirection: 'column', 
@@ -262,7 +293,7 @@ class HelloFeed extends Component {
             </View>
           </View>
         </View>
-        
+      
       </View>
 
     )

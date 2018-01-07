@@ -185,6 +185,8 @@ class SuperMap extends Component {
 
         if(specialStopsArray[i].station_uid == stationUid) {
 
+          console.log(JSON.stringify(specialStopsArray[i]));
+
           return specialStopsArray[i];
         }
       }
@@ -226,12 +228,12 @@ class SuperMap extends Component {
                   longitude: this.getLong(theStop[1])
                 }}
                 pinColor={theStop[4]}
-                onPress={ this.props.previewedStation ? ()=>this.props.actions.getPreview(theStop[0],this.getStationLines(theStop[2]),theStop[3],theStop[4]) : null } //this.getStationLines(theStop[0])) : null }
+                onPress={ this.props.previewedStation ? ()=>this.props.actions.getPreview(theStop[0],this.getStationLines(theStop[2]),theStop[3],theStop[4]) : null} //this.getStationLines(theStop[0])) : null }
               >
 
                 <MapView.Callout
                   tooltip={false}
-                  onPress={()=>this.props.actions.getPreview(theStop[0],this.getStationLines(theStop[2]),theStop[3],theStop[4])} //this.getStationLines(theStop[0]))}
+                  onPress={()=>this.props.actions.getPreview(theStop[0],this.getStationLines(theStop[2]),theStop[3],theStop[4],this.getFirstPreviewedComment(this.props.specialStops,this.props.previewedStationUid).status)} //this.getStationLines(theStop[0]))}
                   style={{
                     //width: 150
                   }}
@@ -298,7 +300,8 @@ class SuperMap extends Component {
               })}
             onCheckInPress = {()=> this.props.navigation.navigate('SettingsStack',{
                 'previewedStation': this.props.previewedStation,
-                'previewedStationLines' : this.props.previewedStationLines
+                'previewedStationLines' : this.props.previewedStationLines,
+                'initialStatus' : this.getFirstPreviewedComment(this.props.specialStops,this.props.previewedStationUid).status
               }
             )}
             onStationPress = {()=> this.props.navigation.navigate('StationFeed',{

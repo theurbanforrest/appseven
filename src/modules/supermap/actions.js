@@ -52,7 +52,8 @@ export const getPreview = (
   station_name: string,
   station_lines: string,
   station_uid: string,
-  station_pin_color: string
+  station_pin_color: string,
+  station_status: string,
   ): Action => {
   return {
     type: GET_PREVIEW,
@@ -60,7 +61,8 @@ export const getPreview = (
       station_name,
       station_lines,
       station_uid,
-      station_pin_color
+      station_pin_color,
+      station_status,
     }
   }
 }

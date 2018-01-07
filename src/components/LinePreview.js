@@ -101,7 +101,6 @@ const LinePreview = (props: LinePreviewProps) => {
       <View style={{
         position: 'absolute',
         top: '0%',
-        height: '15%',
         width: '100%'
       }}>
         <View style={{
@@ -120,13 +119,57 @@ const LinePreview = (props: LinePreviewProps) => {
           <View style={{
             flexDirection: 'row',
             justifyContent: 'flex-start',
+            alignItems: 'flex-start'
             //backgroundColor: 'powderblue'
           }}>
+            <View style={{
+              paddingRight: '1%'
+            }}>
+              <Image
+                style={{
+                  width: 50,
+                  height: 50,
+                }}
+                source={{uri: 'http://104.236.3.128/img/prayfam.png'}}
+              />
+            </View>
+            <View style={{
+              flex: 20,
+              //backgroundColor: 'powderblue',
+            }}>
+              <Text style={{
+                color: '#97ACB3',
+                fontSize: 18,
+                fontWeight: 'bold',
+                textAlign: 'center'
+              }}
+              >
+                Last 45m:
+              </Text>
+              <Text style={{
+                color: tagLineColor,
+                fontSize: 18,
+                textAlign: 'center'
+                //fontWeight: 'bold',
+              }}
+              >
+                {tagLineHeadline}
+              </Text>
+              <Text style={{
+                color: '#97ACB3',
+                fontSize: 14,
+                fontStyle: 'italic',
+                textAlign: 'center'
+                //fontWeight: 'bold',
+              }}
+              >
+                {tagLineDescription}
+              </Text>
+            </View>
             <View style={{
               flex: 4,
               justifyContent: 'flex-start'
             }}>
-              
               <View
                 style={{
                   flexDirection: 'row',
@@ -149,36 +192,6 @@ const LinePreview = (props: LinePreviewProps) => {
                     ))
                 }
               </View>
-            </View>
-            <View style={{
-              flex: 20,
-              //backgroundColor: 'powderblue',
-            }}>
-              <Text style={{
-                color: '#97ACB3',
-                fontSize: 18,
-                fontWeight: 'bold',
-              }}
-              >
-                Last 45m:
-              </Text>
-              <Text style={{
-                color: tagLineColor,
-                fontSize: 18,
-                //fontWeight: 'bold',
-              }}
-              >
-                {tagLineHeadline}
-              </Text>
-              <Text style={{
-                color: '#97ACB3',
-                fontSize: 14,
-                fontStyle: 'italic',
-                //fontWeight: 'bold',
-              }}
-              >
-                {tagLineDescription}
-              </Text>
             </View>
           </View>
           </TouchableHighlight>

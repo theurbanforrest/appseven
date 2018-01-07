@@ -52,17 +52,18 @@ const Togglecon = (props: ToggleconProps) => {
         flex: 1,
         flexDirection: 'column',
         alignItems: 'center',
-        borderRadius: bRadius,
-        borderWidth: bWidth,
-        borderColor: bColor,
+        //borderRadius: bRadius,
+        //borderWidth: bWidth,
+        //borderColor: bColor,
       }}>
         <Icon
-          reverse={true}
+          reverse={false}
           //raised={isSelected}
           name={whichIcon}
           color={whichColor}
           type={whichType}
           onPress={onIconPress}
+          size={60}
         />
         <Text style={{
           color: whichFontColor

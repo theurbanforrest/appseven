@@ -25,6 +25,7 @@ type superMapState = {
   previewedStation: string,
   previewedStationLines: any,
   previewedStationPinColor: string,
+  previewedStationStatus: string,
   featuredComment: any,
   selectedLine: string,
   selectedStops: any,
@@ -40,6 +41,7 @@ const initialState:
     previewedStation: '',
     previewedStationLines: [],
     previewedStationPinColor: 'black',
+    previewedStationStatus: '',
     faturedComment: {},
     selectedLine: 'A',
     specialStops: [],
@@ -76,7 +78,7 @@ export default handleActions(
   {
     [GET_PREVIEW]: (state: superMapState, action) => {
       //get info from action and state
-        const { payload: {station_name,station_lines,station_uid,station_pin_color} } = action;
+        const { payload: {station_name,station_lines,station_uid,station_pin_color,station_status} } = action;
         const { previewedStation, previewedStationLines } = state;
 
       //set station_name into previewedStation and return state
@@ -85,7 +87,8 @@ export default handleActions(
           previewedStation: station_name,
           previewedStationUid: station_uid,
           previewedStationLines: station_lines,
-          previewedStationPinColor: station_pin_color
+          previewedStationPinColor: station_pin_color,
+          previewedStationStatus: station_status
         }
     },
     //add other reducers here

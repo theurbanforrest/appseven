@@ -269,11 +269,6 @@ class StationFeed extends Component {
     //console.log('specialStops is ' + JSON.stringify(this.props.superMapsSpecialStops));
 
     let featuredComment = this.getFirstPreviewedComment(this.props.superMapsSpecialStops,this.props.superMapsPreviewedStationUid);
-    let checkInModal = () => this.props.navigation.navigate('SettingsStack',{
-        'previewedStation': this.props.previewedStation,
-        'previewedStationLines' : this.props.previewedStationLines
-      }
-    )
 
 
     return(
