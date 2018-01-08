@@ -143,10 +143,6 @@ class SuperMap extends Component {
        return 'white';
     }
 
-    onChildChanged(targetLine){
-      this.props.actions.selectLine(targetLine);
-    }
-
     componentWillMount() {
       //if coming from HelloFeed, set as that line.  Else A by default
 
@@ -181,17 +177,28 @@ class SuperMap extends Component {
 
       for(i=0;i<specialStopsArray.length;i++){
 
-        console.log('the current id is ' + specialStopsArray[i].station_uid);
-
         if(specialStopsArray[i].station_uid == stationUid) {
-
-          console.log(JSON.stringify(specialStopsArray[i]));
 
           return specialStopsArray[i];
         }
       }
 
       return false;
+    }
+
+    getLineCheckInsCount(specialStopsArray){
+
+      let unique = {};
+      let distinct = [];
+      for( var i in specialStopsArray ){
+       if( typeof(unique[specialStopsArray[i].station_uid]) == "undefined"){
+        distinct.push(specialStopsArray[i].station_uid);
+       }
+       unique[specialStopsArray[i].station_uid] = 0;
+      }
+
+      console.log('distinct.length is ' + distinct.length);
+      return distinct.length;
     }
 
   //render()
@@ -275,7 +282,7 @@ class SuperMap extends Component {
           onLinePress={()=> this.props.navigation.navigate('LineFeed',{
             shortName: 'The Feed'
           })}
-          stationsWithReports={ this.props.specialStops.length }
+          stationsWithReports={ this.getLineCheckInsCount(this.props.specialStops) }
           tagLineColor={ this.props.specialStops.length > 0 ? 'magenta' : '#97ACB3'  }
         />
         <StationPreview

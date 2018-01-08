@@ -137,12 +137,12 @@ export const printSelf = (myStatus: string): Action => {
 
 		export function fetchLineFeedAttempt(selectedLine) {
 
-	      let url = 'http://165.227.71.39:3000/api/RiderComments?filter=%7B%22where%22%3A%7B%22comment_on_line%22%3A%22' + selectedLine + '%22%7D%2C%20%22order%22%20%3A%20%22timestamp%20DESC%22%7D'
-	      let theMethod = 'GET';
-	      let theHeaders = {
-	          'Accept': 'application/json',
-	          'Content-Type': 'application/json',
-	        };
+	    let url = 'http://165.227.71.39:3000/api/RiderComments?filter=%7B%22where%22%3A%7B%22status%22%3A%7B%22regexp%22%3A%22%5BA-Za-z0-9%5D%7B1%2C%7D%22%7D%2C%22comment_body%22%3A%7B%22regexp%22%3A%22%5BA-Za-z0-9%5D%7B1%2C%7D%22%7D%2C%22comment_on_line%22%3A%22' + selectedLine + '%22%7D%2C%22order%22%3A%22timestamp%20DESC%22%7D';
+      	let theMethod = 'GET';
+	    let theHeaders = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        };
 
 	      return (dispatch) => {
 	            dispatch(fetchIsLoading(true));

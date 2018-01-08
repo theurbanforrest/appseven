@@ -268,7 +268,24 @@ export const endCheckIn = (): Action => {
 
     export function fetchSpecialStopsAttempt(selectedLine,allStops,specialStops) {
 
-      let url = 'http://165.227.71.39:3000/api/RiderComments?filter=%7B%22where%22%3A%7B%22status%22%3A%7B%22regexp%22%3A%22%5BA-Za-z0-9%5D%7B1%2C%7D%22%7D%2C%22comment_on_line%22%3A%22'+ selectedLine +'%22%7D%2C%22order%22%3A%22timestamp%20DESC%22%7D';     
+      /*let filter = {
+        "where": {
+          "status":{
+            "regexp":"[A-Za-z0-9]{1,}"
+          },
+          "comment_body":{
+            "regexp":"[A-Za-z0-9]{1,}"
+          },
+          "comment_on_line":"W"
+        },
+        "order":"timestamp DESC"
+      }
+
+      filter = encodeURI(filter);
+
+      let url = 'http://165.227.71.39:3000/api/RiderComments?filter=' + filter;*/
+
+      let url = 'http://165.227.71.39:3000/api/RiderComments?filter=%7B%22where%22%3A%7B%22status%22%3A%7B%22regexp%22%3A%22%5BA-Za-z0-9%5D%7B1%2C%7D%22%7D%2C%22comment_on_line%22%3A%22' + selectedLine + '%22%7D%2C%22order%22%3A%22timestamp%20DESC%22%7D';
       let theMethod = 'GET';
       let theHeaders = {
           'Accept': 'application/json',

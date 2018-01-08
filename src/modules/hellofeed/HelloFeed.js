@@ -45,7 +45,7 @@ class HelloFeed extends Component {
     super(props);
 
     this.state = {
-      url: 'http://165.227.71.39:3000/api/RiderComments?filter=%7B%22order%22%20%3A%20%22id%20DESC%22%2C%22limit%22%20%3A%2020%7D', //?filter={"order" : "id DESC","limit" : 20}
+      url: 'http://165.227.71.39:3000/api/RiderComments?filter=%7B%22where%22%3A%7B%22status%22%3A%7B%22regexp%22%3A%22%5BA-Za-z0-9%5D%7B1%2C%7D%22%7D%2C%22comment_body%22%3A%7B%22regexp%22%3A%22%5BA-Za-z0-9%5D%7B1%2C%7D%22%7D%7D%2C%22order%22%3A%22timestamp%20DESC%22%7D',
       method: 'GET',
       headers: {
         'Accept': 'application/json',

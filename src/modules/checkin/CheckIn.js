@@ -36,18 +36,19 @@ class CheckIn extends Component {
 
       comment: '',
       modalVisible: false,
-      status: '',
+      status: 'OK',
 
       activity: false,
       longWait: false,
       crowded: false,
-      ok: false,
+      ok: true,
     }
   }
 
   componentWillMount() {
 
     this.props.actions.checkinStart();
+
     switch(this.getFirstPreviewedComment(this.props.specialStops,this.props.previewedStationUid).status){
 
       case 'Activity':
@@ -76,6 +77,8 @@ class CheckIn extends Component {
         })
         break;
     };
+
+  console.log('this.state.ok is ' + this.state.ok)
 
   }
 
@@ -131,7 +134,7 @@ class CheckIn extends Component {
           longWait: false,
           crowded: false,
           ok: aa,
-          status: aa ? 'OK' : ''
+          status: 'OK'
         });
     }
   }
