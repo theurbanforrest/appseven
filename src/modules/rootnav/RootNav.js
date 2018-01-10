@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
   import CheckIn from '../checkin/CheckIn'
   import HelloFeed from '../hellofeed/HelloFeed'
   import FilterModal from '../hellofeed/FilterModal'
+  import Profile from '../profile/Profile'
 
 /*-- StationFeed Stack --*/
   export const StationFeedStack = StackNavigator({
@@ -72,12 +73,11 @@ import { connect } from 'react-redux';
   //export const Tabs = DrawerNavigator({
   export const Tabs = TabNavigator(
     {
-
        HelloFeed: {
         screen: HelloFeed,
         navigationOptions: {
-          tabBarLabel: 'Feed',
-          tabBarIcon: ({ tintColor }) => <Icon name='list-ul' type='font-awesome' size={25} color={tintColor} />,
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ tintColor }) => <Icon name='home' type='font-awesome' size={25} color={tintColor} />,
         },
       },
       
@@ -100,9 +100,15 @@ import { connect } from 'react-redux';
         },
       },
       */
-
-      HelloWorld: {
+      MTAFeed: {
         screen: HelloWorld,
+        navigationOptions: {
+          tabBarLabel: 'MTA Feed',
+          tabBarIcon: ({ tintColor }) => <Icon name='subway' type='font-awesome' size={25} color={tintColor} />,
+        },
+      },
+      Settings: {
+        screen: Profile,
         navigationOptions: {
           tabBarLabel: 'Settings',
           tabBarIcon: ({ tintColor }) => <Icon name='cog' type='font-awesome' size={25} color={tintColor} />,

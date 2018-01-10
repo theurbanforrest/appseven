@@ -41,7 +41,7 @@ class CheckIn extends Component {
       activity: false,
       longWait: false,
       crowded: false,
-      ok: true,
+      ok: false,
     }
   }
 

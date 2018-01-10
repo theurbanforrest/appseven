@@ -187,7 +187,9 @@ class HelloFeed extends Component {
 
   componentWillMount() {
     //initially load with same line as SuperMap
-    this.props.actions.fetchLineFeedAttempt(this.props.superMapsLine);
+    //!this.props.superMapsLine ? this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers) : this.props.actions.fetchLineFeedAttempt(this.props.superMapsLine);
+    
+    this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers);
   }
 
   render() {
@@ -199,101 +201,98 @@ class HelloFeed extends Component {
         flex: 1,
         flexDirection: 'column',
       }}>
-        <View style={{flex: 24}}>
+        <View style={{
+          paddingTop: '8%',
+          paddingBottom: '3%',
+          paddingLeft: '3%',
+          paddingRight: '3%',
+          width: '100%',
+          flexDirection: 'row',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          backgroundColor: '#1F252A'
+        }}>
           <View style={{
-            paddingTop: '8%',
-            paddingBottom: '3%',
-            paddingLeft: '3%',
-            paddingRight: '3%',
-            width: '100%',
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            backgroundColor: '#1F252A'
+            paddingRight: '3%'
           }}>
-            <View style={{
-              paddingRight: '3%'
-            }}>
-              <Image
-                style={{
-                  width: 50,
-                  height: 50,
-                }}
-                source={{uri: 'http://104.236.3.128/img/prayfam.png'}}
-              />
-            </View>
-            <Text style={{
-              fontFamily: 'Menlo',
-              fontSize: 24,
-              fontWeight: 'bold',
-              color: '#97ACB3',
-            }}>
-              undercrowd
-            </Text>
+            <Image
+              style={{
+                width: 50,
+                height: 50,
+              }}
+              source={{uri: 'http://104.236.3.128/img/prayfam.png'}}
+            />
           </View>
-          <ScrollView style={{
-            flex: 1, 
-            flexDirection: 'column', 
-            padding:'3%', 
-            backgroundColor: 'black'
+          <Text style={{
+            fontFamily: 'Menlo',
+            fontSize: 24,
+            fontWeight: 'bold',
+            color: '#97ACB3',
           }}>
-            <List
-              containerStyle={styles.fcList}
-            >
-              {this.props.feedData.map( (comment,i) => (
-                <RiderComment
-                  key={i}
-                  status={comment.status}
-                  userName={comment.user_name}
-                  stationName={comment.station_name}
-                  stationLines={comment.station_lines}
-                  imageSrc={'https://randomuser.me/api/portraits/men/5.jpg'}
-                  comment={comment.comment_body}
-                  commentOnLine={comment.comment_on_line}
-                  timestamp={comment.timestamp}
-                  isLiked={ this.existsInLikedComments(comment.id, this.props.likedComments) ? true : false}  //isLiked={this.hasRecord(this.props.likedComments,checkin.record_id)}
-                  likeCount={ this.getCommentLikeCount(comment.id, this.props.commentEvents) }  //likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
-                  onLikePress={() => this.likeOrUnlike(comment, this.props.likedComments)}
-                  />
-              )
-            )}
-            </List>
-          </ScrollView>
+            undercrowd
+          </Text>
+        </View>
+        <ScrollView style={{
+          flex: 1, 
+          flexDirection: 'column', 
+          padding:'3%', 
+          backgroundColor: 'black'
+        }}>
+          <List
+            containerStyle={styles.fcList}
+          >
+            {this.props.feedData.map( (comment,i) => (
+              <RiderComment
+                key={i}
+                status={comment.status}
+                userName={comment.user_name}
+                stationName={comment.station_name}
+                stationLines={comment.station_lines}
+                imageSrc={'https://randomuser.me/api/portraits/men/5.jpg'}
+                comment={comment.comment_body}
+                commentOnLine={comment.comment_on_line}
+                timestamp={comment.timestamp}
+                isLiked={ this.existsInLikedComments(comment.id, this.props.likedComments) ? true : false}  //isLiked={this.hasRecord(this.props.likedComments,checkin.record_id)}
+                likeCount={ this.getCommentLikeCount(comment.id, this.props.commentEvents) }  //likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
+                onLikePress={() => this.likeOrUnlike(comment, this.props.likedComments)}
+                />
+            )
+          )}
+          </List>
+        </ScrollView>
 
-          {zeroResultsView}          
+        {zeroResultsView}          
 
+        <View style={{
+          //position: 'absolute',
+          bottom: 0,
+          flexDirection: 'column-reverse',
+          //height: '30%',
+        }}>
           <View style={{
-            //position: 'absolute',
-            bottom: 0,
-            flexDirection: 'column-reverse',
-            //height: '30%',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            padding: '3%',
+            backgroundColor: 'rgba(31,37,42,1.0)',
           }}>
-            <View style={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-              padding: '3%',
-              backgroundColor: 'rgba(31,37,42,1.0)',
-            }}>
-              {
-                lineList.map( (line) => (
-                    <Badge
-                      key={line.id}
-                      value={line.id}
-                      containerStyle={{
-                        backgroundColor: this.props.selectedLine == line.id ? line.bg : 'gainsboro'
-                      }}
-                      textStyle={{
-                        color: this.props.selectedLine == line.id ? line.text : 'white'
-                      }}
-                      onPress={() => this.props.selectedLine == line.id ? this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers) : this.props.actions.fetchLineFeedAttempt(line.id)}
-                    />
-                  )
+            {
+              lineList.map( (line) => (
+                  <Badge
+                    key={line.id}
+                    value={line.id}
+                    containerStyle={{
+                      backgroundColor: this.props.selectedLine == line.id ? line.bg : 'gainsboro'
+                    }}
+                    textStyle={{
+                      color: this.props.selectedLine == line.id ? line.text : 'white'
+                    }}
+                    onPress={() => this.props.selectedLine == line.id ? this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers) : this.props.actions.fetchLineFeedAttempt(line.id)}
+                  />
                 )
-              }
-            </View>
+              )
+            }
           </View>
         </View>
-      
       </View>
 
     )

@@ -5,6 +5,7 @@ import stationdetail from './stationdetail'
 import supermap from './supermap'
 import checkin from './checkin'
 import hellofeed from './hellofeed'
+import profile from './profile'
 
 //in this section keep importing your modules
 
@@ -16,3 +17,4 @@ export { stationdetail }
 export { supermap }
 export { checkin }
 export { hellofeed }
+export { profile }

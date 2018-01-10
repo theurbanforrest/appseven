@@ -18,6 +18,7 @@ import thunk from 'redux-thunk'
 	//import { checkinflow } from './modules'
 	import { checkin } from './modules'
 	import { hellofeed } from './modules'
+	import { profile } from './modules'
 
 
 	//added by forrest for debug logging
@@ -39,6 +40,7 @@ export default (data: Object = {}) => {
     //[checkinflow.NAME]: checkinflow.reducer,
     [checkin.NAME]: checkin.reducer,
     [hellofeed.NAME]: hellofeed.reducer,
+    [profile.NAME]: profile.reducer
   })
 
   return createStore(rootReducer, data, middleware)
