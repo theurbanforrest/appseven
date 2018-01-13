@@ -9,6 +9,7 @@ import { Button } from 'react-native-elements';
     import { connect } from 'react-redux'
     //need this for Components instead of pure functions
       import * as Actions from './actions'
+      import * as SuperMapActions from '../supermap/actions'
 
 class HelloWorld extends Component {
   constructor(props) {
@@ -45,20 +46,20 @@ class HelloWorld extends Component {
   checkConnectAndAlert() {
 
     function alerty(netInfoData){
-    console.log('Initial, type: ' + netInfoData.type + ', effectiveType: ' + netInfoData.effectiveType);
-    
-    Alert.alert(
-      'Alert Title',
-      'My Alert Msg',
-      [
-        {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ],
-      { cancelable: false }
-    )
-    return netInfoData;
-  }
+      console.log('Initial, type: ' + netInfoData.type + ', effectiveType: ' + netInfoData.effectiveType);
+      
+      Alert.alert(
+        'Alert Title',
+        'My Alert Msg',
+        [
+          {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        { cancelable: false }
+      )
+      return netInfoData;
+    }
 
     NetInfo.getConnectionInfo().
     then((data)=> alerty(data))
@@ -71,13 +72,17 @@ class HelloWorld extends Component {
     });
     */
 
-/*
+    /*
     NetInfo.getConnectionInfo().
     then((connectionInfo) => {
       console.log('Initial, type: ' + connectionInfo.type + ', effectiveType: ' + connectionInfo.effectiveType);
     });
-*/
+    */
     
+  }
+
+  superMapHelloWorld(){
+    this.props.superMapActions.helloWorld();
   }
 
   parsey(response) {
@@ -139,6 +144,11 @@ class HelloWorld extends Component {
             onPress={() => this.checkConnectAndAlert()}
           />
 
+          <Button
+            title='Test SuperMap Hello World()'
+            onPress={() => this.props.superMapActions.helloWorld()}
+          />
+
         </View>
 
       </View>
@@ -160,6 +170,7 @@ class HelloWorld extends Component {
     //this is mapDispatchToProps verbosely
       //Which action creators does it want to receive by props?
       (dispatch) => ({
-        actions: bindActionCreators(Actions, dispatch)
+        actions: bindActionCreators(Actions, dispatch),
+        superMapActions: bindActionCreators(SuperMapActions, dispatch)
       }),
   )(HelloWorld);

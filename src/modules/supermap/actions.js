@@ -9,6 +9,8 @@ import {
   START_CHECK_IN,
   END_CHECK_IN,
 
+  HELLO_WORLD,
+
   FETCH_HAS_ERRORED,
   FETCH_IS_LOADING,
   FETCH_SPECIAL_STOPS_SUCCESS,
@@ -72,6 +74,13 @@ export const clearPreview = (): Action => {
     type: CLEAR_PREVIEW
   }
 }
+
+export const helloWorld = (): Action => {
+  return {
+    type: HELLO_WORLD
+  }
+}
+
 
 export function selectLine(selected_line,selected_stops) {
         return {

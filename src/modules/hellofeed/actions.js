@@ -7,6 +7,7 @@ import {
   FETCH_SUCCESS,
   FETCH_LINE_FEED_SUCCESS,
   FETCH_LIKES_SUCCESS,
+  FETCH_USER_PROFILE_SUCCESS,
 
   SHOW_FILTER_MODAL,
   HIDE_FILTER_MODAL,
@@ -169,6 +170,15 @@ export const printSelf = (myStatus: string): Action => {
 	                .catch(() => dispatch(fetchHasErrored(true)))
 	        };
 	    }
+
+	//get UserProfile that matches the device UUID
+
+	/*
+
+		NEED TO BUILD THIS OUT FOR FETCH_USER_PROFILE_SUCCESS
+
+
+	*/
 
 	//get CommentEvents that are likes and match the filter
 

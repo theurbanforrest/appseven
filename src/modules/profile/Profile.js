@@ -13,13 +13,12 @@ import {
   Icon
 } from 'react-native-elements';
 import DeviceInfo from 'react-native-device-info'
-
-//import { stationdetails }  from './data'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { styles } from './styles'
 
-import RiderComment from '../../components/RiderComment'
+import EditableName from '../../components/EditableName'
+import LoadingOverlay from '../../components/LoadingOverlay'
 
     //need this for Components instead of pure functions
     import * as Actions from './actions'
@@ -30,6 +29,36 @@ class Profile extends Component {
   constructor(props) {
     super(props);
 
+  }
+
+  getUUID(){
+
+    let x = DeviceInfo.getUniqueID();
+    return x;
+  }
+
+  updateName(newName){
+
+    let x = this.getUUID();
+
+    console.log('newName is ' + newName);
+    console.log('getUUID is ' + x );
+
+    this.props.actions.submitNameUpdateAttempt({
+      "user_id": x,
+      "user_name": newName,
+      "id": 6
+    });
+
+    return true;
+  }
+
+  componentWillMount(){
+    let x = this.getUUID();
+    this.props.actions.fetchNameAttempt(x);
+  }
+
+  componentWillReceiveProps(){
 
   }
 
@@ -39,6 +68,9 @@ class Profile extends Component {
         flex: 1,
         flexDirection: 'column',
       }}>
+        <LoadingOverlay
+          isVisible={this.props.is_loading}
+        />
         <View style={{
           paddingTop: '8%',
           paddingBottom: '3%',
@@ -73,31 +105,16 @@ class Profile extends Component {
         <ScrollView style={{
           flex: 1,
           flexDirection: 'column',
-          paddingTop: '3%',
+          paddingTop: '8%',
           paddingLeft: '3%',
           paddingRight: '3%',
           backgroundColor: 'black'
         }}>
-          <View style={{
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            paddingBottom: '3%'
-          }}>
-            <Avatar
-              xlarge
-              rounded
-              source={{uri: 'https://randomuser.me/api/portraits/men/49.jpg' }}
-              //onPress={onMenuPress}
-            />
-            <Text style={{
-              fontSize: 24,
-              fontWeight: 'bold',
-              color: '#97ACB3'
-            }}>
-              fochin82
-            </Text>
-          </View>
+          <EditableName
+            inEditingMode={false}
+            nameValue={this.props.user_name}
+            onSubmit={(name) => this.updateName(name)}
+          />
           <View style={{
             flexDirection: 'row',
             justifyContent: 'flex-start',
@@ -204,9 +221,9 @@ class Profile extends Component {
       //Which part of the Redux global state does our component want to receive as props?
       (state) => {
         return {
-          //feedData: state.hellofeed.feed_data,  //get via this.props.feed_data
-          //likedComments: state.hellofeed.liked_comments,
-
+          device_uuid: state.profile.device_uuid,
+          user_name: state.profile.user_name,
+          is_loading: state.profile.is_loading
         }
       },
     //this is mapDispatchToProps verbosely

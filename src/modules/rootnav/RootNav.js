@@ -73,23 +73,21 @@ import { connect } from 'react-redux';
   //export const Tabs = DrawerNavigator({
   export const Tabs = TabNavigator(
     {
-       HelloFeed: {
+      HelloFeed: {
         screen: HelloFeed,
         navigationOptions: {
-          tabBarLabel: 'Home',
+          tabBarLabel: 'Feed',
           tabBarIcon: ({ tintColor }) => <Icon name='home' type='font-awesome' size={25} color={tintColor} />,
         },
       },
-      
       MapStack: {
         screen: MapStack,
         navigationOptions: {
-          tabBarLabel: 'Stations',
+          tabBarLabel: 'Map',
           tabBarIcon: ({tintColor}) => 
             <Icon name='map-pin' type='font-awesome' size={25} color={tintColor} /> ,
         }
       },
-    
       /*
       CheckIn: {
         screen: CheckIn,
@@ -103,8 +101,15 @@ import { connect } from 'react-redux';
       MTAFeed: {
         screen: HelloWorld,
         navigationOptions: {
-          tabBarLabel: 'MTA Feed',
+          tabBarLabel: 'MTA',
           tabBarIcon: ({ tintColor }) => <Icon name='subway' type='font-awesome' size={25} color={tintColor} />,
+        },
+      },
+      Profile: {
+        screen: Profile,
+        navigationOptions: {
+          tabBarLabel: 'Profile',
+          tabBarIcon: ({ tintColor }) => <Icon name='user-circle-o' type='font-awesome' size={25} color={tintColor} />,
         },
       },
       Settings: {
@@ -132,7 +137,6 @@ import { connect } from 'react-redux';
       tabBarOptions : {
         style: {
           backgroundColor: '#1F252A',
-          activeTintColor: 'orange'
         }
       }
     },

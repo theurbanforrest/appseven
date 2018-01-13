@@ -37,6 +37,7 @@ import { lineList } from '../supermap/data'
 
     //need this for Components instead of pure functions
     import * as Actions from './actions'
+    import * as SuperMapActions from '../supermap/actions'
 
 class HelloFeed extends Component {
 
@@ -190,6 +191,17 @@ class HelloFeed extends Component {
     //!this.props.superMapsLine ? this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers) : this.props.actions.fetchLineFeedAttempt(this.props.superMapsLine);
     
     this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers);
+    //this.props.superMapActions.fetchSpecialStopsAttempt(this.props.selectedLine,this.props.superMapsSelectedStops,this.props.superMapsSpecialStops);
+      
+
+  }
+
+  updateFeedAndSuperMap(url,method,headers,sm_line,sm_stops,sm_special){
+
+    this.props.actions.fetchAttempt(url,method,headers);
+    //this.props.superMapActions.fetchSpecialStopsAttempt(sm_line,sm_stops,sm_special);
+     
+
   }
 
   render() {
@@ -286,7 +298,15 @@ class HelloFeed extends Component {
                     textStyle={{
                       color: this.props.selectedLine == line.id ? line.text : 'white'
                     }}
-                    onPress={() => this.props.selectedLine == line.id ? this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers) : this.props.actions.fetchLineFeedAttempt(line.id)}
+                    onPress={() => this.props.selectedLine == line.id ? this.updateFeedAndSuperMap(
+                      this.state.url,
+                      this.state.method,
+                      this.state.headers,
+                      this.props.superMapsLine,
+                      this.props.superMapsSelectedStops,
+                      this.props.superMapsSpecialStops
+                      ) : this.props.actions.fetchLineFeedAttempt(line.id)
+                    }
                   />
                 )
               )
@@ -313,14 +333,16 @@ class HelloFeed extends Component {
           commentEvents: state.hellofeed.comment_events,
 
           superMapsLine: state.supermap.selectedLine,
-          superMapsSpecialStops: state.supermap.specialStops
+          superMapsSpecialStops: state.supermap.specialStops,
+          superMapsSelectedStops: state.supermap.selectedStops,
 
         }
       },
     //this is mapDispatchToProps verbosely
       //Which action creators does it want to receive by props?
       (dispatch) => ({
-        actions: bindActionCreators(Actions, dispatch)
+        actions: bindActionCreators(Actions, dispatch),
+        superMapActions: bindActionCreators(SuperMapActions, dispatch)
       }),
   )(HelloFeed);
 
