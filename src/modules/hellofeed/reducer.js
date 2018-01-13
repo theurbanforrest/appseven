@@ -10,6 +10,7 @@ import {
   HIDE_FILTER_MODAL,
 
   FETCH_LINE_FEED_SUCCESS,
+  SUBMIT_IS_LOADING,
   SUBMIT_LIKE_SUCCESS,
   SUBMIT_UNLIKE_SUCCESS,
   FETCH_LIKES_SUCCESS,
@@ -27,6 +28,7 @@ type helloFeedState = {
   show_filter_modal: bool,
   liked_comments: any,
   comment_events: any,
+  is_loading: bool,
 }
 
 const initialState:
@@ -37,10 +39,18 @@ const initialState:
     selected_line: 'A',
     liked_comments: [],
     comment_events: [],
+    is_loading: false
   }
 
 export default handleActions(
   {
+    [FETCH_IS_LOADING]: (state: helloFeedState, action) => {
+
+      return {
+        ...state,
+        is_loading: true,
+      }
+    },
     [FETCH_SUCCESS]: (state: helloFeedState, action) => {
       const { payload: { data } } = action;
       const { feed_data } = state;
@@ -49,6 +59,7 @@ export default handleActions(
         ...state,
         feed_data: data,
         selected_line: '',
+        is_loading: false
       }
     },
     [SHOW_FILTER_MODAL]: (state: helloFeedState, action) => {
@@ -75,23 +86,25 @@ export default handleActions(
         ...state,
         feed_data: data,
         selected_line: selectedLine,
+        is_loading: false
       }
+    },
+    [SUBMIT_IS_LOADING]: (state: helloFeedState, action) => {
+
+      return {
+        ...state,
+        is_loading: true
+      }
+
+      //essentially do nothing and let LIKE_COMMENT handle everything
+
     },
     [SUBMIT_LIKE_SUCCESS]: (state: helloFeedState, action) => {
       const { payload: { data } } = action;
 
-      /*
       return {
         ...state,
-        liked_comments: {
-          ...state.liked_comments,
-          data
-        }
-      }
-      */
-
-      return {
-        ...state,
+        is_loading: false
       }
 
       //essentially do nothing and let LIKE_COMMENT handle everything
@@ -102,7 +115,8 @@ export default handleActions(
 
       return {
         ...state,
-        comment_events: data
+        comment_events: data,
+        is_loading: false
       }
     },
     [LIKE_COMMENT]: (state: helloFeedState, action) => {

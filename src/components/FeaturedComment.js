@@ -42,32 +42,52 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
 
   function getFriendlyTime(x){
 
-      let inMins = Math.round( (Date.now()-x) / 1000 / 60 );
-      let inHrs = Math.round( inMins / 60 );
-      let inDays = Math.round( inHrs / 24 );
-      let inWeeks = Math.round( inDays / 7 );
+    let inMins = Math.round( (Date.now()-x) / 1000 / 60 );
+    let inHrs = Math.round( inMins / 60 );
+    let inDays = Math.round( inHrs / 24 );
+    let inWeeks = Math.round( inDays / 7 );
 
-      switch (true) {
-          case (inMins == 0):
-            return '1m';
-            break;
-          case (inMins < 60):
-            return inMins + 'm';
-            break;
-          case (inMins >= 60 && inMins < 1440):
-            return inHrs + 'h';
-            break;
-          case (inMins >= 1440):
-            return inDays + 'd';
-            break;
-          case (inDays >= 7):
-            return inWeeks + 'd';
-            break;
-          default:
-            return '1h';
-            break;
-      }
+    switch (true) {
+        case (inMins == 0):
+          return '1m';
+          break;
+        case (inMins < 60):
+          return inMins + 'm';
+          break;
+        case (inMins >= 60 && inMins < 1440):
+          return inHrs + 'h';
+          break;
+        case (inMins >= 1440):
+          return inDays + 'd';
+          break;
+        case (inDays >= 7):
+          return inWeeks + 'd';
+          break;
+        default:
+          return '1h';
+          break;
     }
+  }
+
+  function getStartingText(commentBody){
+    let x = commentBody;
+
+    if(x == ''){
+      return x;
+    }
+    else if (x.length < 20){
+      return ': "' + x +'"';
+    }
+
+    else x = ': "'+ x.substr(0,20) + '...';
+
+    console.log(x);
+    return x;
+  }
+
+  function getFriendlyUserName(rawUserName){
+    return ' @' + rawUserName;
+  }
 
   if(!hasReport){
     return(
@@ -148,6 +168,13 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
                 }}
               >
                 {comment.status}
+                <Text style={{
+                  color: '#546165',
+                  fontSize: 14,
+                  fontWeight: 'normal'
+                }}>
+                  {getFriendlyUserName(comment.user_name)}
+                </Text>
               </Text>
               
               <Text
@@ -157,7 +184,7 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
                   fontStyle: 'normal'
                 }}
               >
-                {getFriendlyTime(comment.timestamp)} ago • {comment.user_name}
+                 {getFriendlyTime(comment.timestamp)} ago{getStartingText(comment.comment_body)}
               </Text>
             </View>
             <View style={{

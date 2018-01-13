@@ -26,19 +26,28 @@ const LoadingOverlay = (props: LoadingOverlayProps) => {
     return(
       <View style={{
         position: 'absolute',
-        top: 0,
-        right: 0,
         height: '100%',
         width: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
       }}>
 
         <Icon
           size={48}
-          name='spinner'
+          name='hand-peace-o'
           type='font-awesome'
           color='#97ACB3'
         />
+
+        <Text style={{
+          color: '#97ACB3',
+          fontFamily: 'Menlo',
+          fontSize: 24
+        }}>
+        Loading...
+        </Text>
 
       </View>
     )

@@ -30,6 +30,7 @@
     import LocationStatusButton from '../../components/LocationStatusButton'
     import AppHeader from '../../components/AppHeader'
     import LinePreview from '../../components/LinePreview'
+    import LoadingOverlay from '../../components/LoadingOverlay'
 
   //redux
     import { bindActionCreators } from 'redux'
@@ -280,7 +281,6 @@ class SuperMap extends Component {
             pinColor='black'
           />
         </MapView>
-
         <LinePreview
           visible={true}
           lines={ [this.props.selectedLine] }
@@ -322,7 +322,6 @@ class SuperMap extends Component {
             onDismiss = {() => this.props.navigation.navigate('SuperMap')}
             comment = { this.getFirstPreviewedComment(this.props.specialStops,this.props.previewedStationUid) }
         />
-
         <View style={{
           bottom: 0,
           flexDirection: 'column-reverse',
@@ -363,6 +362,9 @@ class SuperMap extends Component {
             }
           </View>
         </View>
+        <LoadingOverlay
+          isVisible={this.props.fetchInProgress}
+        />
       </View>
     )
   }//end render
@@ -381,6 +383,7 @@ class SuperMap extends Component {
           previewedStationLines: state.supermap.previewedStationLines,
           previewedStationUid: state.supermap.previewedStationUid,
           previewedStationPinColor: state.supermap.previewedStationPinColor,
+          fetchInProgress: state.supermap.fetchInProgress,
 
           selectedLine: state.supermap.selectedLine,
           helloFeedLine: state.hellofeed.selected_line,

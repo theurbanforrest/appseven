@@ -42,17 +42,18 @@ class Profile extends Component {
     return x;
   }
 
-  updateName(newName){
+  updateName(newName,tableId){
 
     let x = this.getUUID();
 
     console.log('newName is ' + newName);
     console.log('getUUID is ' + x );
+    console.log('id is ' + tableId);
 
     this.props.actions.submitNameUpdateAttempt({
       "user_id": x,
       "user_name": newName,
-      "id": 6
+      "id": tableId
     });
 
     return true;
@@ -73,9 +74,6 @@ class Profile extends Component {
         flex: 1,
         flexDirection: 'column',
       }}>
-        <LoadingOverlay
-          isVisible={this.props.is_loading}
-        />
         <View style={{
           paddingTop: '8%',
           paddingBottom: '3%',
@@ -141,7 +139,7 @@ class Profile extends Component {
                 defaultValue={this.props.user_name}
                 onChangeText={(theName) => this.setState({theName})}
                 autoCapitalize='none'
-                onEndEditing={() => this.updateName(this.state.theName)}
+                onEndEditing={() => this.updateName(this.state.theName,this.props.table_id)}
                 style={{
                   fontSize: 24,
                   fontWeight: 'bold',
@@ -250,6 +248,9 @@ class Profile extends Component {
             </View>
           </View>
         </ScrollView>
+        <LoadingOverlay
+          isVisible={this.props.is_loading}
+        />
       </View>
 
     )
@@ -265,7 +266,8 @@ class Profile extends Component {
         return {
           device_uuid: state.profile.device_uuid,
           user_name: state.profile.user_name,
-          is_loading: state.profile.is_loading
+          is_loading: state.profile.is_loading,
+          table_id: state.profile.table_id
         }
       },
     //this is mapDispatchToProps verbosely

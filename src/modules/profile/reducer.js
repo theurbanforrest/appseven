@@ -74,6 +74,7 @@ export default handleActions(
         ...state,
         device_uuid: data[0].user_id,
         user_name: data[0].user_name,
+        table_id: data[0].id,
         is_loading: false
       }
     },

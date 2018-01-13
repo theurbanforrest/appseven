@@ -32,6 +32,7 @@ type superMapState = {
   specialStops: any,
   myLocation: any,
   stopsToDisplay: any,
+  isLoading: bool,
 }
 
 const initialState:

@@ -156,10 +156,10 @@ const RiderComment = (props: RiderCommentProps) => {
               </Text>
               <Text style={{
                 fontSize: 14,
-                color: isHighlighted(status,'#76888D','#76888D'),
+                color: isHighlighted(status,'#546165','#546165'),
                 //fontStyle: 'italic'
               }}>
-                @{userName} • { getFriendlyTime(timestamp) }
+                 @{userName} • {getFriendlyTime(timestamp)}
                 </Text>
                 <Text/>
             </View>

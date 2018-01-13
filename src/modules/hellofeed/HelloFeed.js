@@ -31,6 +31,7 @@ import RiderComment from '../../components/RiderComment'
 import LinePreview from '../../components/LinePreview'
 import StationCard from '../../components/StationCard'
 import AppHeader from '../../components/AppHeader'
+import LoadingOverlay from '../../components/LoadingOverlay'
 import { lineList } from '../supermap/data'
 
 
@@ -313,6 +314,9 @@ class HelloFeed extends Component {
             }
           </View>
         </View>
+        <LoadingOverlay
+          isVisible={this.props.isLoading}
+        />
       </View>
 
     )
@@ -331,6 +335,7 @@ class HelloFeed extends Component {
           filterIncludes: state.hellofeed.filter_includes,
           selectedLine: state.hellofeed.selected_line,
           commentEvents: state.hellofeed.comment_events,
+          isLoading: state.hellofeed.is_loading,
 
           superMapsLine: state.supermap.selectedLine,
           superMapsSpecialStops: state.supermap.specialStops,

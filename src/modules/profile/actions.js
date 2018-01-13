@@ -54,6 +54,8 @@ export type ActionAsync = (dispatch: Function, getState: Function) => void
         	'Content-Type': 'application/json',
       	};
 
+      	console.log('theBody stringified is ' + JSON.stringify(theBody));
+
 		  return (dispatch) => {
 		        dispatch(submitIsLoading(true));
 
