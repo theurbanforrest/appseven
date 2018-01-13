@@ -34,7 +34,7 @@ const LinePreview = (props: LinePreviewProps) => {
       onCheckInPress,
       onDismiss,
 
-      stationsWithReports,
+      reportsOnLine,
 
     } = props;
 
@@ -69,10 +69,10 @@ const LinePreview = (props: LinePreviewProps) => {
        return 'white';
     }
 
-    function getLinePreviewText(stationsWithReports){
+    function getLinePreviewText(reportsOnLine){
 
       switch(true){
-        case(stationsWithReports==0):
+        case(reportsOnLine==0):
 
           tagLineColor = '#97ACB3';
           tagLineHeadline = 'No reports';
@@ -80,10 +80,10 @@ const LinePreview = (props: LinePreviewProps) => {
 
           break;
 
-        case(stationsWithReports>0):
+        case(reportsOnLine>0):
 
           tagLineColor = 'magenta';
-          tagLineHeadline = stationsWithReports + ' stops with reports';
+          tagLineHeadline = reportsOnLine + ' reports';
           tagLineDescription = 'Click station on map for details';
 
           break;
@@ -94,7 +94,7 @@ const LinePreview = (props: LinePreviewProps) => {
   //if visible is false, return nothing
   if(visible){
 
-    getLinePreviewText(stationsWithReports);
+    getLinePreviewText(reportsOnLine);
 
     return(
 
@@ -144,13 +144,12 @@ const LinePreview = (props: LinePreviewProps) => {
                 textAlign: 'center'
               }}
               >
-                Last 45m:
+                Last 1h:
               </Text>
               <Text style={{
                 color: tagLineColor,
                 fontSize: 18,
                 textAlign: 'center'
-                //fontWeight: 'bold',
               }}
               >
                 {tagLineHeadline}
@@ -231,7 +230,7 @@ const LinePreview = (props: LinePreviewProps) => {
         onCheckInPress: PropTypes.func,
         onDismiss: PropTypes.func,
 
-        stationsWithReports: PropTypes.number,
+        reportsOnLine: PropTypes.number,
 
     };
 

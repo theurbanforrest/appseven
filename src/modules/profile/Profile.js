@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import {
   Avatar,
-  Icon
+  Icon,
+  Badge,
 } from 'react-native-elements';
 import DeviceInfo from 'react-native-device-info'
 import { bindActionCreators } from 'redux'
@@ -28,6 +29,10 @@ class Profile extends Component {
   //need this for Components instead of pure functions
   constructor(props) {
     super(props);
+
+    this.state = {
+      theName: this.props.user_name
+    }
 
   }
 
@@ -110,11 +115,48 @@ class Profile extends Component {
           paddingRight: '3%',
           backgroundColor: 'black'
         }}>
-          <EditableName
-            inEditingMode={false}
-            nameValue={this.props.user_name}
-            onSubmit={(name) => this.updateName(name)}
-          />
+          <View style={{
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            paddingBottom: '3%',
+          }}>
+            <Avatar
+              xlarge
+              rounded
+              source={{uri: 'https://randomuser.me/api/portraits/men/49.jpg' }}
+              //onPress={onMenuPress}
+            />
+            <View style={{
+              paddingTop: '3%',
+              flexDirection: 'column',
+              justifyContent: 'space-around',
+              alignItems: 'center',
+              width: '90%'
+            }}>
+              <TextInput
+                editable={true} 
+                maxLength={21}
+                returnKeyType='done'
+                defaultValue={this.props.user_name}
+                onChangeText={(theName) => this.setState({theName})}
+                autoCapitalize='none'
+                onEndEditing={() => this.updateName(this.state.theName)}
+                style={{
+                  fontSize: 24,
+                  fontWeight: 'bold',
+                  color: '#97ACB3',
+                  fontFamily: 'Menlo',
+                  width: '100%',
+                  textAlign: 'center'
+              }}>
+              </TextInput>
+              <Badge
+                color='orange'
+                value='Edit'
+              />
+            </View>
+          </View>
           <View style={{
             flexDirection: 'row',
             justifyContent: 'flex-start',

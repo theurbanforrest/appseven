@@ -245,7 +245,7 @@ class CheckIn extends Component {
             fontSize: 18,
             textAlign: 'center'
           }}>
-          Just Now • fochin82
+          Just Now • {this.props.profileUserName}
           </Text>
         </View>
         <View style={{
@@ -331,7 +331,7 @@ class CheckIn extends Component {
             onPress={() => {this.props.actions.submitAttempt(
             {
               "user_id" : this.getUUID(),
-              "user_name" : "fochin82",
+              "user_name" : this.props.profileUserName,
               "comment_body" : this.state.comment,
               "comment_on_line" : this.props.selectedLine,
               "station_name" : this.props.previewedStation,
@@ -368,7 +368,7 @@ class CheckIn extends Component {
           submitInProgress: state.checkin.submitInProgress,
           checkin_data: state.checkin.checkin_data,
           checkin_count: state.checkin.checkin_count,
-
+          profileUserName: state.profile.user_name,
 
           previewedStation: state.supermap.previewedStation,
           previewedStationUid: state.supermap.previewedStationUid,

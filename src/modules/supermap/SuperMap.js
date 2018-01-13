@@ -188,6 +188,10 @@ class SuperMap extends Component {
 
     getLineCheckInsCount(specialStopsArray){
 
+      return (!specialStopsArray) ? 0 : specialStopsArray.length;
+
+
+      /* -- Decided not to get distincts to make the platform look bigger --
       let unique = {};
       let distinct = [];
       for( var i in specialStopsArray ){
@@ -199,6 +203,7 @@ class SuperMap extends Component {
 
       console.log('distinct.length is ' + distinct.length);
       return distinct.length;
+      */
     }
 
   //render()
@@ -282,7 +287,7 @@ class SuperMap extends Component {
           onLinePress={()=> this.props.navigation.navigate('LineFeed',{
             shortName: 'The Feed'
           })}
-          stationsWithReports={ this.getLineCheckInsCount(this.props.specialStops) }
+          reportsOnLine={ this.getLineCheckInsCount(this.props.specialStops) }
           tagLineColor={ this.props.specialStops.length > 0 ? 'magenta' : '#97ACB3'  }
         />
         <StationPreview
