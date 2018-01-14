@@ -215,7 +215,7 @@ class HelloFeed extends Component {
         flexDirection: 'column',
       }}>
         <View style={{
-          paddingTop: '8%',
+          paddingTop: '10%',
           paddingBottom: '3%',
           paddingLeft: '3%',
           paddingRight: '3%',

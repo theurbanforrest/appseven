@@ -165,6 +165,11 @@ class SuperMap extends Component {
       
     }
 
+    componentDidUpdate(){
+
+      console.log('SuperMap componentDidUpdate')
+    }
+
     toggleCheckInStatus() {
 
       if(this.props.checkInIsComplete){
@@ -393,6 +398,8 @@ class SuperMap extends Component {
           checkInIsComplete: state.supermap.checkInIsComplete,
           specialStops: state.supermap.specialStops,
           stopsToDisplay: state.supermap.stopsToDisplay,
+
+          checkInData: state.supermap.checkin_data
           //tagline: state.stationfeed.targetLine   //this works, able to get ANYTHING from redux state
         } 
       },

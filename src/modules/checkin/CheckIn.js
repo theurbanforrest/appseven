@@ -21,12 +21,14 @@ import {
 import DeviceInfo from 'react-native-device-info'
 import { lineList } from '../supermap/data'
 import Togglecon from '../../components/Togglecon'
+import LoadingOverlay from '../../components/LoadingOverlay'
 
 //redux
     import { bindActionCreators } from 'redux'
     import { connect } from 'react-redux'
-    //need this for Components instead of pure functions
+
     import * as Actions from './actions'
+    import * as SuperMapActions from '../supermap/actions'
 
 class CheckIn extends Component {
   constructor(props) {
@@ -47,7 +49,7 @@ class CheckIn extends Component {
 
   componentWillMount() {
 
-    this.props.actions.checkinStart();
+    this.props.superMapActions.checkinStart();
 
     switch(this.getFirstPreviewedComment(this.props.specialStops,this.props.previewedStationUid).status){
 
@@ -83,9 +85,17 @@ class CheckIn extends Component {
   }
 
   componentDidUpdate() {
+
+    
+    console.log('Checkin componentDidUpdate')
+    
     if(this.props.showCheckIn == false){
+
+      console.log('showCheckIn is false, nav back')
       this.props.navigation.dispatch(NavigationActions.back())
     }
+    
+
   }
 
   toggleSelection(theIcon){
@@ -190,14 +200,17 @@ class CheckIn extends Component {
 
   render() {
 
-    return (
+  return (
       <View style={{
-        paddingTop: '8%',
+        paddingTop: '10%',
         paddingLeft: '3%',
         paddingRight: '3%',
-        flex: 1,
         flexDirection: 'column',
         backgroundColor: '#1F252A',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        height: '100%',
+        width: '100%'
       }}>
         <View style={{
           flex: 6,
@@ -245,7 +258,7 @@ class CheckIn extends Component {
             fontSize: 18,
             textAlign: 'center'
           }}>
-          Just Now • {this.props.profileUserName}
+          Just Now • @{this.props.profileUserName}
           </Text>
         </View>
         <View style={{
@@ -295,7 +308,8 @@ class CheckIn extends Component {
           flex: 12,
           flexDirection: 'column',
           justifyContent: 'space-around',
-          alignItems: 'center'
+          alignItems: 'center',
+          width: '100%'
         }}>
           <View style={{
             backgroundColor: 'white',
@@ -328,7 +342,7 @@ class CheckIn extends Component {
               color: 'orange',
               fontSize: 24,
             }}
-            onPress={() => {this.props.actions.submitAttempt(
+            onPress={() => {this.props.superMapActions.submitAttempt(
             {
               "user_id" : this.getUUID(),
               "user_name" : this.props.profileUserName,
@@ -339,7 +353,10 @@ class CheckIn extends Component {
               "station_lines" : this.props.previewedStationLines,
               "status" : this.state.status,
               "timestamp" : this.getTimeStamp()
-            }
+            },
+            this.props.selectedLine,
+            this.props.selectedStops,
+            this.props.specialStops
             )}}
           />
           <Text
@@ -351,8 +368,12 @@ class CheckIn extends Component {
             No, Thanks
           </Text>
         </View>
-      </View>
-    );
+      <LoadingOverlay
+        isVisible={(this.props.fetchInProgress || this.props.submitInProgress) ? true : false}
+      />
+    </View>
+  );
+
   } //end render
 }//end component
 
@@ -364,7 +385,7 @@ class CheckIn extends Component {
       (state) => {
         return {
           isCheckedIn: state.checkin.isCheckedIn,
-          showCheckIn: state.checkin.showCheckIn,
+          showCheckIn: state.supermap.showCheckIn, //state.checkin.showCheckIn,
           submitInProgress: state.checkin.submitInProgress,
           checkin_data: state.checkin.checkin_data,
           checkin_count: state.checkin.checkin_count,
@@ -375,12 +396,18 @@ class CheckIn extends Component {
           previewedStationLines: state.supermap.previewedStationLines,
           selectedLine: state.supermap.selectedLine,
           specialStops: state.supermap.specialStops,
+          selectedStops: state.supermap.selectedStops,
+
+          fetchInProgress: state.supermap.fetchInProgress,
+          submitInProgress: state.supermap.submitInProgress
+
         } 
       },
     //this is mapDispatchToProps verbosely
       //Which action creators does it want to receive by props?
       (dispatch) => ({
-        actions: bindActionCreators(Actions, dispatch)
+        actions: bindActionCreators(Actions, dispatch),
+        superMapActions: bindActionCreators(SuperMapActions, dispatch)
       }),
   )(CheckIn);
 

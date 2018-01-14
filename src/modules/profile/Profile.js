@@ -75,7 +75,7 @@ class Profile extends Component {
         flexDirection: 'column',
       }}>
         <View style={{
-          paddingTop: '8%',
+          paddingTop: '10%',
           paddingBottom: '3%',
           paddingLeft: '3%',
           paddingRight: '3%',
@@ -108,7 +108,7 @@ class Profile extends Component {
         <ScrollView style={{
           flex: 1,
           flexDirection: 'column',
-          paddingTop: '8%',
+          paddingTop: '10%',
           paddingLeft: '3%',
           paddingRight: '3%',
           backgroundColor: 'black'

@@ -34,3 +34,10 @@ export const NAME = 'supermap'
 	export const ADD_PIN_COLORS = `${NAME}/ADD_PIN_COLORS`;
 
 	export const HELLO_WORLD = `${NAME}/HELLO_WORLD`;
+
+	export const SUBMIT_IS_LOADING = `${NAME}/SUBMIT_IS_LOADING`;
+	export const SUBMIT_HAS_ERRORED = `${NAME}/SUBMIT_HAS_ERRORED`;
+	export const SUBMIT_SUCCESS = `${NAME}/SUBMIT_SUCCESS`;
+
+	export const CHECKIN_START = `${NAME}/CHECKIN_START`;
+	export const CHECKIN_COMPLETE = `${NAME}/CHECKIN_COMPLETE`;

@@ -88,23 +88,6 @@ import { connect } from 'react-redux';
             <Icon name='map-pin' type='font-awesome' size={25} color={tintColor} /> ,
         }
       },
-      /*
-      CheckIn: {
-        screen: CheckIn,
-        navigationOptions: {
-          tabBarLabel: 'Home',
-          tabBarIcon: ({ tintColor }) => <Icon name='home' type='font-awesome' size={25} color={tintColor} />,
-
-        },
-      },
-      */
-      MTAFeed: {
-        screen: HelloWorld,
-        navigationOptions: {
-          tabBarLabel: 'MTA',
-          tabBarIcon: ({ tintColor }) => <Icon name='subway' type='font-awesome' size={25} color={tintColor} />,
-        },
-      },
       Profile: {
         screen: Profile,
         navigationOptions: {
@@ -113,24 +96,13 @@ import { connect } from 'react-redux';
         },
       },
       Settings: {
-        screen: Profile,
+        screen: HelloWorld,
         navigationOptions: {
           tabBarLabel: 'Settings',
           tabBarIcon: ({ tintColor }) => <Icon name='cog' type='font-awesome' size={25} color={tintColor} />,
 
         },
       },
-        /*
-        StationsFeed: {
-          screen: StationFeedStack,
-          navigationOptions: {
-            tabBarLabel: 'All Stations',
-            tabBarIcon: ({ tintColor }) => 
-            <Icon name='subway' type='font-awesome' size={25} color={tintColor} /> ,
-          }
-        },
-        */
-
     },
     {
       headerMode: 'screen',

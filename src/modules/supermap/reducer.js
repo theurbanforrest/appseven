@@ -17,6 +17,13 @@ import {
   GET_ALL_STOPS,
   CLEAR_ALL_STOPS,
 
+  SUBMIT_IS_LOADING,
+  SUBMIT_HAS_ERRORED,
+  SUBMIT_SUCCESS,
+
+  CHECKIN_START,
+  CHECKIN_COMPLETE
+
 } from './constants'
 
 
@@ -33,6 +40,11 @@ type superMapState = {
   myLocation: any,
   stopsToDisplay: any,
   isLoading: bool,
+    showCheckIn: bool,
+    isCheckInComplete: bool,
+    checkin_count: number,
+    checkin_data: any,
+    submitInProgress: bool
 }
 
 const initialState:
@@ -66,6 +78,11 @@ const initialState:
         "row-hqqp-jv95~d248"
       ]
     ],
+    showCheckIn: false,
+    isCheckInComplete: false,
+    checkin_count: 0,
+    checkin_data: {},
+    submitInProgress: false
   }
 
 //you can do better here, I was just showing that you need to make a new copy
@@ -214,7 +231,57 @@ export default handleActions(
           stopsToDisplay: [],
         }
     },
+    [SUBMIT_IS_LOADING]: (state: checkInState, action) => {
 
+      return {
+        ...state,
+        submitInProgress: true
+      }
+    },
+
+    [SUBMIT_SUCCESS]: (state: checkInState, action) => {
+      const { payload: { data } } = action;
+      const { checkin_data, checkin_count } = state;
+      const newCount = checkin_count + 1;
+
+      return {
+        ...state,
+        checkin_count: newCount,
+        checkin_data: {
+          ...state.checkin_data,
+          [newCount]: data,
+        },
+        submitInProgress: false
+        
+      }
+    },
+
+    [SUBMIT_HAS_ERRORED]: (state: checkInState, action) => {
+
+      return {
+        ...state,
+        submitInProgress: false
+        
+      }
+    },
+
+    [CHECKIN_START]: (state: checkInState, action) => {
+
+      return {
+        ...state,
+        showCheckIn: true,
+        isCheckInComplete: false,
+      }
+    },
+
+    [CHECKIN_COMPLETE]: (state: checkInState, action) => {
+
+      return {
+        ...state,
+        showCheckIn: false,
+        isCheckInComplete: true,
+      }
+    },
   },
 initialState
 );

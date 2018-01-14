@@ -108,7 +108,7 @@ const LinePreview = (props: LinePreviewProps) => {
           flexDirection: 'column',
           justifyContent: 'space-between',
           backgroundColor: '#1F252A',
-          paddingTop: '8%',
+          paddingTop: '10%',
           paddingLeft: '3%',
           paddingRight: '3%',
           paddingBottom: '3%',

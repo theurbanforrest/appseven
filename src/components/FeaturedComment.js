@@ -170,7 +170,7 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
                 {comment.status}
                 <Text style={{
                   color: '#546165',
-                  fontSize: 14,
+                  fontSize: 16,
                   fontWeight: 'normal'
                 }}>
                   {getFriendlyUserName(comment.user_name)}
@@ -180,7 +180,7 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
               <Text
                 style={{
                   color: '#97ACB3',
-                  fontSize: 14,
+                  fontSize: 16,
                   fontStyle: 'normal'
                 }}
               >

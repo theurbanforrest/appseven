@@ -21,6 +21,13 @@ import {
   ADD_PIN_COLORS,
 
   GET_FEATURED_COMMENT,
+
+  SUBMIT_IS_LOADING,
+  SUBMIT_HAS_ERRORED,
+  SUBMIT_SUCCESS,
+
+  CHECKIN_START,
+  CHECKIN_COMPLETE,
   
 } from './constants'
 
@@ -106,18 +113,6 @@ export const setMyLocation = (myLat: string, myLong: string): Action => {
 export const clearMyLocation = (): Action => {
   return {
     type: CLEAR_MY_LOCATION
-  }
-}
-
-export const startCheckIn = (): Action => {
-  return {
-    type: START_CHECK_IN
-  }
-}
-
-export const endCheckIn = (): Action => {
-  return {
-    type: END_CHECK_IN
   }
 }
 
@@ -321,13 +316,85 @@ export const endCheckIn = (): Action => {
 
                 .then((theAction)=> dispatch(selectLine(selectedLine,theAction.payload.data)))
                 .then((theAction)=> dispatch(getAllStops(theAction.payload.selected_line,theAction.payload.selected_stops)))
-                
+                .then(() => dispatch(checkinComplete()))
 
                 //.then(() => dispatch(clearAllStops()))
                 //.then(() => dispatch(getAllStops(selectedLine,specialStops)))
                 //.then(() => dispatch(selectLine(selectedLine,allStops)))
 
                 .catch(() => dispatch(fetchHasErrored(true)))
+        };
+    }
+
+  /* -- SUBMIT --*/
+
+  //submitAttempt(url) helpers
+    export function submitHasErrored(bool) {
+        return {
+            type: SUBMIT_HAS_ERRORED,
+            hasErrored: bool
+        };
+    }
+    export function submitIsLoading(bool) {
+        return {
+            type: SUBMIT_IS_LOADING,
+            isLoading: bool
+        };
+    }
+    export function submitSuccess(data) {
+
+        return {
+            type: SUBMIT_SUCCESS,
+            payload: {
+              data,
+            }
+        };
+    }
+
+    export function checkinStart(){
+
+      return {
+        type: CHECKIN_START,
+      }
+    }
+    export function checkinComplete(){
+
+      return {
+        type: CHECKIN_COMPLETE,
+      }
+    }
+
+  //submitAttempt(url) itself
+    let url = 'http://165.227.71.39:3000/api/RiderComments';
+      let theMethod = 'POST';
+      let theHeaders = {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        };
+
+    export function submitAttempt(theBody,selectedLine,allStops,specialStops) {
+      return (dispatch) => {
+            dispatch(submitIsLoading(true));
+
+            fetch(url, {
+              method: theMethod,
+              headers: theHeaders,
+              body: JSON.stringify(theBody)
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw Error(response.statusText);
+                    }
+
+                    dispatch(submitIsLoading(false));
+                    return response;
+                })
+                .then((response) => response.json())
+                .then((data) => dispatch(submitSuccess(data)))
+                .then(() => dispatch(fetchSpecialStopsAttempt(selectedLine,allStops,specialStops)))
+                
+                //.then(() => dispatch(checkinComplete()))
+                .catch(() => dispatch(submitHasErrored(true)))
         };
     }
 
