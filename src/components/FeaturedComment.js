@@ -70,6 +70,11 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
   }
 
   function getStartingText(commentBody){
+
+    if(!commentBody){
+      return false;
+    }
+
     let x = commentBody;
 
     if(x == ''){

@@ -34,8 +34,6 @@ import AppHeader from '../../components/AppHeader'
 import LoadingOverlay from '../../components/LoadingOverlay'
 import { lineList } from '../supermap/data'
 
-
-
     //need this for Components instead of pure functions
     import * as Actions from './actions'
     import * as SuperMapActions from '../supermap/actions'
@@ -188,12 +186,8 @@ class HelloFeed extends Component {
   }
 
   componentWillMount() {
-    //initially load with same line as SuperMap
-    //!this.props.superMapsLine ? this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers) : this.props.actions.fetchLineFeedAttempt(this.props.superMapsLine);
-    
+
     this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers);
-    //this.props.superMapActions.fetchSpecialStopsAttempt(this.props.selectedLine,this.props.superMapsSelectedStops,this.props.superMapsSpecialStops);
-      
 
   }
 
@@ -330,6 +324,7 @@ class HelloFeed extends Component {
       //Which part of the Redux global state does our component want to receive as props?
       (state) => {
         return {
+          showFauxLoading: state.hellofeed.show_faux_loading,
           feedData: state.hellofeed.feed_data,  //get via this.props.feed_data
           likedComments: state.hellofeed.liked_comments,
           filterIncludes: state.hellofeed.filter_includes,
@@ -340,6 +335,8 @@ class HelloFeed extends Component {
           superMapsLine: state.supermap.selectedLine,
           superMapsSpecialStops: state.supermap.specialStops,
           superMapsSelectedStops: state.supermap.selectedStops,
+
+
 
         }
       },

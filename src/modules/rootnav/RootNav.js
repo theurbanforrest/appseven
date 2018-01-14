@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
   import HelloFeed from '../hellofeed/HelloFeed'
   import FilterModal from '../hellofeed/FilterModal'
   import Profile from '../profile/Profile'
+  import AppLanding from '../applanding/AppLanding'
 
 /*-- StationFeed Stack --*/
   export const StationFeedStack = StackNavigator({
@@ -138,12 +139,26 @@ import { connect } from 'react-redux';
     },
   );
 
+  /**-- AppLandingStack --*/
+
+  export const AppLandingStack = StackNavigator({
+    AppLanding: {
+      screen: AppLanding,
+      },
+    },
+    {
+      headerMode: 'none'
+    },
+  );
 
 
   /*-- RootNav --*/
   export const RootNav = StackNavigator(
   	{
-  		Tabs: {
+      AppLandingStack: {
+        screen: AppLandingStack
+      },
+      Tabs: {
   			screen: Tabs
   		},
       SettingsStack: {
@@ -152,9 +167,9 @@ import { connect } from 'react-redux';
       FilterModalStack: {
         screen: FilterModalStack
       }
-  	}, 
+  	},
   	{
-  		mode: 'modal',
+  		mode: 'card',//'modal',
   		headerMode: 'none',
   	}
   );

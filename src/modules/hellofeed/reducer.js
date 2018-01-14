@@ -29,6 +29,8 @@ type helloFeedState = {
   liked_comments: any,
   comment_events: any,
   is_loading: bool,
+
+  show_faux_loading: bool,
 }
 
 const initialState:
@@ -39,7 +41,8 @@ const initialState:
     selected_line: 'A',
     liked_comments: [],
     comment_events: [],
-    is_loading: false
+    is_loading: false,
+    show_faux_loading: true,
   }
 
 export default handleActions(
