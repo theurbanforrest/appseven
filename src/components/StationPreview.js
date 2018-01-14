@@ -106,7 +106,6 @@ const StationPreview = (props: StationPreviewProps) => {
               //alignItems: '',
               //backgroundColor: 'powderblue'
             }}>
-
               <View style={{
                 flex: 22,
                 justifyContent: 'flex-start'
@@ -165,7 +164,7 @@ const StationPreview = (props: StationPreviewProps) => {
             onLikePress={onStationPress}
             onCommentPress={onStationPress}
             onUpdatePress={onCheckInPress}
-          /> 
+          />
         </View>
       </View>
     )

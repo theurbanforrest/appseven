@@ -28,7 +28,7 @@ const LoadingOverlay = (props: LoadingOverlayProps) => {
         position: 'absolute',
         height: '100%',
         width: '100%',
-        backgroundColor: 'rgba(0, 0, 0, 0.7)',
+        backgroundColor: 'rgba(31,37,42, 0.7)',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center'

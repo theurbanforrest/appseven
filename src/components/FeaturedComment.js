@@ -140,103 +140,103 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
   }
   
   else return(
+     <View style={{
+      flex: 24,
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      backgroundColor: '#1F252A',
+      width: '100%'
+    }}>
       <View style={{
-            flex: 24,
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            backgroundColor: '#1F252A',
-            width: '100%'
+        flex: 17,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+        height: '100%',
+      }}>
+        <Avatar
+          medium
+          rounded
+          source={{uri: 'https://randomuser.me/api/portraits/women/19.jpg' }}
+        />
+        <Text
+          style={{
+            color: 'magenta',
+            fontSize: 24,
+            fontWeight: 'bold'
+          }}
+        >
+          {comment.status}
+          <Text style={{
+            color: '#546165',
+            fontSize: 16,
+            fontWeight: 'normal'
           }}>
-            <View style={{
-              flex: 17,
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'flex-start',
-              height: '100%',
-            }}>
-              <Avatar
-                medium
-                rounded
-                source={{uri: 'https://randomuser.me/api/portraits/women/19.jpg' }}
-              />
-              <Text
-                style={{
-                  color: 'magenta',
-                  fontSize: 24,
-                  fontWeight: 'bold'
-                }}
-              >
-                {comment.status}
-                <Text style={{
-                  color: '#546165',
-                  fontSize: 16,
-                  fontWeight: 'normal'
-                }}>
-                  {getFriendlyUserName(comment.user_name)}
-                </Text>
-              </Text>
-              
-              <Text
-                style={{
-                  color: '#97ACB3',
-                  fontSize: 16,
-                  fontStyle: 'normal'
-                }}
-              >
-                 {getFriendlyTime(comment.timestamp)} ago{getStartingText(comment.comment_body)}
-              </Text>
-            </View>
-            <View style={{
-              flex: 7,
-              flexDirection: 'column',
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              height: '100%'
-            }}>
-              <View style={{
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                alignItems: 'flex-start',
-                width: '100%'
-              }}>
-                <HeartButtonVertical
-                  iconPrimary='thumbs-o-up'
-                  iconAlt='thumbs-up'
-                  isSelected={false}
-                  likeCount={likeCount}
-                  onIconPress={onLikePress}
-                  isDisabled={false} //{ hasReport ? false : true }
-                />
-                <HeartButtonVertical
-                  iconPrimary='commenting-o'
-                  iconAlt='commenting-o'
-                  isSelected={false}
-                  likeCount={2}
-                  onIconPress={onCommentPress}
-                  isDisabled={false} //{ hasReport ? false : true }
-                />
-              </View>
-              <View style={{
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-                <Badge
-                  value='+ Update'
-                  containerStyle={{
-                    backgroundColor: '#1F252A',
-                    borderColor: 'orange',
-                    borderWidth: 1
-                  }}
-                  textStyle={{
-                    color: 'orange'
-                  }}
-                  onPress={onUpdatePress}
-                />
-              </View> 
-            </View>
-          </View>
+            {getFriendlyUserName(comment.user_name)}
+          </Text>
+        </Text>
+        
+        <Text
+          style={{
+            color: '#97ACB3',
+            fontSize: 16,
+            fontStyle: 'normal'
+          }}
+        >
+           {getFriendlyTime(comment.timestamp)} ago{getStartingText(comment.comment_body)}
+        </Text>
+      </View>
+      <View style={{
+        flex: 7,
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        height: '100%'
+      }}>
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'space-around',
+          alignItems: 'flex-start',
+          width: '100%'
+        }}>
+          <HeartButtonVertical
+            iconPrimary='thumbs-o-up'
+            iconAlt='thumbs-up'
+            isSelected={false}
+            likeCount={likeCount}
+            onIconPress={onLikePress}
+            isDisabled={false} //{ hasReport ? false : true }
+          />
+          <HeartButtonVertical
+            iconPrimary='commenting-o'
+            iconAlt='commenting-o'
+            isSelected={false}
+            likeCount={2}
+            onIconPress={onCommentPress}
+            isDisabled={false} //{ hasReport ? false : true }
+          />
+        </View>
+        <View style={{
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <Badge
+            value='+ Update'
+            containerStyle={{
+              backgroundColor: '#1F252A',
+              borderColor: 'orange',
+              borderWidth: 1
+            }}
+            textStyle={{
+              color: 'orange'
+            }}
+            onPress={onUpdatePress}
+          />
+        </View> 
+      </View>
+    </View>
     )
   }
 
