@@ -72,10 +72,6 @@ const StationPreview = (props: StationPreviewProps) => {
        //if no match
        return 'white';
     }
-
-    
-
-
   //if visible is false, return nothing
 
   if(visible){
@@ -83,89 +79,91 @@ const StationPreview = (props: StationPreviewProps) => {
       <View style={{
         position: 'absolute',
         top: '0%',
-        height: isSpecial ? '30%' : '20%',
-        width: '100%'
+        //height: isSpecial ? '30%' : '20%',
+        width: '100%',
+        paddingTop: '10%',
+        paddingBottom: '0%',
+        backgroundColor: 'rgba(31,37,42,1.0)',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
       }}>
-        <View style={{
-          flex: 1,
-          flexDirection: 'column',
-          height: '100%',
-          justifyContent: 'space-between',
-          backgroundColor: 'rgba(31,37,42,1.0)',
-          paddingTop: '8%',
-          paddingLeft: '3%',
-          paddingRight: '3%',
-          paddingBottom: '3%',
-        }}>
-          <TouchableHighlight
-            onPress = {onClearPress}
-          >
+        <TouchableHighlight
+          onPress = {onClearPress}
+        >
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            //backgroundColor: 'powderblue',
+            paddingLeft: '3%',
+            paddingRight: '3%'
+          }}>
             <View style={{
-              flexDirection: 'row',
+              flex: 22,
+              flexDirection: 'column',
               justifyContent: 'flex-start',
-              //alignItems: '',
-              //backgroundColor: 'powderblue'
+              alignItems: 'flex-start'
             }}>
-              <View style={{
-                flex: 22,
-                justifyContent: 'flex-start'
+              <Text style={{
+                color: '#97ACB3',
+                fontSize: 18,
+                fontWeight: 'bold',
+              }}
+              >
+                {stationName}
+              </Text>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center'
               }}>
-                <Text style={{
-                  color: '#97ACB3',
-                  fontSize: 18,
-                  fontWeight: 'bold',
-                }}
-                >
-                  {stationName}
-                </Text>
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    justifyContent: 'flex-start',
-                }}>
-                  {
-                    lines.map( (line) => (
-                        <Badge
-                          key= {line}
+                {
+                  lines.map( (line) => (
+                      <Badge
+                        key= {line}
 
-                          value= {line}
-                          containerStyle={{
-                            backgroundColor: getBackgroundColor(line,lineList) //keeping static, not connected to selectedLine
-                          }}
-                          textStyle={{
-                            color: getTextColor(line,lineList), //keeping static, not connected to selectedLine
-                            fontSize: 14,
-                          }}
-                          onPress={()=> onBadgeLineClick(line)}//console.log('this should be some action from redux')}
-                        />
-                      ))
-                  }
-                </View>
-              </View>
-              <View style={{
-                flex: 2,
-              }}>
-                <Icon 
-                  name='close'
-                  color='#97ACB3'
-                  size={26}
-                  type='font-awesome'
-                  onPress={onClearPress}
-                />
+                        value= {line}
+                        containerStyle={{
+                          backgroundColor: getBackgroundColor(line,lineList) //keeping static, not connected to selectedLine
+                        }}
+                        textStyle={{
+                          color: getTextColor(line,lineList), //keeping static, not connected to selectedLine
+                          fontSize: 14,
+                        }}
+                        onPress={()=> onBadgeLineClick(line)}//console.log('this should be some action from redux')}
+                      />
+                    ))
+                }
               </View>
             </View>
-          </TouchableHighlight>
-          <FeaturedComment
-            hasReport={isSpecial}
-            imageSrc={'https://randomuser.me/api/portraits/men/18.jpg'}
-            comment={comment}
-            isLiked={false}
-            likeCount={12}
-            onLikePress={onStationPress}
-            onCommentPress={onStationPress}
-            onUpdatePress={onCheckInPress}
-          />
-        </View>
+            <View style={{
+              flex: 2,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <Icon 
+                name='close'
+                color='#97ACB3'
+                size={26}
+                type='font-awesome'
+                onPress={onClearPress}
+              />
+            </View>
+          </View>
+        </TouchableHighlight>
+        <FeaturedComment
+          hasReport={isSpecial}
+          imageSrc={'https://randomuser.me/api/portraits/men/18.jpg'}
+          comment={comment}
+          isLiked={false}
+          likeCount={12}
+          onLikePress={onStationPress}
+          onCommentPress={onStationPress}
+          onUpdatePress={onCheckInPress}
+          showCommentBody={true}
+        />
       </View>
     )
   } else return false;

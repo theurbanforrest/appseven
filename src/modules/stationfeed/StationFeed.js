@@ -275,6 +275,7 @@ class StationFeed extends Component {
       <View style={{
         flex: 1,
         flexDirection: 'column',
+        height: '100%'
       }}>
         <View
           style={{
@@ -302,9 +303,7 @@ class StationFeed extends Component {
           }
         </View>
         <View style={{
-          flex: 5,
-          backgroundColor: '#1F252A',
-          padding: '3%'
+          height: '25%'
         }}>
           <FeaturedComment
             hasReport={true}  //need to update
@@ -321,11 +320,9 @@ class StationFeed extends Component {
                   'previewedStation': this.props.superMapsPreviewedStation,
                   'previewedStationLines' : this.props.superMapsPreviewedStationLines
                 })}
-          /> 
+            showCommentBody={false}
+          />
         </View>
-        <View style={{
-          flex: 19,
-        }}>
           <ScrollView style={{
             flex: 1, 
             flexDirection: 'column', 
@@ -354,12 +351,10 @@ class StationFeed extends Component {
             )}
             </List>
           </ScrollView>
-
+        
           {zeroResultsView}          
-
-        </View>
+        
       </View>
-
     )
   }
 }

@@ -58,7 +58,7 @@ class AppLanding extends Component {
     return(
         <View style={{
           flexDirection: 'column',
-          justifyContent: 'center',
+          justifyContent: 'space-around',
           alignItems: 'center',
           height: '100%',
           width: '100%',
@@ -112,13 +112,13 @@ class AppLanding extends Component {
                 routeName: 'Tabs'
               }))}
             />
-            <Text style={{
-              fontSize: 18,
+          </View>
+          <Text style={{
+              fontSize: 14,
               color: '#97ACB3',
             }}>
               @theurbanforrest • 2018
             </Text>
-          </View>
         </View>
     )
   }

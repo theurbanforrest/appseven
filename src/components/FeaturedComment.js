@@ -34,6 +34,7 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
       onLikePress,
       onCommentPress,
       onUpdatePress,
+      showCommentBody
 
     } = props;
 
@@ -80,11 +81,11 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
     if(x == ''){
       return x;
     }
-    else if (x.length < 20){
+    else if (x.length < 200){
       return ': "' + x +'"';
     }
 
-    else x = ': "'+ x.substr(0,20) + '...';
+    else x = ': "'+ x.substr(0,200) + '...';
 
     console.log(x);
     return x;
@@ -98,9 +99,12 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
     return(
       
         <View style={{
-          paddingTop: '2%',
+          paddingTop: '1%',
           flex: 1,
           flexDirection: 'column',
+          paddingLeft: '3%',
+          paddingRight: '3%',
+          paddingBottom: '3%'
         }}>
           <TouchableHighlight
             onPress={onUpdatePress}
@@ -139,109 +143,114 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
             </View>
           </TouchableHighlight>
         </View>
-      
-      
     );
   }
   
   else return(
-     <View style={{
-      flex: 24,
-      flexDirection: 'row',
-      justifyContent: 'flex-start',
-      alignItems: 'center',
-      backgroundColor: '#1F252A',
-      width: '100%'
-    }}>
-      <View style={{
-        flex: 17,
-        flexDirection: 'column',
-        justifyContent: 'center',
+    <TouchableHighlight
+      onPress={onCommentPress}
+    >
+      <View style={{ 
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
         alignItems: 'flex-start',
+        backgroundColor: '#1F252A',
+        width: '100%',
         height: '100%',
-      }}>
-        <Avatar
-          medium
-          rounded
-          source={{uri: 'https://randomuser.me/api/portraits/women/19.jpg' }}
-        />
-        <Text
-          style={{
-            color: 'magenta',
-            fontSize: 24,
-            fontWeight: 'bold'
-          }}
-        >
-          {comment.status}
-          <Text style={{
-            color: '#546165',
-            fontSize: 16,
-            fontWeight: 'normal'
-          }}>
-            {getFriendlyUserName(comment.user_name)}
-          </Text>
-        </Text>
-        
-        <Text
-          style={{
-            color: '#97ACB3',
-            fontSize: 16,
-            fontStyle: 'normal'
-          }}
-        >
-           {getFriendlyTime(comment.timestamp)} ago{getStartingText(comment.comment_body)}
-        </Text>
-      </View>
-      <View style={{
-        flex: 7,
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-        alignItems: 'center',
-        height: '100%'
+        paddingLeft: '3%',
+        paddingRight: '3%'
       }}>
         <View style={{
-          flexDirection: 'row',
-          justifyContent: 'space-around',
-          alignItems: 'flex-start',
-          width: '100%'
-        }}>
-          <HeartButtonVertical
-            iconPrimary='thumbs-o-up'
-            iconAlt='thumbs-up'
-            isSelected={false}
-            likeCount={likeCount}
-            onIconPress={onLikePress}
-            isDisabled={false} //{ hasReport ? false : true }
-          />
-          <HeartButtonVertical
-            iconPrimary='commenting-o'
-            iconAlt='commenting-o'
-            isSelected={false}
-            likeCount={2}
-            onIconPress={onCommentPress}
-            isDisabled={false} //{ hasReport ? false : true }
-          />
-        </View>
-        <View style={{
+          flex: 17,
           flexDirection: 'column',
           justifyContent: 'center',
-          alignItems: 'center',
+          alignItems: 'flex-start',
+          height: '100%',
         }}>
-          <Badge
-            value='+ Update'
-            containerStyle={{
-              backgroundColor: '#1F252A',
-              borderColor: 'orange',
-              borderWidth: 1
-            }}
-            textStyle={{
-              color: 'orange'
-            }}
-            onPress={onUpdatePress}
+          <Avatar
+            medium
+            rounded
+            source={{uri: 'https://randomuser.me/api/portraits/women/19.jpg' }}
           />
-        </View> 
+          <Text
+            style={{
+              color: 'magenta',
+              fontSize: 24,
+              fontWeight: 'bold'
+            }}
+          >
+            {comment.status}
+            <Text style={{
+              color: '#546165',
+              fontSize: 16,
+              fontWeight: 'normal'
+            }}>
+              {getFriendlyUserName(comment.user_name)}
+            </Text>
+          </Text>
+          <Text
+            style={{
+              color: '#97ACB3',
+              fontSize: 16,
+              fontStyle: 'normal',
+            }}
+            numberOfLines={3}
+            ellipsizeMode='tail'
+          >
+             {getFriendlyTime(comment.timestamp)} ago{showCommentBody ? getStartingText(comment.comment_body) : ''}
+          </Text>
+        </View>
+        <View style={{
+          flex: 7,
+          flexDirection: 'column',
+          justifyContent: 'space-around',
+          alignItems: 'center',
+          height: '100%'
+        }}>
+          <View style={{
+            flexDirection: 'row',
+            justifyContent: 'space-around',
+            alignItems: 'flex-start',
+            width: '100%'
+          }}>
+            <HeartButtonVertical
+              iconPrimary='thumbs-o-up'
+              iconAlt='thumbs-up'
+              isSelected={false}
+              likeCount={likeCount}
+              onIconPress={onLikePress}
+              isDisabled={false} //{ hasReport ? false : true }
+            />
+            <HeartButtonVertical
+              iconPrimary='commenting-o'
+              iconAlt='commenting-o'
+              isSelected={false}
+              likeCount={2}
+              onIconPress={onCommentPress}
+              isDisabled={false} //{ hasReport ? false : true }
+            />
+          </View>
+          <View style={{
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+            <Badge
+              value='+ Update'
+              containerStyle={{
+                backgroundColor: '#1F252A',
+                borderColor: 'orange',
+                borderWidth: 1
+              }}
+              textStyle={{
+                color: 'orange'
+              }}
+              onPress={onUpdatePress}
+            />
+          </View> 
+        </View>
       </View>
-    </View>
+    </TouchableHighlight>
     )
   }
 
@@ -258,6 +267,7 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
         comment: 'no comment',
         onLikePress: console.log('did onLikePress()'),
         onCommentPress: console.log('did onCommentPress()'),
+        showCommentBody: true
     };
 
   //Define the props here
@@ -275,6 +285,7 @@ const FeaturedComment = (props: FeaturedCommentProps) => {
         onLikePress: PropTypes.func,
         onCommentPress: PropTypes.func,
         onUpdatePress: PropTypes.func,
+        showCommentBody: PropTypes.bool
     };
 
   //Define styles

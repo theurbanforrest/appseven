@@ -289,7 +289,7 @@ class SuperMap extends Component {
         <LinePreview
           visible={true}
           lines={ [this.props.selectedLine] }
-          onLinePress={()=> this.props.navigation.navigate('LineFeed',{
+          onLinePress={()=> this.props.navigation.navigate('HelloFeed',{
             shortName: 'The Feed'
           })}
           reportsOnLine={ this.getLineCheckInsCount(this.props.specialStops) }
@@ -429,100 +429,3 @@ class SuperMap extends Component {
 
 **/
 
-/** StationPreview
-
-  <View style = {styles.stationpreview}>
-
-    <StationPreview
-      visible={this.props.previewedStation ? true : false}
-      stationName={ this.props.previewedStation }
-      onClearPress={()=>this.clearStationPreview()}
-      lines={ this.props.previewedStationLines }//['BB','green','white'] }//this.props.previewedStationLines }
-      selectedLine = { this.props.selectedLine }
-      onLinePress = {()=> this.props.navigation.navigate('SettingsStack')}
-      onFeedPress = {()=> this.props.navigation.navigate('LineFeed',{
-          area: 'Queens',
-          colors: 'blue,orange,purple',
-          id: 4,
-          lines: 'E,F,7',
-          longName: 'Long Name',
-          shortName: 'The Feed'
-        })}
-      onCheckInPress = {() => this.toggleCheckInStatus()}
-      onDismiss = {() => this.props.navigation.navigate('SuperMap')}
-    />
-    </StationPreview>
-  </View>
-**/
-
-/** AppHeader
-
- <View style={styles.appheader}>
-          <AppHeader
-            onMenuPress={()=>this.props.navigation.navigate('DrawerOpen')}
-            isLocationSet={ (this.props.myLocation.lat) ? true : false }
-          />
-        </View>
-
-**/
-
-/** Line Picker
-
-<View style={{
-          //position: 'absolute',
-          bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.0)',
-          height: '20%',
-          flexDirection: 'column',
-
-          justifyContent: 'space-around',
-          alignItems: 'center',
-
-          paddingBottom: '3%',
-        }}>
-          <View style={{
-            flex: 2,
-            //backgroundColor: 'yellow',  //for debug
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            padding: '3%',
-          }}>
-            {
-              lineList.map( (line) => (
-                  <Badge
-                    key={line.id}
-                    value={line.id}
-                    containerStyle={{
-                      backgroundColor: this.props.selectedLine == line.id ? line.bg : 'gainsboro'
-                    }}
-                    textStyle={{
-                      color: this.props.selectedLine == line.id ? line.text : 'white'
-                    }}
-                    onPress={() => this.props.actions.fetchSpecialStopsAttempt(line.id,this.props.selectedStops,this.props.specialStops )}
-                  />
-                )
-              )
-            }
-          </View>
-          <Text style={{
-            textAlign: 'center',
-            color: 'gray',
-            fontSize: 14,
-          }}>
-            Presented by StreetEasy
-          </Text>
-        </View>
-**/
-
-/**
-<View style={{
-            flex: 1,
-            backgroundColor: '#1F252A',
-            padding: '3%',
-          }}>
-            <AppHeader
-              onMenuPress={()=>this.props.navigation.navigate('DrawerOpen')}
-              isLocationSet={ (this.props.myLocation.lat) ? true : false }
-            />
-          </View>
-**/

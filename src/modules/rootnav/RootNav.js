@@ -164,9 +164,6 @@ import { connect } from 'react-redux';
       SettingsStack: {
         screen: SettingsStack
       },
-      FilterModalStack: {
-        screen: FilterModalStack
-      }
   	},
   	{
   		mode: 'card',//'modal',
