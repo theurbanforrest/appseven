@@ -54,6 +54,13 @@ export default handleActions(
         is_loading: true,
       }
     },
+    [FETCH_HAS_ERRORED]: (state: helloFeedState, action) => {
+
+      return {
+        ...state,
+        is_loading: false,
+      }
+    },
     [FETCH_SUCCESS]: (state: helloFeedState, action) => {
       const { payload: { data } } = action;
       const { feed_data } = state;

@@ -14,6 +14,7 @@ import {
 } from 'react-navigation'
 import PropTypes from 'prop-types'
 import DeviceInfo from 'react-native-device-info'
+import SponsorLanding from '../../components/SponsorLanding'
 
 
 
@@ -45,7 +46,10 @@ class AppLanding extends Component {
         sponsorName: 'Casper',
         imageURI: 'http://casper.com'
       }
-    );
+    )
+    setTimeout(() => {
+      this.props.actions.hideFauxLoading()
+    }, 8000)
   } 
 
   getUUID(){
@@ -55,70 +59,92 @@ class AppLanding extends Component {
   }
 
   render(){
+
     return(
         <View style={{
           flexDirection: 'column',
-          justifyContent: 'space-around',
+          justifyContent: 'center',
           alignItems: 'center',
           height: '100%',
           width: '100%',
+          paddingLeft: '10%',
+          paddingRight: '10%',
           backgroundColor: '#1F252A'
         }}>
           <View style={{
+            height: '70%',
             flexDirection: 'column',
             justifyContent: 'space-around',
-            alignItems: 'center',
-            height: '60%'
+            alignItems: 'center'
           }}>
-            <Image
-              style={{
-                width: 100,
-                height: 100,
-              }}
-              source={{uri: 'http://104.236.3.128/img/prayfam.png'}}
-            />
-            <Text style={{
-              fontFamily: 'Menlo',
-              fontSize: 36,
-              fontWeight: 'bold',
-              color: '#97ACB3',
+            <View style={{
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              alignItems: 'center'
             }}>
-              undercrowd
-            </Text>
-            <Text style={{
-              fontSize: 24,
-              color: '#97ACB3',
+              <Image
+                style={{
+                  width: 100,
+                  height: 100,
+                }}
+                source={{uri: 'http://104.236.3.128/img/prayfam.png'}}
+              />
+              <Text style={{
+                fontFamily: 'Menlo',
+                fontSize: 36,
+                fontWeight: 'bold',
+                color: '#97ACB3',
+              }}>
+                undercrowd
+              </Text>
+            </View>
+            <View style={{
+              flexDirection: 'column',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
             }}>
-              The People's Subway App
-            </Text>
-            <Text style={{
-              fontSize: 18,
-              color: '#97ACB3',
+              <SponsorLanding
+                isVisible={this.props.showFauxLoading}
+                sponsor='Casper'                          
+                sponsorImageUri='https://forrestching.com/img/handy-logo.png'
+                sponsorImageHeight={140}
+                sponsorImageWidth={200}
+              />
+            </View>
+            <View style={{
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              alignItems: 'center'
             }}>
-              Welcome {this.props.profilesUserName}!
-            </Text>
-            <Badge
-              value='+ Start'
-              containerStyle={{
-                backgroundColor: '#1F252A',
-                borderColor: 'orange',
-                borderWidth: 1,
-              }}
-              textStyle={{
-                color: 'orange',
-                fontSize: 24,
-              }}
-              onPress={() => this.props.navigation.dispatch(NavigationActions.navigate({
-                routeName: 'Tabs'
-              }))}
-            />
+              <Text style={{
+                fontSize: 18,
+                color: '#546165',
+              }}>
+                Welcome {this.props.profilesUserName}!
+              </Text>
+              <Badge
+                value='+ Start'
+                containerStyle={{
+                  backgroundColor: '#1F252A',
+                  borderColor: 'orange',
+                  borderWidth: 1,
+                }}
+                textStyle={{
+                  color: 'orange',
+                  fontSize: 24,
+                }}
+                onPress={() => this.props.navigation.dispatch(NavigationActions.navigate({
+                  routeName: 'Tabs'
+                }))}
+              />
+              <Text style={{
+                fontSize: 14,
+                color: '#546165',
+              }}>
+                @theurbanforrest • 2018
+              </Text>
+            </View>
           </View>
-          <Text style={{
-              fontSize: 14,
-              color: '#97ACB3',
-            }}>
-              @theurbanforrest • 2018
-            </Text>
         </View>
     )
   }
@@ -132,6 +158,7 @@ class AppLanding extends Component {
       (state) => {
         return {
           profilesUserName: state.profile.user_name,
+          showFauxLoading: state.applanding.show_faux_loading
         }
       },
     //this is mapDispatchToProps verbosely

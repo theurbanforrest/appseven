@@ -250,6 +250,7 @@ class Profile extends Component {
         </ScrollView>
         <LoadingOverlay
           isVisible={this.props.is_loading}
+          onCancelPress={() => this.props.actions.fetchHasErrored()}
         />
       </View>
 

@@ -27,6 +27,6 @@ export type ActionAsync = (dispatch: Function, getState: Function) => void
 	}
 	export function hideFauxLoading(){
 		return {
-			type: HIDE_FILTER_MODAL
+			type: HIDE_FAUX_LOADING
 		}
 	}

@@ -369,6 +369,7 @@ class SuperMap extends Component {
         </View>
         <LoadingOverlay
           isVisible={this.props.fetchInProgress}
+          onCancelPress={() => this.props.actions.fetchHasErrored()}
         />
       </View>
     )

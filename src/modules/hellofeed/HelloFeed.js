@@ -310,6 +310,7 @@ class HelloFeed extends Component {
         </View>
         <LoadingOverlay
           isVisible={this.props.isLoading}
+          onCancelPress={() => this.props.actions.fetchHasErrored()}
         />
       </View>
 

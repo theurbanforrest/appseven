@@ -32,7 +32,6 @@ export default handleActions(
       }
     },
     [HIDE_FAUX_LOADING]: (state: appLandingState, action) => {
-      const { payload: { data } } = action;
 
       return {
         ...state,
