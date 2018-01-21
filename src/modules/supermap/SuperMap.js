@@ -37,6 +37,7 @@
     import { connect } from 'react-redux'
     //need this for Components instead of pure functions
       import * as Actions from './actions'
+      import * as HelloFeedActions from '../hellofeed/actions'
 
 /*----- THE COMPONENT -----*/
 
@@ -212,6 +213,24 @@ class SuperMap extends Component {
       */
     }
 
+    fetchTheFeedAttempt(
+      selected_line,
+      selected_stops,
+      special_stops
+    ){
+
+    //1. Get The Feed
+      this.props.helloFeedActions.fetchLineFeedAttempt(selected_line)
+
+    //2. Switch the Line and SuperMap
+      this.props.actions.fetchSpecialStopsAttempt(
+        selected_line ? selected_line : 'A',
+        selected_stops,
+        special_stops
+      ); 
+
+  }
+
   //render()
   render() {
 
@@ -360,7 +379,14 @@ class SuperMap extends Component {
                     textStyle={{
                       color: this.props.selectedLine == line.id ? line.text : 'white'
                     }}
-                    onPress={() => this.props.actions.fetchSpecialStopsAttempt(line.id,this.props.selectedStops,this.props.specialStops )}
+                    //onPress={() => this.props.actions.fetchSpecialStopsAttempt(line.id,this.props.selectedStops,this.props.specialStops )}
+                    
+                    onPress={() => this.fetchTheFeedAttempt(
+                      line.id,
+                      this.props.selectedStops,
+                      this.props.specialStops
+                    )}
+
                   />
                 )
               )
@@ -407,7 +433,8 @@ class SuperMap extends Component {
     //this is mapDispatchToProps verbosely
       //Which action creators does it want to receive by props?
       (dispatch) => ({
-        actions: bindActionCreators(Actions, dispatch)
+        actions: bindActionCreators(Actions, dispatch),
+        helloFeedActions: bindActionCreators(HelloFeedActions, dispatch)
       }),
   )(SuperMap);
 

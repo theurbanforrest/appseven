@@ -39,6 +39,8 @@ const RiderComment = (props: RiderCommentProps) => {
       likeCount,
       onLikePress,
       onRemovePress,
+      onLinePress,
+
       lineBackground,
 
 
@@ -145,8 +147,13 @@ const RiderComment = (props: RiderCommentProps) => {
               source={{uri: 'https://randomuser.me/api/portraits/women/' + likeCount + '.jpg' }}
             />
           </View>
-          <View style={{flex: 18, flexDirection: 'column'}}>
-            <View style={{flex: 4}}>
+          <View style={{
+            flex: 18,
+            flexDirection: 'column'
+          }}>
+            <View style={{
+              flex: 4
+            }}>
               <Text style={{
                 fontWeight: 'bold',
                 fontSize: 18,
@@ -166,7 +173,6 @@ const RiderComment = (props: RiderCommentProps) => {
             <View style={{
               flex: 20
             }}>
-              
               <Text style={{
                 color: isHighlighted(status,'#97ACB3','#97ACB3'),
                 fontSize: 18,
@@ -175,7 +181,8 @@ const RiderComment = (props: RiderCommentProps) => {
               </Text>
             </View>
           </View>
-          <View style={{ flex: 4,
+          <View style={{
+            flex: 4,
             flexDirection: 'column',
           }}>
             <View style={{
@@ -190,6 +197,7 @@ const RiderComment = (props: RiderCommentProps) => {
                   color: getTextColor(commentOnLine,lineList), //keeping static, not connected to selectedLine
                   fontSize: 18,
                 }}
+                onPress={onLinePress}
               />
             </View>
             <View style={{
@@ -240,6 +248,7 @@ const RiderComment = (props: RiderCommentProps) => {
         comment: '',
         onLikePress: console.log('onLikePress called'),
         onRemovePress: console.log('onRemovePress called'),
+        onLinePress: console.log('onLinePress called')
     };
 
   //Define the props here
@@ -258,7 +267,8 @@ const RiderComment = (props: RiderCommentProps) => {
         onLikePress: PropTypes.func,
         onRemovePress: PropTypes.func,
         lineBackground: PropTypes.string,
-        status: PropTypes.string
+        status: PropTypes.string,
+        onLinePress: PropTypes.func
     };
 
   //Define styles

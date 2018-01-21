@@ -152,6 +152,24 @@ class HelloFeed extends Component {
     return Date.now();
   }
 
+  fetchTheFeedAttempt(
+      selected_line,
+      selected_stops,
+      special_stops
+    ){
+
+    //1. Get The Feed
+      this.props.actions.fetchLineFeedAttempt(selected_line)
+
+    //2. Switch the Line and SuperMap
+      this.props.superMapActions.fetchSpecialStopsAttempt(
+        selected_line ? selected_line : 'A',
+        selected_stops,
+        special_stops
+      ); 
+
+  }
+
   noCommentsToShow(arrLength){
     if(arrLength == 0){
       return(
@@ -178,25 +196,30 @@ class HelloFeed extends Component {
         </View>
       );
     }
+    else return null;
   }
 
-
   componentWillUpdate() {
-
+    
   }
 
   componentWillMount() {
 
-    this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers);
+    //this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers);
 
-  }
+    /*
+    this.props.superMapActions.fetchSpecialStopsAttempt(
+      this.props.superMapsLine ? this.props.superMapsLine : 'A',
+      this.props.superMapsSelectedStops,
+      this.props.superMapsSpecialStops
+    );  
+    */
 
-  updateFeedAndSuperMap(url,method,headers,sm_line,sm_stops,sm_special){
-
-    this.props.actions.fetchAttempt(url,method,headers);
-    //this.props.superMapActions.fetchSpecialStopsAttempt(sm_line,sm_stops,sm_special);
-     
-
+    this.fetchTheFeedAttempt(
+      this.props.superMapsLine ? this.props.superMapsLine : 'A',
+      this.props.superMapsSelectedStops,
+      this.props.superMapsSpecialStops
+    );
   }
 
   render() {
@@ -262,6 +285,9 @@ class HelloFeed extends Component {
                 isLiked={ this.existsInLikedComments(comment.id, this.props.likedComments) ? true : false}  //isLiked={this.hasRecord(this.props.likedComments,checkin.record_id)}
                 likeCount={ this.getCommentLikeCount(comment.id, this.props.commentEvents) }  //likeCount={this.hasRecord(this.props.likedComments,checkin.record_id) ? checkin.likes + 1 : checkin.likes}
                 onLikePress={() => this.likeOrUnlike(comment, this.props.likedComments)}
+                onLinePress={()=> this.props.navigation.navigate(
+                  'MapStack')
+                }
                 />
             )
           )}
@@ -288,19 +314,40 @@ class HelloFeed extends Component {
                     key={line.id}
                     value={line.id}
                     containerStyle={{
-                      backgroundColor: this.props.selectedLine == line.id ? line.bg : 'gainsboro'
+                      backgroundColor: this.props.superMapsLine == line.id ? line.bg : 'gainsboro'
                     }}
                     textStyle={{
-                      color: this.props.selectedLine == line.id ? line.text : 'white'
+                      color: this.props.superMapsLine == line.id ? line.text : 'white'
                     }}
-                    onPress={() => this.props.selectedLine == line.id ? this.updateFeedAndSuperMap(
-                      this.state.url,
-                      this.state.method,
-                      this.state.headers,
-                      this.props.superMapsLine,
-                      this.props.superMapsSelectedStops,
-                      this.props.superMapsSpecialStops
-                      ) : this.props.actions.fetchLineFeedAttempt(line.id)
+                    onPress={
+
+                      () => this.fetchTheFeedAttempt(
+                        line.id,
+                        this.props.superMapsSelectedStops,
+                        this.props.superMapsSpecialStops
+                      )
+
+                      /*
+                      () => this.props.superMapActions.fetchSpecialStopsAttempt(
+                        line.id,
+                        this.props.superMapsSelectedStops,
+                        this.props.superMapsSpecialStops
+                      )
+                      */
+
+                      /*
+                        () => this.props.superMapsLine == line.id ? 
+
+                        
+                        this.updateFeedAndSuperMap(
+                        this.state.url,
+                        this.state.method,
+                        this.state.headers,
+                        this.props.superMapsLine,
+                        this.props.superMapsSelectedStops,
+                        this.props.superMapsSpecialStops
+                        ) : this.props.actions.fetchLineFeedAttempt(line.id)
+                      */
                     }
                   />
                 )
@@ -309,8 +356,8 @@ class HelloFeed extends Component {
           </View>
         </View>
         <LoadingOverlay
-          isVisible={this.props.isLoading}
-          onCancelPress={() => this.props.actions.fetchHasErrored()}
+          isVisible={this.props.superMapsfetchInProgress}
+          onCancelPress={() => this.props.superMapActions.fetchHasErrored()}
         />
       </View>
 
@@ -336,6 +383,7 @@ class HelloFeed extends Component {
           superMapsLine: state.supermap.selectedLine,
           superMapsSpecialStops: state.supermap.specialStops,
           superMapsSelectedStops: state.supermap.selectedStops,
+          superMapsfetchInProgress: state.supermap.fetchInProgress
 
 
 
