@@ -64,6 +64,13 @@ class Profile extends Component {
     return true;
   }
 
+  getDefaultPic(theUuid){
+
+    let baseUrl = 'http://165.227.71.39:3000/api/UserPictures/picture/download/';
+
+    return  baseUrl + theUuid + '.jpeg'
+  }
+
   componentWillMount(){
     let x = this.getUUID();
     this.props.actions.fetchNameAttempt(x);
@@ -142,8 +149,7 @@ class Profile extends Component {
                  }}
                  resizeMode='cover'
                  source={{
-                   //uri: 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg'
-                    uri: 'http://165.227.71.39:3000/api/UserPictures/picture/download/yolo.jpg'
+                  uri: this.getDefaultPic(this.props.device_uuid)
                  }}
                />
              </PhotoUpload>
@@ -287,6 +293,7 @@ class Profile extends Component {
       //Which part of the Redux global state does our component want to receive as props?
       (state) => {
         return {
+
           device_uuid: state.profile.device_uuid,
           user_name: state.profile.user_name,
           is_loading: state.profile.is_loading,

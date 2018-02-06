@@ -159,7 +159,7 @@ export type ActionAsync = (dispatch: Function, getState: Function) => void
 		data.append('sent_user_picture',{  
 		  //uri: theAvatarPath, // your file path string
 		  base64: theAvatarPath,
-		  name: 'yolo.jpg',
+		  name: theUserId + '.jpeg',
 		  type: 'image/jpg',
 		  userId: theUserId
 		});

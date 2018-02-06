@@ -268,7 +268,7 @@ class HelloFeed extends Component {
                 userName={comment.user_name}
                 stationName={comment.station_name}
                 stationLines={comment.station_lines}
-                imageSrc={'https://randomuser.me/api/portraits/men/5.jpg'}
+                imageSrc={ this.props.profileUserId == comment.user_id ? 'http://165.227.71.39:3000/api/UserPictures/picture/download/'+ this.props.profileUserId + '.jpeg'  : 'https://randomuser.me/api/portraits/women/'+ this.getCommentLikeCount(comment.id, this.props.commentEvents) +'.jpg'}
                 comment={comment.comment_body}
                 commentOnLine={comment.comment_on_line}
                 timestamp={comment.timestamp}
@@ -316,28 +316,6 @@ class HelloFeed extends Component {
                         this.props.superMapsSelectedStops,
                         this.props.superMapsSpecialStops
                       )
-
-                      /*
-                      () => this.props.superMapActions.fetchSpecialStopsAttempt(
-                        line.id,
-                        this.props.superMapsSelectedStops,
-                        this.props.superMapsSpecialStops
-                      )
-                      */
-
-                      /*
-                        () => this.props.superMapsLine == line.id ? 
-
-                        
-                        this.updateFeedAndSuperMap(
-                        this.state.url,
-                        this.state.method,
-                        this.state.headers,
-                        this.props.superMapsLine,
-                        this.props.superMapsSelectedStops,
-                        this.props.superMapsSpecialStops
-                        ) : this.props.actions.fetchLineFeedAttempt(line.id)
-                      */
                     }
                   />
                 )
@@ -373,7 +351,9 @@ class HelloFeed extends Component {
           superMapsLine: state.supermap.selectedLine,
           superMapsSpecialStops: state.supermap.specialStops,
           superMapsSelectedStops: state.supermap.selectedStops,
-          superMapsfetchInProgress: state.supermap.fetchInProgress
+          superMapsfetchInProgress: state.supermap.fetchInProgress,
+
+          profileUserId: state.profile.device_uuid
 
 
 

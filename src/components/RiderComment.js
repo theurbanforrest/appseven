@@ -25,6 +25,7 @@ const RiderComment = (props: RiderCommentProps) => {
   //e.g. const { all, the, things } = props
     const {
       userName,
+      userId,
       status,
       imageSrc,
       height,
@@ -144,7 +145,8 @@ const RiderComment = (props: RiderCommentProps) => {
             <Avatar
               medium
               rounded
-              source={{uri: 'https://randomuser.me/api/portraits/women/' + likeCount + '.jpg' }}
+              //source={{uri: 'https://randomuser.me/api/portraits/women/' + likeCount + '.jpg' }}
+              source={{uri: imageSrc}}
             />
           </View>
           <View style={{
