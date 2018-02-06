@@ -200,20 +200,10 @@ class HelloFeed extends Component {
   }
 
   componentWillUpdate() {
-    
+
   }
 
   componentWillMount() {
-
-    //this.props.actions.fetchAttempt(this.state.url,this.state.method,this.state.headers);
-
-    /*
-    this.props.superMapActions.fetchSpecialStopsAttempt(
-      this.props.superMapsLine ? this.props.superMapsLine : 'A',
-      this.props.superMapsSelectedStops,
-      this.props.superMapsSpecialStops
-    );  
-    */
 
     this.fetchTheFeedAttempt(
       this.props.superMapsLine ? this.props.superMapsLine : 'A',

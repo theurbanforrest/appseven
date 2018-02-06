@@ -14,6 +14,7 @@ import {
   Badge,
 } from 'react-native-elements';
 import DeviceInfo from 'react-native-device-info'
+import PhotoUpload from 'react-native-photo-upload'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { styles } from './styles'
@@ -40,6 +41,10 @@ class Profile extends Component {
 
     let x = DeviceInfo.getUniqueID();
     return x;
+  }
+
+  getTimeStamp(){
+    return Date.now();
   }
 
   updateName(newName,tableId){
@@ -119,12 +124,29 @@ class Profile extends Component {
             alignItems: 'center',
             paddingBottom: '3%',
           }}>
-            <Avatar
-              xlarge
-              rounded
-              source={{uri: 'https://randomuser.me/api/portraits/men/49.jpg' }}
-              //onPress={onMenuPress}
-            />
+            <PhotoUpload
+               onPhotoSelect={avatar => {
+
+                 console.log('base64 string is ' + avatar);
+                 
+                 avatar ? this.props.actions.submitProfilePictureAttempt(avatar,this.getUUID(),this.getTimeStamp()) : console.log('avatar does not exist')
+                 
+               }}
+             >
+               <Image
+                 style={{
+                   paddingVertical: 30,
+                   width: 150,
+                   height: 150,
+                   borderRadius: 75
+                 }}
+                 resizeMode='cover'
+                 source={{
+                   //uri: 'https://www.sparklabs.com/forum/styles/comboot/theme/images/default_avatar.jpg'
+                    uri: 'http://165.227.71.39:3000/api/UserPictures/picture/download/yolo.jpg'
+                 }}
+               />
+             </PhotoUpload>
             <View style={{
               paddingTop: '3%',
               flexDirection: 'column',
@@ -278,3 +300,11 @@ class Profile extends Component {
       }),
   )(Profile);
 
+
+/*----- APPENDIX -----*/
+<Avatar
+              xlarge
+              rounded
+              source={{uri: 'https://randomuser.me/api/portraits/men/49.jpg' }}
+              //onPress={onMenuPress}
+            />

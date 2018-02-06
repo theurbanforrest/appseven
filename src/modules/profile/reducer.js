@@ -6,10 +6,13 @@ import {
   SUBMIT_IS_LOADING,
   SUBMIT_HAS_ERRORED,
   SUBMIT_NAME_UPDATE_SUCCESS,
+  SUBMIT_PROFILE_PICTURE_SUCCESS,
 
   FETCH_IS_LOADING,
   FETCH_HAS_ERRORED,
-  FETCH_NAME_SUCCESS
+  FETCH_NAME_SUCCESS,
+
+  IMAGE_PICKER_SUCCESS
 
 } from './constants'
 
@@ -17,13 +20,15 @@ import {
 type profileState = {
   device_uuid: string,
   user_name: string,
-  is_loading: bool
+  user_picture: string,
+  is_loading: bool,  
 }
 
 const initialState:
   profileState = {
     device_uuid: '',
     user_name: '',
+    user_picture: '',
     is_loading: false
   }
 
@@ -76,6 +81,22 @@ export default handleActions(
         user_name: data[0].user_name,
         table_id: data[0].id,
         is_loading: false
+      }
+    },
+    [IMAGE_PICKER_SUCCESS]: (state: profileState, action) => {
+      const { payload: { data } } = action;
+
+      return {
+        ...state,
+        user_picture: data
+      }
+    },
+    [SUBMIT_PROFILE_PICTURE_SUCCESS]: (state: profileState, action) => {
+      const { payload: { data } } = action;
+
+      return {
+        ...state,
+        user_picture: data
       }
     },
   },

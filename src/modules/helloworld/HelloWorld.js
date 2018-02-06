@@ -1,7 +1,15 @@
 
 import React, { Component } from 'react';
-import { View, Text, Modal, Alert, NetInfo } from 'react-native';
+import { 
+  View, 
+  Text, 
+  Modal, 
+  Alert, 
+  Image, 
+  NetInfo 
+} from 'react-native';
 import { Button } from 'react-native-elements';
+import PhotoUpload from 'react-native-photo-upload'
 //import {} from 'react-xml-parser';
 
 //redux
@@ -10,6 +18,7 @@ import { Button } from 'react-native-elements';
     //need this for Components instead of pure functions
       import * as Actions from './actions'
       import * as SuperMapActions from '../supermap/actions'
+      import * as ProfileActions from '../profile/actions'
 
 class HelloWorld extends Component {
   constructor(props) {
@@ -85,6 +94,11 @@ class HelloWorld extends Component {
     this.props.superMapActions.helloWorld();
   }
 
+  photoUploady(){
+    this.props.profileActions.submitProfilePictureAttempt('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z/C/HgAGgwJ/lK3Q6wAAAABJRU5ErkJggg==',
+      'XYZ1','2018-02-02');
+  }
+
   parsey(response) {
 
 //    var XMLParser = require('react-xml-parser');
@@ -145,6 +159,11 @@ class HelloWorld extends Component {
           />
 
           <Button
+            title='Test Photo Uploader'
+            onPress={() => this.photoUploady()}
+          />
+
+          <Button
             title='Test SuperMap Hello World()'
             onPress={() => this.props.superMapActions.helloWorld()}
           />
@@ -171,6 +190,7 @@ class HelloWorld extends Component {
       //Which action creators does it want to receive by props?
       (dispatch) => ({
         actions: bindActionCreators(Actions, dispatch),
-        superMapActions: bindActionCreators(SuperMapActions, dispatch)
+        superMapActions: bindActionCreators(SuperMapActions, dispatch),
+        profileActions: bindActionCreators(ProfileActions, dispatch)
       }),
   )(HelloWorld);

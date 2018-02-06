@@ -7,7 +7,9 @@ import {
 
 	FETCH_IS_LOADING,
 	FETCH_HAS_ERRORED,
-	FETCH_NAME_SUCCESS
+	FETCH_NAME_SUCCESS,
+
+	IMAGE_PICKER_SUCCESS
 
 } from './constants'
 
@@ -132,3 +134,60 @@ export type ActionAsync = (dispatch: Function, getState: Function) => void
 		            .catch(() => dispatch(fetchHasErrored(true)))
 		    };
 		}
+
+	//Image Picker Success
+	export function submitProfilePictureSuccess(data) {
+	    return {
+	        type: SUBMIT_PROFILE_PICTURE_SUCCESS,
+	        payload: {
+	          data,
+	        }
+	    };
+	}
+
+	export function submitProfilePictureAttempt(theAvatarPath,theUserId,theTimeStamp) {
+
+		let url = 'http://165.227.71.39:3000/api/UserPictures/picture/upload';
+    	let theMethod = 'POST';
+    	let theHeaders = {
+        	'Accept': 'application/json',
+        	'Content-Type': 'multipart/form-data',
+      	};
+
+		var data = new FormData();
+		
+		data.append('sent_user_picture',{  
+		  //uri: theAvatarPath, // your file path string
+		  base64: theAvatarPath,
+		  name: 'yolo.jpg',
+		  type: 'image/jpg',
+		  userId: theUserId
+		});
+		
+
+      	//console.log('fileName is' + JSON.stringify(theAvatarPath)); //JSON.stringify(theBody)
+
+      	console.log(JSON.stringify(data))
+
+		return (dispatch) => {
+		    dispatch(submitIsLoading(true));
+
+		    fetch(url, {
+		      method: theMethod,
+		      headers: theHeaders,
+		      body: data
+		    })
+		        .then((response) => {
+		            if (!response.ok) {
+		                throw Error(response.statusText);
+		            }
+		            dispatch(submitIsLoading(false));
+		            return response;
+		        })
+		        .then((response) => response.json())
+		        .then((data) => dispatch(submitProfilePictureSuccess(data)))
+		        
+		        .catch(() => dispatch(submitHasErrored(true)))
+	    };
+	}
+
